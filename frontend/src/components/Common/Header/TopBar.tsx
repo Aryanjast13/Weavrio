@@ -1,20 +1,21 @@
 import { BsInstagram, BsTwitterX } from "react-icons/bs";
 import { FaMeta } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const TopBar = () => {
   return (
     <div className="bg-primary text-white">
       <div className="container mx-auto flex-between py-3 px-4">
         <div className="hidden md:flex items-center space-x-4">
-          <a href="#" className="hover:text-gray-300">
+          <Link to="#" className="hover:text-gray-300">
             <FaMeta className="w-5 h-5" />
-          </a>
-          <a href="#" className="hover:text-gray-300">
+          </Link>
+          <Link to="#" className="hover:text-gray-300">
             <BsInstagram className="w-5 h-5" />
-          </a>
-          <a href="#" className="hover:text-gray-300">
+          </Link>
+          <Link to="#" className="hover:text-gray-300">
             <BsTwitterX className="w-5 h-4" />
-          </a>
+          </Link>
         </div>
         <div className="text-sm text-center flex-grow">
           <span>We ship worldwide- Fast and reliable shipping</span>

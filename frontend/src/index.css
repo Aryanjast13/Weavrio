@@ -8,11 +8,13 @@
     font-family: "Inter",sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
-    color-scheme: dark;
+    
 }
 
 @theme{
     --color-primary:#ea2e0e;
+
+
 }
 
 @utility flex-between{
@@ -21,3 +23,12 @@
     justify-content: space-between;
 }
 
+@utility flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@layer components{
+  
+}
