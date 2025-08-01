@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
  const selectedProduct = {
    name: "Stylish Jacket",
@@ -22,8 +23,55 @@ import { toast } from "sonner";
    ],
  };
 
+const similarProducts = [
+  {
+    _id: 1,
+    name: "Product 1",
+    price: 100,
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=3",
+        altText: "image2",
+      },
+    ],
+  },
+  {
+    _id: 2,
+    name: "Product 2",
+    price: 100,
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=4",
+        altText: "image3",
+      },
+    ],
+  },
+  {
+    _id: 3,
+    name: "Product 3",
+    price: 100,
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=5",
+        altText: "image4",
+      },
+    ],
+  },
+  {
+    _id: 4,
+    name: "Product 4",
+    price: 100,
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=6",
+        altText: "image2",
+      },
+    ],
+  },
+];
+
 const ProductDetails = () => {
-  const [mainImage, setMainImage] = useState<string>("");
+  const [mainImage, setMainImage] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -32,6 +80,8 @@ const ProductDetails = () => {
   useEffect(() => {
     if (selectedProduct?.images?.length > 0) {
       setMainImage(selectedProduct.images[0].url);
+    } else {
+      setMainImage(null);
     }
   }, [selectedProduct]);
 
@@ -67,7 +117,7 @@ const ProductDetails = () => {
               <img
                 key={index}
                 src={image.url}
-                alt={image.altText || `humbnail ${index}`}
+                alt={image.altText || `Thumbnail ${index}`}
                 className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${
                   mainImage === image.url ? "border-black" : "border-gray-300"
                 }`}
@@ -79,11 +129,17 @@ const ProductDetails = () => {
           {/* Main Image */}
           <div className="md:w-1/2">
             <div className="mb-4 h-full">
-              <img
-                src={mainImage}
-                alt="Main Product"
-                className="w-full h-full  object-cover rounded-lg"
-              />
+              {mainImage ? (
+                <img
+                  src={mainImage}
+                  alt="Main Product"
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              ) : (
+                <div className="w-full h-full rounded-lg bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500">No image available</span>
+                </div>
+              )}
             </div>
           </div>
           {/* Mobile Thumbnails */}
@@ -141,6 +197,7 @@ const ProductDetails = () => {
               <div className="flex gap-2 mt-2">
                 {selectedProduct.sizes.map((size) => (
                   <button
+                    key={size}
                     onClick={() => setSelectedSize(size)}
                     className={`px-4 py-2 font-medium rounded border ${
                       selectedSize === size ? "bg-black text-white" : ""
@@ -199,6 +256,13 @@ const ProductDetails = () => {
               </table>
             </div>
           </div>
+        </div>
+
+        <div className="mt-20">
+          <h2 className="text-2xl text-center font-medium mb-4">
+            You May Also Like
+          </h2>
+          <ProductGrid products={similarProducts} />
         </div>
       </div>
     </div>
