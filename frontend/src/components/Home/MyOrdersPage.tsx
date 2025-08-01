@@ -34,7 +34,7 @@ const MyOrdersPage: React.FC = () => {
   });
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>
 
     const fetchOrders = async (): Promise<void> => {
       try {
