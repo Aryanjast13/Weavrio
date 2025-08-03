@@ -1,4 +1,5 @@
 import { IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router";
 import CartContents from "../../Cart/CartContents";
 
 interface Props{
@@ -7,7 +8,11 @@ interface Props{
 }
 
 
-const CartDrawer = ({ drawerOpen,handleDrawerToggle}:Props) => {
+const CartDrawer = ({ drawerOpen, handleDrawerToggle }: Props) => {
+  const navigate = useNavigate()
+  const handleCheckout = () => {
+    navigate("/checkout")
+  }
   
 
   return (
@@ -28,7 +33,7 @@ const CartDrawer = ({ drawerOpen,handleDrawerToggle}:Props) => {
       </div>
 
       <div className="p-4 bg-white sticky bottom-0">
-        <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">Checkout</button>
+        <button onClick={handleCheckout} className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">Checkout</button>
         <p className="text-sm tracking-tighter text-gray-500 mt-2 text-center">Shipping, taxes and discount codes calculated at checkout.</p>
       </div>
     </div>
