@@ -3,8 +3,8 @@ import FeaturedSection from "../components/Home/FeaturedSection"
 import GenderCollection from "../components/Home/GenderCollection"
 import Hero from "../components/Home/Hero"
 import NewArrivals from "../components/Home/NewArrivals"
-import ProductDetails from "../components/Home/ProductDetails"
-import ProductGrid from "../components/Home/ProductGrid"
+import ProductDetails from "../components/Product/ProductDetails"
+import ProductGrid from "../components/Product/ProductGrid"
 
  const placeholderProducts = [
    {
