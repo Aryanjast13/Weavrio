@@ -1,9 +1,14 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import { Toaster } from "sonner";
+import EditProduct from "./components/Admin/EditProduct";
+import OrderManagment from "./components/Admin/OrderManagment";
+import ProductManagment from "./components/Admin/ProductManagment";
+import UserManagment from "./components/Admin/UserManagment";
 import AdminLayout from "./components/Layout/AdminLayout";
 import UserLayout from "./components/Layout/UserLayout";
 import Checkout from "./components/Product/Checkout";
 import ProductDetails from "./components/Product/ProductDetails";
+import AdminHomePage from "./pages/AdminHomePage";
 import { CollectionPage } from "./pages/CollectionPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -18,7 +23,7 @@ function App() {
     <Router>
       <Toaster position="top-right" />
       <Routes>
-          {/* User layout */}
+        {/* User layout */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
@@ -28,14 +33,18 @@ function App() {
           <Route path="product/:product" element={<ProductDetails />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="order-confirmation" element={<OrderConfirmation />} />
-          <Route path="order/:id" element={<OrderDetailPage />} />  
-          <Route path= "my-orders" element={<MyOrdersPage/>}/>
+          <Route path="order/:id" element={<OrderDetailPage />} />
+          <Route path="my-orders" element={<MyOrdersPage />} />
         </Route>
 
         {/* Admin layout */}
 
         <Route path="/admin" element={<AdminLayout />}>
-        
+          <Route index element={<AdminHomePage />} />
+          <Route path="users" element={<UserManagment />} />
+          <Route path="products" element={<ProductManagment />} />
+          <Route path="products/:id/edit" element={<EditProduct />} />
+          <Route path="orders" element={<OrderManagment/>}/>
         </Route>
       </Routes>
     </Router>

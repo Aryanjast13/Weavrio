@@ -1,4 +1,4 @@
-import MyOrdersPage from "../components/Home/MyOrdersPage"
+import MyOrdersPage from "./MyOrdersPage"
 
 const Profile = () => {
   return (
