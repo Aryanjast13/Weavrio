@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express ,{urlencoded} from "express";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.routes.js";
+import productRoutes from "./routes/product.routes.js"
 dotenv.config();
 
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
 
 app.listen(PORT, () => {
     console.log(`server is running on https://localhost:${PORT}`);
