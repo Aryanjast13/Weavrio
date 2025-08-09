@@ -99,7 +99,7 @@ router.post("/:id/finalize", protectRoute, async (req, res) => {
             await Cart.findOneAndDelete({ user: checkout.user });
             res.status(201).json(finalOrder);
         } else if (checkout.isFinalized) {
-            res.status(200).json({ message: "Checkout already finalized" });
+            res.status(400).json({ message: "Checkout already finalized" });
         } else {
             res.status(400).json({ message: "Checkout is not paid" });
         }
