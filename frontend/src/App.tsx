@@ -18,8 +18,14 @@ import OrderDetailPage from "./pages/OrderDetailPage";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
+
 function App() {
   return (
+    <Provider store={store}>
+
     <Router>
       <Toaster position="top-right" />
       <Routes>
@@ -48,6 +54,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </Provider>
   );
 }
 

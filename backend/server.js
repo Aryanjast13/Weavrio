@@ -3,23 +3,26 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express, { urlencoded } from "express";
 import connectDB from "./config/db.js";
+import adminRoutes from "./routes/admin.routes.js";
+import orderAdminRoutes from "./routes/adminOrder.route.js";
 import cartRoutes from "./routes/cart.routes.js";
 import checkoutRoutes from "./routes/checkout.route.js";
 import orderRoutes from "./routes/order.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import productAdminRoutes from "./routes/productAdmin.routes.js";
+import subscribeRoutes from "./routes/subscriber.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import userRoutes from "./routes/user.routes.js";
-import subscribeRoutes from "./routes/subscriber.routes.js"
-import adminRoutes from "./routes/admin.routes.js";
-import productAdminRoutes from "./routes/productAdmin.routes.js"
-import orderAdminRoutes from "./routes/adminOrder.route.js"
 dotenv.config();
 
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}));
 app.use(cookieParser());
 app.use(urlencoded());
 
