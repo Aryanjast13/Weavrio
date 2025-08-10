@@ -1,6 +1,40 @@
+import axios, { AxiosError } from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router";
+
+// Image interface for product images
+interface ProductImage {
+  url: string;
+  altText: string;
+}
+
+// Main Product interface
+export interface Product {
+  _id?: string; // Optional for new products, required for existing ones
+  name: string;
+  price: number;
+  originalPrice: number;
+  description: string;
+  brand: string;
+  material: string;
+  sizes: string[];
+  colors: string[];
+  images: ProductImage[];
+  
+  // Additional common fields you might need
+  category?: string;
+  gender?: string;
+  collection?: string;
+  stock?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  rating?: number;
+  reviewCount?: number;
+  tags?: string[];
+  sku?: string; // Stock Keeping Unit
+}
 
 const NewArrivals = () => {
   const scrollRef = useRef<HTMLDivElement>(null!);
@@ -11,97 +45,28 @@ const NewArrivals = () => {
   const [canScrollRight,setCanScrollRight] = useState(true); 
 
 
-  const newArrivals = [
-    {
-      _id: 1,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=1",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id: 2,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=2",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id: 3,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=3",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id:4,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=4",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id: 5,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=5",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id:6,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=6",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id: 7,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=7",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id: 8,
-      name: "Stylsih Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/300/?random=8",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-  ];
+   const [newArrivals, setNewArrivals] = useState<Product[]>([]);
 
+   useEffect(() => {
+     const fetchNewArrivals = async (): Promise<void> => {
+       try {
+         const response = await axios.get<Product[]>(
+           `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`
+         );
+         setNewArrivals(response.data);
+       } catch (err) {
+         const error = err as AxiosError<{ message?: string }>;
+         console.log(
+           error.response?.data?.message ||
+             error.message ||
+             "Failed to fetch new arrivals"
+         );
+       }
+     };
+
+     fetchNewArrivals();
+     
+    }, []);
   const handleMouseDown = (e:React.MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
@@ -138,7 +103,7 @@ const NewArrivals = () => {
    
   }
 
-   useEffect(() => {
+  useEffect(() => {
     const container = scrollRef.current;
     if (container) {
       container.addEventListener("scroll", updateScrollButtons);
@@ -148,7 +113,7 @@ const NewArrivals = () => {
     }
      
     
-  },[])
+  }, [newArrivals]);
 
   return (
     <section className="py-16 px-4 lg:px-0">

@@ -1,103 +1,86 @@
-import FeaturedCollection from "../components/Home/FeaturedCollection"
-import FeaturedSection from "../components/Home/FeaturedSection"
-import GenderCollection from "../components/Home/GenderCollection"
-import Hero from "../components/Home/Hero"
-import NewArrivals from "../components/Home/NewArrivals"
-import ProductDetails from "../components/Product/ProductDetails"
-import ProductGrid from "../components/Product/ProductGrid"
+import type { AxiosError } from "axios";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import FeaturedCollection from "../components/Home/FeaturedCollection";
+import FeaturedSection from "../components/Home/FeaturedSection";
+import GenderCollection from "../components/Home/GenderCollection";
+import Hero from "../components/Home/Hero";
+import NewArrivals from "../components/Home/NewArrivals";
+import ProductDetails from "../components/Product/ProductDetails";
+import ProductGrid from "../components/Product/ProductGrid";
+import { fetchProductsByFilters } from "../redux/productsSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
- const placeholderProducts = [
-   {
-     _id: 1,
-     name: "Product 1",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=3",
-         altText: "image2",
-       },
-     ],
-   },
-   {
-     _id: 2,
-     name: "Product 2",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=4",
-         altText: "image3",
-       },
-     ],
-   },
-   {
-     _id: 3,
-     name: "Product 3",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=5",
-         altText: "image4",
-       },
-     ],
-   },
-   {
-     _id: 4,
-     name: "Product 4",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=6",
-         altText: "image2",
-       },
-     ],
-   },
-   {
-     _id: 5,
-     name: "Product 5",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=3",
-         altText: "image2",
-       },
-     ],
-   },
-   {
-     _id: 6,
-     name: "Product 6",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=4",
-         altText: "image3",
-       },
-     ],
-   },
-   {
-     _id: 7,
-     name: "Product 7",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=5",
-         altText: "image4",
-       },
-     ],
-   },
-   {
-     _id: 8,
-     name: "Product 8",
-     price: 100,
-     images: [
-       {
-         url: "https://picsum.photos/500/500?random=6",
-         altText: "image2",
-       },
-     ],
-   },
- ];
+// Product interface (use the same from your Redux slice)
+export interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  originalPrice: number;
+  description: string;
+  brand: string;
+  material: string;
+  sizes: string[];
+  colors: string[];
+  images: Array<{
+    url: string;
+    altText: string;
+  }>;
+  category?: string;
+  gender?: string;
+  collection?: string;
+  stock?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  // add other fields as per your API
+}
 
-const Home = () => {
+const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { products, loading, error } = useAppSelector(
+    (state) => state.products
+  );
+  const [bestSellerProduct, setBestSellerProduct] = useState<Product | null>(
+    null
+  );
+  const [bestSellerLoading, setBestSellerLoading] = useState<boolean>(true);
+  const [bestSellerError, setBestSellerError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch products for a specific collection
+    dispatch(
+      fetchProductsByFilters({
+        gender: "Women",
+        category: "Bottom Wear",
+        limit: "8", // Convert to string as expected by your Redux slice
+      })
+    );
+
+    // Fetch best seller product
+    const fetchBestSeller = async (): Promise<void> => {
+      try {
+        setBestSellerLoading(true);
+        setBestSellerError(null);
+        const response = await axios.get<Product>(
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`
+        );
+        setBestSellerProduct(response.data);
+      } catch (err) {
+        const error = err as AxiosError<{ message?: string }>;
+        const errorMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to fetch best seller";
+        setBestSellerError(errorMessage);
+        console.error("Error fetching best seller:", errorMessage);
+      } finally {
+        setBestSellerLoading(false);
+      }
+    };
+
+    fetchBestSeller();
+  }, [dispatch]);
+
   return (
     <div>
       <Hero />
@@ -106,17 +89,26 @@ const Home = () => {
 
       {/* Best Sellers */}
       <h2 className="text-3xl text-center font-bold mb-4">Best Seller</h2>
-      <ProductDetails />
+      {bestSellerLoading ? (
+        <p className="text-center">Loading best seller product...</p>
+      ) : bestSellerError ? (
+        <p className="text-center text-red-500">Error: {bestSellerError}</p>
+      ) : bestSellerProduct ? (
+        <ProductDetails productId={bestSellerProduct._id} />
+      ) : (
+        <p className="text-center">No best seller product found</p>
+      )}
 
       <div className="container mx-auto">
-        <h2 className="text-3xl text-center font-bold mb-4">Top Wears for Women
+        <h2 className="text-3xl text-center font-bold mb-4">
+          Top Wears for Women
         </h2>
-        <ProductGrid products={placeholderProducts} />
+        <ProductGrid products={products} loading={loading} error={error} />
       </div>
       <FeaturedCollection />
-      <FeaturedSection/>
+      <FeaturedSection />
     </div>
   );
-}
+};
 
-export default Home
+export default Home;

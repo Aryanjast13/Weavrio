@@ -8,19 +8,23 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
+  originalPrice: number;
   description: string;
-  category: string;
-  size: string[];
-  color: string[];
-  gender: string;
   brand: string;
   material: string;
-  collection: string;
-  imageUrl: string[];
-  stock: number;
-  createdAt: string;
-  updatedAt: string;
-  // add other product fields as per your API
+  sizes: string[];
+  colors: string[];
+  images: Array<{
+    url: string;
+    altText: string;
+  }>;
+  category?: string;
+  gender?: string;
+  collection?: string;
+  stock?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  // add other fields as per your API
 }
 
 export interface ProductFilters {

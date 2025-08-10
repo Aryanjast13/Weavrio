@@ -1,19 +1,17 @@
-import { Link } from "react-router"
+import { Link } from "react-router";
+import type { Product } from "../../redux/productsSlice";
 
-interface image{
-    url: string,
-    altText:string
+
+
+const ProductGrid = ({ products, loading, error }: { products:Product[], loading: boolean, error: string |null }) => {
     
-}
+    if (loading) {
+        return <p>Loading...</p>
+    }
+    if (error) {
+        return <p>Error: {error}</p>
+    }
 
-interface product{
-    _id: number,
-    name:string,
-    price: number,
-    images:image[]
-}
-
-const ProductGrid = ({ products }: {products: product[]}) => {
   return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {
