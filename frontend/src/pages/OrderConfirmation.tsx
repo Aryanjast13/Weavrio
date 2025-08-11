@@ -1,37 +1,29 @@
-const checkout = {
-  _id: "12332",
-  createdAt: new Date(),
-  checkoutItems: [
-    {
-      prouductid: "1",
-      name: "Jacket",
-      color: "black",
-      size: "M",
-      price: 150,
-      quantity: 1,
-      image: "https://picsum.photos/150?random=1",
-    },
-    {
-      prouductid: "2",
-      name: "T-shirt",
-      color: "black",
-      size: "M",
-      price: 120,
-      quantity: 2,
-      image: "https://picsum.photos/150?random=2",
-    },
-  ],
-  shippingAddress: {
-    address: "123 Fashion Street",
-    city: "New York",
-    country: "USA",
-  },
-};
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { clearCart } from "../redux/cartSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+
 
 const OrderConfirmation = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { checkout } = useAppSelector(state => state.checkout);
+
+  //clear the cart when the order is confirmed
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      dispatch(clearCart());
+      localStorage.removeItem("cart");
+    } else {
+      navigate("/my-orders");
+    }
+  }, [checkout, dispatch, navigate]);
+  
+  
+
   const calculateEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
-    orderDate.setDate(orderDate.getDate() + 10);
+    orderDate.setDate(orderDate.getDate() + 10); //add 10 days to the order date
     return orderDate.toLocaleDateString();
   };
 

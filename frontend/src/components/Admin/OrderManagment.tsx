@@ -1,19 +1,28 @@
-const orders = [
-  {
-    _id: 123321,
-    user: {
-      name: "John doe",
-    },
-    totalPrice: 110,
-    status: "Processing",
-  },
-];
+import { useNavigate } from "react-router";
+import { fetchAllOrders, updateOrderStatus } from "../../redux/adminOrderSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+
 
 const OrderManagment = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { user } = useAppSelector(state => state.auth);
+  const { orders, loading, error } = useAppSelector(state => state.adminOrders);
+  
+  useEffect(() => {
+    if (!user || user.role !== "admin") {
+      navigate("/")
+    } else {
+      dispatch(fetchAllOrders());
+    }
+  }, [dispatch, user, navigate]);
+
   const handleStatusChange = (orderId, status) => {
-    console.log({ id: orderId, status: status });
+    dispatch(updateOrderStatus({ id: orderId, status }));
   };
 
+  if(loading) return <p>Loading ...</p>
+  if (error) return <p>Error :{error}</p>
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6">Order Managment</h2>

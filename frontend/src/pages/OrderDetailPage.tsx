@@ -1,37 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router";
+import { fetchOrderDetails } from "../redux/orderSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
 const OrderDetailPage = () => {
   const { id } = useParams();
-  const [orderDetails, setOrderDetails] = useState(null);
+  const dispatch = useAppDispatch();
+  const { orderDetails, } = useAppSelector(state => state.orders);
 
   useEffect(() => {
-    const mockOrderDetails = {
-      _id: id,
-      createdAt: new Date(),
-      isPaid: true,
-      isDelivered: false,
-      shippingMethod: "Standard",
-      shippingAddress: { city: "New York", country: "USA" },
-      orderItems: [
-        {
-          productId: "1",
-          name: "Jacket",
-          price: "120",
-          quantity: 1,
-          image: "https://picsum.photos/150?random=1",
-        },
-        {
-          productId: "2",
-          name: "Jacket",
-          price: "120",
-          quantity: 2,
-          image: "https://picsum.photos/150?random=2",
-        },
-      ],
-    };
-    setOrderDetails(mockOrderDetails);
-  }, [id]);
+    dispatch(fetchOrderDetails(id));
+  }, [dispatch]);
+
+  if (loading) return <p>Loading ...</p>
+  if (error) return <p>Error :{error}</p>
+
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">

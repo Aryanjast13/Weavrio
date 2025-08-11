@@ -18,11 +18,11 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=39",
+        url: "https://crazymonk.in/cdn/shop/files/CrazymonkBaseball_2_9d8b5af1-1a49-41f0-9661-52c7baacd310.jpg?v=1751104682&width=535",
         altText: "Classic Oxford Button-Down Shirt Front View",
       },
       {
-        url: "https://picsum.photos/500/500?random=40",
+        url: "https://crazymonk.in/cdn/shop/files/CrazymonkBaseball_1_CM_61d11e33-dd18-4ca5-956f-4d331b65d6dc.jpg?v=1751104682&width=360",
         altText: "Classic Oxford Button-Down Shirt Back View",
       },
     ],
@@ -46,7 +46,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=41",
+        url: "https://crazymonk.in/cdn/shop/files/EndlessHope_2_CM_2bc2756f-d643-428f-ad4a-6544cb93e04d.jpg?v=1751104643&width=360",
         altText: "Slim-Fit Stretch Shirt Front View",
       },
       {
@@ -74,11 +74,11 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=43",
+        url: "https://crazymonk.in/cdn/shop/files/Endlesshope3drubberprint.jpg?v=1751104643&width=360",
         altText: "Casual Denim Shirt Front View",
       },
       {
-        url: "https://picsum.photos/500/500?random=44",
+        url: "https://crazymonk.in/cdn/shop/files/Endlesshope3drubberprint.jpg?v=1751104643&width=360",
         altText: "Casual Denim Shirt Back View",
       },
     ],
@@ -102,11 +102,11 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=45",
+        url: "https://crazymonk.in/cdn/shop/files/AstroPhile_2_CM.jpg?v=1751104614&width=360",
         altText: "Printed Resort Shirt Front View",
       },
       {
-        url: "https://picsum.photos/500/500?random=1",
+        url: "https://crazymonk.in/cdn/shop/files/AstroPhile_1.jpg?v=1751104614&width=360",
         altText: "Printed Resort Shirt Back View",
       },
     ],
@@ -130,11 +130,11 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=47",
+        url: "https://crazymonk.in/cdn/shop/files/Nirvana_NavyBlue_2_CM.jpg?v=1751104606&width=360",
         altText: "Slim-Fit Easy-Iron Shirt Front View",
       },
       {
-        url: "https://picsum.photos/500/500?random=2",
+        url: "https://crazymonk.in/cdn/shop/files/Nirvana_NavyBlue_1.jpg?v=1751104606&width=360",
         altText: "Slim-Fit Easy-Iron Shirt Front View",
       },
     ],
@@ -158,11 +158,11 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=3",
+        url: "https://crazymonk.in/cdn/shop/files/WhatsAppImage2025-06-16at6.33.20PM.jpg?v=1751104640&width=360",
         altText: "Polo T-Shirt Front View",
       },
       {
-        url: "https://picsum.photos/500/500?random=4",
+        url: "https://crazymonk.in/cdn/shop/files/INVASIONPUFFPRINT.jpg?v=1751104640&width=360",
         altText: "Polo T-Shirt Back View",
       },
     ],
@@ -186,7 +186,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=5",
+        url: "https://crazymonk.in/cdn/shop/files/LegendaryAtheleticDivision_1_CM.jpg?v=1751104639&width=360",
         altText: "Oversized Graphic T-Shirt Front View",
       },
     ],
@@ -210,7 +210,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=6",
+        url: "https://crazymonk.in/cdn/shop/files/LegendaryAtheleticDivision_2.jpg?v=1751104639&width=360",
         altText: "Regular-Fit Henley Shirt Front View",
       },
     ],
@@ -234,7 +234,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=7",
+        url: "https://crazymonk.in/cdn/shop/files/YingYang_TieDye_2_CM_2.jpg?v=1751104622&width=360",
         altText: "Long-Sleeve Thermal Tee Front View",
       },
     ],
@@ -258,7 +258,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=8",
+        url: "https://crazymonk.in/cdn/shop/files/Scuderia_Ferrari_1.jpg?v=1751104951&width=360",
         altText: "V-Neck Classic T-Shirt Front View",
       },
     ],
@@ -282,7 +282,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=9",
+        url: "https://crazymonk.in/cdn/shop/files/OliveGreenwithUtilityPocket_4.jpg?v=1751104584&width=535",
         altText: "Slim Fit Joggers Front View",
       },
     ],
@@ -306,7 +306,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=10",
+        url: "https://crazymonk.in/cdn/shop/files/Never_Stop_Exploring_CM.jpg?v=1751104585&width=535",
         altText: "Cargo Joggers Front View",
       },
     ],
@@ -330,7 +330,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=11",
+        url: "https://crazymonk.in/cdn/shop/files/Never_Stop_Exploring_CM.jpg?v=1751104585&width=535",
         altText: "Tapered Sweatpants Front View",
       },
     ],
@@ -354,7 +354,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=12",
+        url: "https://crazymonk.in/cdn/shop/files/Never_Stop_Exploring_CM.jpg?v=1751104585&width=535",
         altText: "Denim Jeans Front View",
       },
     ],
@@ -378,7 +378,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=13",
+        url: "https://crazymonk.in/cdn/shop/files/Lifeisatrip_1.jpg?v=1751104668&width=535",
         altText: "Chino Pants Front View",
       },
     ],
@@ -402,7 +402,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=14",
+        url: "https://crazymonk.in/cdn/shop/files/NaturallyHigh_OffWhite_4.jpg?v=1751104618&width=360",
         altText: "Track Pants Front View",
       },
     ],
@@ -426,7 +426,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=15",
+        url: "https://crazymonk.in/cdn/shop/files/NaturallyHigh_OffWhite_3_CM.jpg?v=1751104618&width=360",
         altText: "Slim Fit Trousers Front View",
       },
     ],
@@ -450,7 +450,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=16",
+        url: "https://crazymonk.in/cdn/shop/files/WildSoul_1_CM.jpg?v=1751104601&width=360",
         altText: "Cargo Pants Front View",
       },
     ],
@@ -474,7 +474,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=17",
+        url: "https://crazymonk.in/cdn/shop/files/Fearless_Limitless_1_503125ec-d623-4ada-9d90-0abcc07562e5.jpg?v=1751104641&width=360",
         altText: "Relaxed Fit Sweatpants Front View",
       },
     ],
@@ -498,7 +498,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=18",
+        url: "https://crazymonk.in/cdn/shop/files/AgainsttheOdds_lavender_1_CM.jpg?v=1751104668&width=360",
         altText: "Formal Dress Pants Front View",
       },
     ],
@@ -522,7 +522,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=19",
+        url: "https://crazymonk.in/cdn/shop/files/Baby_Pink_4_0d5d88db-ad8c-4b5f-bbb2-45b17cbc010f.jpg?v=1751104955&width=535",
         altText: "High-Waist Skinny Jeans",
       },
     ],
@@ -546,7 +546,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=20",
+        url: "https://crazymonk.in/cdn/shop/files/Auqa_with_Pastel_Pink_tie_and_dye_4_0052910a-b070-4393-8cb4-ca07e7146098.jpg?v=1751104954&width=535",
         altText: "Wide-Leg Trousers Front View",
       },
     ],
@@ -570,7 +570,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=21",
+        url: "https://crazymonk.in/cdn/shop/files/White_with_Apricot_4_bd7a1977-712e-47b0-8af5-59b060a6d427.jpg?v=1751104967&width=535",
         altText: "Stretch Leggings Front View",
       },
     ],
@@ -594,7 +594,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=22",
+        url: "https://crazymonk.in/cdn/shop/files/Lilac_with_Pastel_Pink_3_446f14e4-d73f-44a8-87c1-54bf2835e48a.jpg?v=1751104956&width=535",
         altText: "Pleated Midi Skirt Front View",
       },
     ],
@@ -618,7 +618,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=23",
+        url: "https://crazymonk.in/cdn/shop/files/Lilac_with_White_3_e0d997d5-a826-46cb-8757-f09e66470bf3.jpg?v=1751104957&width=535",
         altText: "Flared Palazzo Pants Front View",
       },
     ],
@@ -642,7 +642,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=24",
+        url: "https://crazymonk.in/cdn/shop/files/4_e83de715-b2ca-4dff-943a-1bc1711f62d9.jpg?v=1754672770&width=535",
         altText: "High-Rise Joggers Front View",
       },
     ],
@@ -666,7 +666,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=25",
+        url: "https://crazymonk.in/cdn/shop/files/Blessed_2_ad22f70e-6005-45a5-8d2f-979ad2e249cf.jpg?v=1754672720&width=535",
         altText: "Paperbag Waist Shorts Front View",
       },
     ],
@@ -690,7 +690,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=26",
+        url: "hhttps://crazymonk.in/cdn/shop/files/BalanceYourLife_2.jpg?v=1754672704&width=535",
         altText: "Stretch Denim Shorts Front View",
       },
     ],
@@ -714,7 +714,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=27",
+        url: "https://crazymonk.in/cdn/shop/files/4_e83de715-b2ca-4dff-943a-1bc1711f62d9.jpg?v=1754672770&width=535",
         altText: "Culottes Front View",
       },
     ],
@@ -738,7 +738,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=28",
+        url: "https://crazymonk.in/cdn/shop/files/Boston_2_f028fb44-5d64-4dd5-95ad-f5f6bfe4ea91.jpg?v=1754672740&width=535",
         altText: "Classic Pleated Trousers Front View",
       },
     ],
@@ -762,7 +762,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=29",
+        url: "https://crazymonk.in/cdn/shop/files/CityOfAngels_2_91bd4aec-af12-45da-a82e-c9f65c1ec33d.jpg?v=1754672803&width=535",
         altText: "Knitted Cropped Top",
       },
     ],
@@ -786,7 +786,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=30",
+        url: "https://crazymonk.in/cdn/shop/files/2_df20e901-ffcc-4dcb-a564-a0530dbbee22.jpg?v=1754673181&width=535",
         altText: "Boho Floral Blouse",
       },
     ],
@@ -810,7 +810,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=31",
+        url: "https://crazymonk.in/cdn/shop/files/RageoftheTiger_4.jpg?v=1754673321&width=535",
         altText: "Casual T-Shirt",
       },
     ],
@@ -834,7 +834,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=32",
+        url: "https://crazymonk.in/cdn/shop/files/SpaceOut_3.jpg?v=1754673419&width=535",
         altText: "Off-Shoulder Top",
       },
     ],
@@ -858,7 +858,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=33",
+        url: "https://crazymonk.in/cdn/shop/files/WildandFree_2.jpg?v=1754673486&width=535",
         altText: "Lace-Trimmed Cami Top",
       },
     ],
@@ -882,7 +882,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=34",
+        url: "https://picsum.photos/500/500?random=34https://crazymonk.in/cdn/shop/files/LightuptheNight_2.jpg?v=1754673515&width=535",
         altText: "Graphic Print Tee",
       },
     ],
@@ -906,7 +906,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=35",
+        url: "https://crazymonk.in/cdn/shop/files/I20Hate20People_2.jpg?v=1751105177&width=535",
         altText: "Ribbed Long-Sleeve Top",
       },
     ],
@@ -930,7 +930,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=36",
+        url: "https://crazymonk.in/cdn/shop/files/Ohana_2.jpg?v=1751105148&width=535",
         altText: "Ruffle-Sleeve Blouse",
       },
     ],
@@ -954,7 +954,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=37",
+        url: "https://crazymonk.in/cdn/shop/files/9027s20Girls_2.jpg?v=1751105161&width=535",
         altText: "Classic Button-Up Shirt",
       },
     ],
@@ -978,7 +978,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=38",
+        url: "https://crazymonk.in/cdn/shop/files/Dont20kill20my20Vibe_1.jpg?v=1751105156&width=360",
         altText: "V-Neck Wrap Top",
       },
     ],
@@ -987,4 +987,4 @@ const products = [
   },
 ];
 
-module.exports = products;
+export default products;

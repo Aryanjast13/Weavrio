@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { fetchUserOrders } from "../redux/orderSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
 // Define interfaces for type safety
 interface ShippingAddress {
@@ -33,76 +35,15 @@ const MyOrdersPage: React.FC = () => {
     loading: true,
     error: null,
   });
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+  const { orders, loading, error } = useAppSelector((state) => state.orders);
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
+    dispatch(fetchUserOrders());
 
-    const fetchOrders = async (): Promise<void> => {
-      try {
-        setState((prev) => ({ ...prev, loading: true, error: null }));
-
-        // Simulate API call
-        timeoutId = setTimeout(() => {
-          const mockOrders: Order[] = [
-            {
-              _id: 12345,
-              createdAt: new Date(),
-              shippingAddress: { city: "New York", country: "USA" },
-              orderItems: [
-                {
-                  name: "Product 1",
-                  image: "https://picsum.photos/500/500?random=1",
-                },
-              ],
-              totalPrice: 100,
-              isPaid: true,
-            },
-            {
-              _id: 67890,
-              createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday
-              shippingAddress: { city: "Los Angeles", country: "USA" },
-              orderItems: [
-                {
-                  name: "Product 2",
-                  image: "https://picsum.photos/500/500?random=2",
-                },
-                {
-                  name: "Product 3",
-                  image: "https://picsum.photos/500/500?random=3",
-                },
-              ],
-              totalPrice: 200,
-              isPaid: false,
-            },
-          ];
-
-          setState({
-            orders: mockOrders,
-            loading: false,
-            error: null,
-          });
-        }, 1000);
-      } catch (error) {
-        setState((prev) => ({
-          ...prev,
-          loading: false,
-          error:
-            error instanceof Error ? error.message : "Failed to load orders",
-        }));
-      }
-    };
-
-    fetchOrders();
-
-    // Cleanup function
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, []);
+  },[dispatch])
 
   const formatDate = (date: Date): string => {
     return new Intl.DateTimeFormat("en-US", {

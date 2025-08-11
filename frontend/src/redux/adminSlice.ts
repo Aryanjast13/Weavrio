@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
+import axios from "axios";
 
 // Types
 export interface User {
@@ -85,7 +85,7 @@ export const updateUser = createAsyncThunk<
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
         { name, email, role }
       );
-      return response.data;
+      return response.data.user;
     } catch (err) {
       const error = err as AxiosError<any>;
       const message =

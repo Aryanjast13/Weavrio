@@ -73,15 +73,10 @@ const FilterSidebar = () => {
       setPriceRange([0, parseInt(params.maxPrice) || 100]);
     },[searchParams])
 
-    // Add this useEffect to track filter changes
-useEffect(() => {
-    console.log("Filters updated:", filters);
-}, [filters]); // This runs whenever filters state changes
 
   
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target;
-    console.log({ name, value, checked, type });
     let newFilters:Filter = {...filters };
 
     if (type === "checkbox") {

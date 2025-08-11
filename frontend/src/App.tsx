@@ -20,6 +20,7 @@ import Register from "./pages/Register";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import ProtectedRoute from "./components/Layout/ProtectedRoute";
 
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="order-confirmation" element={<OrderConfirmation />} />
           <Route path="order/:id" element={<OrderDetailPage />} />
-          <Route path="my-orders" element={<MyOrdersPage />} />
+            <Route path="my-orders" element={<MyOrdersPage />} />
+            <Route path="/admin" element={<ProtectedRoute role="admin" ><AdminLayout/></ProtectedRoute>}/>
         </Route>
 
         {/* Admin layout */}

@@ -1,4 +1,7 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { useNavigate } from "react-router";
+import { addUser, deleteUser, fetchUsers, updateUser } from "../../redux/adminSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 
 
 const users = [
@@ -12,6 +15,23 @@ const users = [
 
 
 const UserManagment = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { user } = useAppSelector(state => state.auth);
+  const { users, loading, error } = useAppSelector(state => state.admin);
+
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      navigate("/");
+    }
+  }, [user, navigate])
+  
+  useEffect(() => {
+    if (user && user.role == "admin") {
+      dispatch(fetchUsers());
+    }
+  }, [dispatch, user]);
  
     const [formData, setFormData] = useState({
         name: "",
@@ -36,8 +56,10 @@ const UserManagment = () => {
     
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
-        console.log(formData);
-
+        
+       dispatch(addUser(formData))  
+      
+      //Reset the form after submission
         setFormData({
             name: "",
             email: "",
@@ -46,12 +68,12 @@ const UserManagment = () => {
         })
     }
   const handleRoleChange = (userId:number,newRole:string) => {
-    console.log({ id: userId, role: newRole });
+    dispatch(updateUser({ id: userId, role: newRole }));
   }
   
   const handleDeleteUser = (userId:number) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      console.log("deleting user with ID",userId)
+      dispatch(deleteUser(userId));
     }
   }
 
@@ -59,6 +81,9 @@ const UserManagment = () => {
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6">User Managment</h2>
       {/* Add a user Form */}
+      {loading && <p>Loading...</p>}
+      {error && <p>Error : {error}</p>}
+      {/* Add New User Form */}
       <div className="p-6 rounded-lg mb-6">
         <h3 className="text-lg font-bold mb-4 ">Add New User</h3>
         <form onSubmit={handleSubmit}>

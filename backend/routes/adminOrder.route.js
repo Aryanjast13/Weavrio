@@ -24,7 +24,7 @@ router.get("/", protectRoute, admin, async (req, res) => {
 
 router.put("/:id", protectRoute, admin, async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
+        const order = await Order.findById(req.params.id).populate("user", "name");;
         if (order) {
             order.status = req.body.status || order.status;
             order.isDelivered = req.body.status === "Delivered" ? true : order.isDelivered;

@@ -1,6 +1,6 @@
-import { Link } from "react-router"
-import menCollection from "../../assets/mens-collection.webp"
-import womenCollection from "../../assets/womens-collection.webp"
+import { Link } from "react-router";
+import menCollection from "../../assets/mens-collection.webp";
+import womenCollection from "../../assets/womens-collection.webp";
 
  
 const GenderCollection = () => {
@@ -38,7 +38,7 @@ const GenderCollection = () => {
               Men's Collection
             </h2>
             <Link
-              to="/collections/all?gender=Women"
+              to="/collections/all?gender=Men"
               className="text-gray-900 underline"
             >
               Shop Now

@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { HiMagnifyingGlass, HiMiniXMark } from "react-icons/hi2";
+import { useNavigate } from "react-router";
+import { fetchProductsByFilters, setFilters } from "../../../../redux/productsSlice";
+import { useAppDispatch } from "../../../../redux/store";
 
 const SearchBar = () => {
    const [searchData,setSearchData] = useState("")
     const [isCartOpen, setIsCartOpen] = useState(false);
-    
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+
     const handleSearchToggle = () => {
         setIsCartOpen(!isCartOpen);
     }
     
     const handleSearch = (e: React.FormEvent) => {
       e.preventDefault();
-      console.log("search test:", searchData);
+      dispatch(setFilters({search:searchData}))
+      dispatch(fetchProductsByFilters({ search: searchData }))
+      navigate(`/collections/all?seacrh=${searchData}`)
       setIsCartOpen(false);
     };
 
