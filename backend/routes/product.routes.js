@@ -76,7 +76,7 @@ router.delete("/:id",protectRoute,admin, async (req, res) => {
         const product = await Product.findById(req.params.id);
    
         if (product) {
-            //Remove the product fro dB
+            //Remove the product from dB
             await product.deleteOne();
             res.json({ message: "Product removed" });
         } else {
