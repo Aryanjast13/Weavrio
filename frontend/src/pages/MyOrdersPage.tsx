@@ -1,49 +1,54 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { fetchUserOrders } from "../redux/orderSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
-// Define interfaces for type safety
+
+interface OrderItem {
+  productId: string;
+  name: string;
+  image: string;
+  price: number;
+  size?: string;
+  color?: string;
+  quantity: number;
+}
+
 interface ShippingAddress {
+  address: string;
   city: string;
+  postalCode: string;
   country: string;
 }
 
-interface OrderItem {
-  name: string;
-  image: string;
-}
-
+// Types
 interface Order {
-  _id: number;
-  createdAt: Date;
-  shippingAddress: ShippingAddress;
+  _id: string;
+  user: string;
   orderItems: OrderItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
   totalPrice: number;
   isPaid: boolean;
-}
-
-interface OrdersState {
-  orders: Order[];
-  loading: boolean;
-  error: string | null;
+  paidAt?: Date;
+  isDelivered: boolean;
+  deliveredAt?: Date;
+  paymentStatus: string;
+  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const MyOrdersPage: React.FC = () => {
-  const [state, setState] = useState<OrdersState>({
-    orders: [],
-    loading: true,
-    error: null,
-  });
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
+
+  // ✅ Only use global Redux state
   const { orders, loading, error } = useAppSelector((state) => state.orders);
 
   useEffect(() => {
     dispatch(fetchUserOrders());
-
-  },[dispatch])
+  }, [dispatch]);
 
   const formatDate = (date: Date): string => {
     return new Intl.DateTimeFormat("en-US", {
@@ -69,20 +74,21 @@ const MyOrdersPage: React.FC = () => {
     </span>
   );
 
-  if (state.error) {
+  const handleRowClick = (orderId: number) => {
+    navigate(`/order/${orderId}`);
+  };
+
+  // ✅ Use global error state
+  if (error) {
     return (
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           <h3 className="font-bold">Error</h3>
-          <p>{state.error}</p>
+          <p>{error}</p>
         </div>
       </div>
     );
   }
-
-  const handleRowClick = (orderId) => {
-    navigate(`/order/${orderId}`);
-  };
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -102,7 +108,8 @@ const MyOrdersPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {state.loading ? (
+            {/* ✅ Use global loading state */}
+            {loading ? (
               <tr>
                 <td colSpan={7} className="py-8 px-4 text-center text-gray-500">
                   <div className="flex items-center justify-center">
@@ -111,11 +118,11 @@ const MyOrdersPage: React.FC = () => {
                   </div>
                 </td>
               </tr>
-            ) : state.orders.length > 0 ? (
-              state.orders.map((order: Order) => (
+            ) : /* ✅ Use global orders state */ orders.length > 0 ? (
+              orders.map((order:Order) => (
                 <tr
                   key={order._id}
-                  onClick={()=>handleRowClick(order._id)}
+                  onClick={() => handleRowClick(order._id)}
                   className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors"
                 >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">

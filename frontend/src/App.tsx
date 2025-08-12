@@ -19,8 +19,8 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
 import { Provider } from "react-redux";
-import store from "./redux/store";
 import ProtectedRoute from "./components/Layout/ProtectedRoute";
+import store from "./redux/store";
 
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
           <Route path="collections/:collection" element={<CollectionPage />} />
-          <Route path="product/:product" element={<ProductDetails />} />
+          <Route path="product/:id" element={<ProductDetails />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="order-confirmation" element={<OrderConfirmation />} />
           <Route path="order/:id" element={<OrderDetailPage />} />

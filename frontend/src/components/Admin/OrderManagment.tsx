@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { fetchAllOrders, updateOrderStatus } from "../../redux/adminOrderSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
@@ -17,7 +18,7 @@ const OrderManagment = () => {
     }
   }, [dispatch, user, navigate]);
 
-  const handleStatusChange = (orderId, status) => {
+  const handleStatusChange = (orderId:string, status:string) => {
     dispatch(updateOrderStatus({ id: orderId, status }));
   };
 

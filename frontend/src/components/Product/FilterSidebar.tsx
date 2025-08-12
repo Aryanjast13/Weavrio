@@ -124,7 +124,7 @@ const FilterSidebar = () => {
       if (Array.isArray(newFilters[key]) && newFilters[key].length > 0) {
         params.append(key, newFilters[key].join(","));
       } else if (newFilters[key]) {
-        params.append(key, newFilters[key]);
+        params.append(key, newFilters[key] as any);
       }
     })
     setSearchParams(params);

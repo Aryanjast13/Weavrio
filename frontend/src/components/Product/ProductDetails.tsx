@@ -9,30 +9,9 @@ import {
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import ProductGrid from "../Product/ProductGrid";
 
-// Product interface (consistent with your Redux slice)
-interface ProductImage {
-  url: string;
-  altText: string;
-}
 
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  originalPrice: number;
-  description: string;
-  brand: string;
-  material: string;
-  sizes: string[];
-  colors: string[];
-  images: ProductImage[];
-  category?: string;
-  gender?: string;
-  collection?: string;
-  stock?: number;
-  createdAt?: string;
-  updatedAt?: string;
-}
+
+
 
 // Props interface
 interface ProductDetailsProps {

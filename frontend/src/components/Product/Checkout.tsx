@@ -1,49 +1,27 @@
 import axios from "axios"; // Added missing import
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router"; // Fixed import
+import type { CheckoutData } from "../../redux/checkoutSlice";
 import { createCheckout } from "../../redux/checkoutSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import PayPalButton from "./PayPalButton";
-
 // Types
+// CheckoutItem interface (subdocument)
+
+
+// Shipping Address interface
 interface ShippingAddress {
-  firstName: string;
-  lastName: string;
+  firstName: "",
+  lastName:""
   address: string;
   city: string;
   postalCode: string;
   country: string;
-  phone: string;
+  phone:string,
 }
 
-interface CartProduct {
-  _id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  size: string;
-  color: string;
-  image: string;
-  // add other product fields as needed
-}
 
-interface Cart {
-  products: CartProduct[];
-  totalPrice: number;
-  totalItems?: number;
-}
 
-interface CheckoutData {
-  checkoutItems: CartProduct[];
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  totalPrice: number;
-}
-
-interface CheckoutResponse {
-  _id: string;
-  // add other response fields as needed
-}
 
 interface PaymentDetails {
   id: string;
@@ -102,9 +80,9 @@ const Checkout: React.FC = () => {
 
         const res = await dispatch(createCheckout(checkoutData)).unwrap();
 
-        if (res && res.sessionId) {
+        if (res && res._id) {
           // Adjust based on your actual response structure
-          setCheckoutId(res.sessionId);
+          setCheckoutId(res._id);
         }
       } catch (error) {
         console.error("Failed to create checkout:", error);

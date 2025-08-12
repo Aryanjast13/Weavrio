@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
-import { fetchAdminProducts } from "../../redux/adminProductSlice";
+import { deleteProduct, fetchAdminProducts, } from "../../redux/adminProductSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 
 
@@ -17,8 +17,9 @@ const ProductManagment = () => {
     
 
 
-    const handleDelete = (id: number) => {
-      if (window.confirm("Are you sure you want to delete the Product?")) {
+    const handleDelete = (id: string) => {
+        if (window.confirm("Are you sure you want to delete the Product?")) {
+            dispatch(deleteProduct(id));
         console.log("Delte Product with id:", id);
       }
     };
@@ -46,7 +47,7 @@ const ProductManagment = () => {
                                 <td className="p-4">${product.price}</td>
                                 <td className="p-4">{product.sku}</td>
                                 <td className="p-4">
-                                    <Link to={`/admin/products/${product._id}`} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2 hover:bg-yellow-600">
+                                    <Link to={`/admin/products/${product._id}/edit`} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2 hover:bg-yellow-600">
                                       Edit
                                     </Link>
                                     <button onClick={()=>handleDelete(product._id)} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 ">
