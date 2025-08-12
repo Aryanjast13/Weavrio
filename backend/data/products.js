@@ -690,7 +690,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "hhttps://crazymonk.in/cdn/shop/files/BalanceYourLife_2.jpg?v=1754672704&width=535",
+        url: "https://crazymonk.in/cdn/shop/files/4_e83de715-b2ca-4dff-943a-1bc1711f62d9.jpg?v=1754672770&width=535",
         altText: "Stretch Denim Shorts Front View",
       },
     ],
