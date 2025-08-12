@@ -1,39 +1,46 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
+import axios from "axios";
 
 // Types
-export interface CheckoutData {
-  userId?: string;
-  guestId?: string;
-  items: CheckoutItem[];
-  shippingAddress: ShippingAddress;
-  billingAddress?: ShippingAddress;
-  paymentMethod: string;
-  totalAmount: number;
-  // add other checkout fields as per your API
-}
-
+// CheckoutItem interface (subdocument)
 export interface CheckoutItem {
-  productId: string;
+  productId: string; // ObjectId as string in frontend
   name: string;
+  image?: string |undefined;
   price: number;
   quantity: number;
-  size?: string;
-  color?: string;
-}
+  size?: string; // Optional
+  color?: string; // Optional
+} 
 
-export interface ShippingAddress {
-  firstName: string;
-  lastName: string;
+// Shipping Address interface
+interface ShippingAddress {
   address: string;
   city: string;
-  state: string;
-  zipCode: string;
+  postalCode: string;
   country: string;
-  phone?: string;
 }
+
+// Main Checkout interface
+export interface CheckoutData {
+  _id?: string; // MongoDB ObjectId as string
+  user?: string; // ObjectId as string in frontend
+  checkoutItems: CheckoutItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  totalPrice: number | undefined;
+  isPaid?: boolean;
+  paidAt?: Date; // Optional
+  paymentStatus?: string;
+  paymentDetails?: any; // Mixed type from schema
+  isFinalized?: boolean;
+  finalizedAt?: Date; // Optional
+  createdAt?: Date; // From timestamps: true
+  updatedAt?: Date; // From timestamps: true
+}
+
 
 export interface CheckoutSession {
   sessionId: string;
@@ -51,6 +58,7 @@ export interface CheckoutState {
 }
 
 // Thunk
+//create a checkout for user
 export const createCheckout = createAsyncThunk<
   CheckoutSession,
   CheckoutData,
@@ -59,7 +67,7 @@ export const createCheckout = createAsyncThunk<
   try {
     const response = await axios.post<CheckoutSession>(
       `${import.meta.env.VITE_BACKEND_URL}/api/checkout`,
-      checkoutData
+      checkoutData,{withCredentials:true}
     );
     return response.data;
   } catch (err) {

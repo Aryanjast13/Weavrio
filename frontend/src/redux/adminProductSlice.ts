@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
+import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
@@ -11,6 +11,7 @@ export interface Product {
   name: string;
   price: number;
   description: string;
+  sku:string,
   category: string;
   stock: number;
   imageUrl?: string;
@@ -41,7 +42,7 @@ export const fetchAdminProducts = createAsyncThunk<
 >("adminProducts/fetchProducts", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<Product[]>(
-      `${API_URL}/api/admin/products`
+      `${API_URL}/api/admin/products`,{withCredentials:true}
     );
     return response.data;
   } catch (err) {
@@ -62,7 +63,7 @@ export const createProduct = createAsyncThunk<
   try {
     const response = await axios.post<Product>(
       `${API_URL}/api/admin/products`,
-      productData
+      productData,{withCredentials:true}
     );
     return response.data;
   } catch (err) {
@@ -84,8 +85,8 @@ export const updateProduct = createAsyncThunk<
   async ({ id, productData }, { rejectWithValue }) => {
     try {
       const response = await axios.put<Product>(
-        `${API_URL}/api/admin/products/${id}`,
-        productData
+        `${API_URL}/api/products/${id}`,
+        productData,{withCredentials:true}
       );
       return response.data;
     } catch (err) {
@@ -105,7 +106,7 @@ export const deleteProduct = createAsyncThunk<
   { rejectValue: string }
 >("adminProducts/deleteProduct", async (id, { rejectWithValue }) => {
   try {
-    await axios.delete(`${API_URL}/api/products/${id}`);
+    await axios.delete(`${API_URL}/api/products/${id}`,{withCredentials:true});
     return id;
   } catch (err) {
     const error = err as AxiosError<any>;

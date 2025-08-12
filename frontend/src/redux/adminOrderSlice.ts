@@ -3,14 +3,45 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
-// Types
-export interface Order {
-  _id: string;
-  totalPrice: number;
-  status: string;
-  // add other order fields as per your API
+
+interface OrderItem {
+  productId: string;
+  name: string;
+  image: string;
+  price: number;
+  size?: string;
+  color?: string;
+  quantity: number;
 }
 
+interface ShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+// Types
+interface Order {
+  _id: string;
+  user: {
+    id: string,
+    name: string,
+    email?:string,
+  };
+  orderItems: OrderItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt?: Date;
+  isDelivered: boolean;
+  deliveredAt?: Date;
+  paymentStatus: string;
+  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface AdminOrderState {
   orders: Order[];
   totalOrders: number;
@@ -36,7 +67,7 @@ export const fetchAllOrders = createAsyncThunk<
 >("adminOrders/fetchAllOrders", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<OrdersApiResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`, {withCredentials:true}
     );
 
     // Better type-safe handling
@@ -65,7 +96,7 @@ export const updateOrderStatus = createAsyncThunk<
     try {
       const response = await axios.put<Order>(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-        { status }
+        { status },{withCredentials:true}
       );
       return response.data;
     } catch (err) {
@@ -86,7 +117,7 @@ export const deleteOrder = createAsyncThunk<
 >("adminOrders/deleteOrder", async (id, { rejectWithValue }) => {
   try {
     await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,{withCredentials:true}
     );
     return id;
   } catch (err) {

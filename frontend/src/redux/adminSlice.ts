@@ -9,9 +9,6 @@ export interface User {
   name: string;
   email: string;
   role: string;
-  createdAt?: string;
-  updatedAt?: string;
-  // add other user fields as per your API
 }
 
 export interface UserData {
@@ -24,8 +21,6 @@ export interface UserData {
 
 export interface UpdateUserData {
   id: string;
-  name: string;
-  email: string;
   role: string;
 }
 
@@ -36,6 +31,7 @@ export interface AdminState {
 }
 
 // Thunks
+//fetch all users from db for admin
 export const fetchUsers = createAsyncThunk<
   User[],
   void,
@@ -43,7 +39,8 @@ export const fetchUsers = createAsyncThunk<
 >("admin/fetchUsers", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<User[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (err) {
@@ -54,6 +51,7 @@ export const fetchUsers = createAsyncThunk<
   }
 });
 
+//add a new user by admin
 export const addUser = createAsyncThunk<
   User,
   UserData,
@@ -62,7 +60,9 @@ export const addUser = createAsyncThunk<
   try {
     const response = await axios.post<{ user: User }>(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
-      userData
+      userData, {
+        withCredentials:true
+      }
     );
     return response.data.user || response.data;
   } catch (err) {
@@ -73,19 +73,20 @@ export const addUser = createAsyncThunk<
   }
 });
 
+//update a user by admin
 export const updateUser = createAsyncThunk<
   User,
   UpdateUserData,
   { rejectValue: string }
 >(
   "admin/updateUser",
-  async ({ id, name, email, role }, { rejectWithValue }) => {
+  async ({ id, role }, { rejectWithValue }) => {
     try {
       const response = await axios.put<User>(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
-        { name, email, role }
+        { name, role },{withCredentials:true}
       );
-      return response.data.user;
+      return response.data;
     } catch (err) {
       const error = err as AxiosError<any>;
       const message =
@@ -97,6 +98,7 @@ export const updateUser = createAsyncThunk<
   }
 );
 
+//delete a user by admin
 export const deleteUser = createAsyncThunk<
   string,
   string,
@@ -104,7 +106,7 @@ export const deleteUser = createAsyncThunk<
 >("admin/deleteUser", async (id, { rejectWithValue }) => {
   try {
     await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,{withCredentials:true}
     );
     return id;
   } catch (err) {

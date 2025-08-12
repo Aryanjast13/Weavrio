@@ -11,6 +11,8 @@ export interface Product {
   originalPrice: number;
   description: string;
   brand: string;
+  countInStock: number;
+  sku: string;
   material: string;
   sizes: string[];
   colors: string[];
@@ -113,7 +115,7 @@ export const fetchProductsByFilters = createAsyncThunk<
     if (limit) query.append("limit", limit);
 
     const response = await axios.get<Product[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}` // Fixed typo
+      `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,{withCredentials:true} // Fixed typo
     );
     return response.data;
   } catch (err) {
@@ -133,7 +135,7 @@ export const fetchProductDetails = createAsyncThunk<
 >("products/fetchProductDetails", async (id, { rejectWithValue }) => {
   try {
     const response = await axios.get<Product>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,{withCredentials:true}
     );
     return response.data;
   } catch (err) {
@@ -156,7 +158,7 @@ export const updateProduct = createAsyncThunk<
     try {
       const response = await axios.put<Product>(
         `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, // Fixed URL template
-        productData
+        productData,{withCredentials:true}
       );
       return response.data;
     } catch (err) {
@@ -177,7 +179,7 @@ export const fetchSimilarProducts = createAsyncThunk<
 >("products/fetchSimilarProducts", async ({ id }, { rejectWithValue }) => {
   try {
     const response = await axios.get<Product[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,{withCredentials:true}
     );
     return response.data;
   } catch (err) {

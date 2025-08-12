@@ -12,7 +12,7 @@ export interface CartProduct {
   quantity: number;
   size?: string;
   color?: string;
-  imageUrl?: string;
+  image?: string;
   // add other product fields as per your API
 }
 
@@ -82,6 +82,7 @@ interface MergeCartParams {
 }
 
 // Thunks
+//fetch all carts from db
 export const fetchCart = createAsyncThunk<
   Cart,
   FetchCartParams,
@@ -92,6 +93,7 @@ export const fetchCart = createAsyncThunk<
       `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
       {
         params: { userId, guestId },
+        withCredentials: true,
       }
     );
     return response.data;
@@ -103,6 +105,7 @@ export const fetchCart = createAsyncThunk<
   }
 });
 
+//add to cart the products
 export const addToCart = createAsyncThunk<
   Cart,
   AddToCartParams,
@@ -116,7 +119,7 @@ export const addToCart = createAsyncThunk<
     try {
       const response = await axios.post<Cart>(
         `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        { productId, quantity, size, color, guestId, userId }
+        { productId, quantity, size, color, guestId, userId },{withCredentials:true}
       );
       return response.data;
     } catch (err) {
@@ -130,6 +133,7 @@ export const addToCart = createAsyncThunk<
   }
 );
 
+//update the cart product quantity
 export const updateCartItemQuantity = createAsyncThunk<
   Cart,
   UpdateCartItemParams,
@@ -143,7 +147,7 @@ export const updateCartItemQuantity = createAsyncThunk<
     try {
       const response = await axios.put<Cart>(
         `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        { productId, quantity, guestId, userId, size, color }
+        { productId, quantity, guestId, userId, size, color } , {withCredentials:true}
       );
       return response.data;
     } catch (err) {
@@ -157,6 +161,8 @@ export const updateCartItemQuantity = createAsyncThunk<
   }
 );
 
+
+//remove product from cart
 export const removeFromCart = createAsyncThunk<
   Cart,
   RemoveFromCartParams,
@@ -169,6 +175,7 @@ export const removeFromCart = createAsyncThunk<
         `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
         {
           data: { productId, guestId, userId, size, color },
+          withCredentials:true
         }
       );
       return response.data;
@@ -183,6 +190,7 @@ export const removeFromCart = createAsyncThunk<
   }
 );
 
+//merging cart into user with guestId 
 export const mergeCart = createAsyncThunk<
   Cart,
   MergeCartParams,
@@ -191,7 +199,7 @@ export const mergeCart = createAsyncThunk<
   try {
     const response = await axios.post<Cart>(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,
-      { guestId, user }
+      { guestId, user },{withCredentials:true}
     );
     return response.data;
   } catch (err) {

@@ -3,11 +3,11 @@ import {
   createSlice,
   type PayloadAction,
 } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 // Types
 export interface User {
-  id: string;
+  _id: string;
   name: string;
     email: string;
     role: string;
@@ -37,8 +37,7 @@ const getStoredUser = (): User | null => {
 };
 
 // Guest id
-const initialGuestId =
-  localStorage.getItem(GUEST_ID_KEY) || `guest_${new Date().getTime()}`;
+const initialGuestId = localStorage.getItem(GUEST_ID_KEY) || `guest_${new Date().getTime()}`;
 localStorage.setItem(GUEST_ID_KEY, initialGuestId);
 
 // Initial state
@@ -49,35 +48,29 @@ const initialState: AuthState = {
   error: null,
 };
 
-// API response shapes (adapt to your backend)
-interface AuthResponse {
-  user: User;
-  // token?: string; // add if you also store tokens
-}
+
 
 // Thunks
-export const loginUser = createAsyncThunk<
-  User,
-  { email: string; password: string },
-  { rejectValue: string }
->("auth/loginUser", async (userData, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk<User, { email: string; password: string }, { rejectValue: string }>
+  ("auth/loginUser", async (userData, { rejectWithValue }) => {
   try {
-    const res = await axios.post<AuthResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
-      userData,
+    const res = await axios.post<User>(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`,userData,
       { withCredentials: true }
     );
-      console.log(res.data);
-    localStorage.setItem(USER_INFO_KEY, JSON.stringify(res.data));
-    return res.data.user;
+    return res.data;
   } catch (err) {
-    const e = err as AxiosError<any>;
-    const message =
-      e.response?.data?.message ||
-      e.response?.data ||
-      e.message ||
-      "Login failed";
-    return rejectWithValue(String(message));
+    // More specific error handling
+    if (axios.isAxiosError(err)) {
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "Login failed";
+      return rejectWithValue(message);
+    }
+
+    // Handle non-axios errors
+    return rejectWithValue("An unexpected error occurred");
   }
 });
 
@@ -87,21 +80,25 @@ export const registerUser = createAsyncThunk<
   { rejectValue: string }
 >("auth/registerUser", async (userData, { rejectWithValue }) => {
   try {
-    const res = await axios.post<AuthResponse>(
+    const res = await axios.post<User>(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
         userData,
       {withCredentials:true}
     );
-    localStorage.setItem(USER_INFO_KEY, JSON.stringify(res.data.user));
-    return res.data.user;
+    return res.data;
   } catch (err) {
-    const e = err as AxiosError<any>;
-    const message =
-      e.response?.data?.message ||
-      e.response?.data ||
-      e.message ||
-      "Registration failed";
-    return rejectWithValue(String(message));
+    // More specific error handling
+    if (axios.isAxiosError(err)) {
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "Login failed";
+      return rejectWithValue(message);
+    }
+
+    // Handle non-axios errors
+    return rejectWithValue("An unexpected error occurred");
   }
 });
 
@@ -130,7 +127,11 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
-        state.user = action.payload; // fixed: set user, not error
+        state.user = action.payload;
+        console.log(action.payload);
+        localStorage.setItem(USER_INFO_KEY, JSON.stringify(action.payload));
+        localStorage.setItem("Sfsdf", "Sfsfsdfds");
+
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -146,7 +147,9 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
-        state.user = action.payload; // fixed: set user
+        state.user = action.payload; 
+    localStorage.setItem(USER_INFO_KEY, JSON.stringify(action.payload));
+
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {

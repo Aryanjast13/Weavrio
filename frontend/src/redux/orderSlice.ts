@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
+import axios from "axios";
 
 // Types
 export interface OrderItem {
@@ -17,7 +17,10 @@ export interface OrderItem {
 
 export interface Order {
   _id: string;
-  userId: string;
+  user: {
+    id: string,
+    name:string,
+  };
   items: OrderItem[];
   totalAmount: number;
   status: string;
@@ -61,7 +64,7 @@ export const fetchUserOrders = createAsyncThunk<
 >("order/fetchUserOrders", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<Order[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`
+      `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`,{withCredentials:true}
     );
     return response.data;
   } catch (err) {
@@ -81,7 +84,7 @@ export const fetchOrderDetails = createAsyncThunk<
 >("order/fetchOrderDetails", async (orderId, { rejectWithValue }) => {
   try {
     const response = await axios.get<OrderDetails>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,{withCredentials:true}
     );
     return response.data;
   } catch (err) {
