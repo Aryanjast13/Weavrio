@@ -13,6 +13,7 @@ import productAdminRoutes from "./routes/productAdmin.routes.js";
 import subscribeRoutes from "./routes/subscriber.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import paymnetRoutes from "./routes/payment.routes.js"
 dotenv.config();
 
 
@@ -42,7 +43,7 @@ app.use("/api/checkout", checkoutRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes)
 app.use("/api", subscribeRoutes);
-
+app.use("/api/payment", paymnetRoutes);
 //Admin
 app.use("/api/admin/users", adminRoutes);
 app.use("/api/admin/products", productAdminRoutes)

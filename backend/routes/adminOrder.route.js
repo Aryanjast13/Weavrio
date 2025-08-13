@@ -36,7 +36,8 @@ router.put("/:id", protectRoute, admin, async (req, res) => {
             res.status(404).json({ message: "Order not found" })
         }
     } catch (error) {
-        console.log("Error in update ordr")
+        console.log("Error in update order controller",error.message);
+        res.status(500).json({message:error.message})
     }
 });
 

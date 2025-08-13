@@ -89,6 +89,7 @@ router.post("/:id/finalize", protectRoute, async (req, res) => {
                 isPaid: true,
                 paidAt: checkout.paidAt,
                 isDelivered: false,
+                paymentStatus:"paid",
                 paymentDetails: checkout.paymentDetails,
             });
             // Mark the checkout as finalized
