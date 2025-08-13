@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import Razorpay from "razorpay";
-import { protectRoute } from "../middleware/auth.middlewar.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
 
 dotenv.config();
 
