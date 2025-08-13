@@ -1,13 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
+import adminOrderReducer from "./adminOrderSlice";
 import adminProductReducer from "./adminProductSlice";
 import adminReducer from "./adminSlice";
 import authReducer from "./authSlice";
 import cartReducer from "./cartSlice";
 import checkoutReducer from "./checkoutSlice";
 import orderReducer from "./orderSlice";
+import paymentReducer from "./paymentSlice";
 import productReducer from "./productsSlice";
-import adminOrderReducer from "./adminOrderSlice";
 
 const store = configureStore({
     reducer: {
@@ -18,7 +19,8 @@ const store = configureStore({
         orders: orderReducer,
         admin: adminReducer,
         adminProducts: adminProductReducer,
-        adminOrders:adminOrderReducer,
+        adminOrders: adminOrderReducer,
+        payment : paymentReducer,
     },
 });
 
