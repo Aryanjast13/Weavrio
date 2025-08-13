@@ -3,28 +3,13 @@ import { RiDeleteBin3Line } from "react-icons/ri";
 import { removeFromCart, updateCartItemQuantity } from "../../redux/cartSlice";
 import { useAppDispatch } from "../../redux/store";
 
-// Interface for cart product item
-interface CartProduct {
-  productId: string;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-  size: string;
-  color: string;
-}
-
-// Interface for cart object
-interface Cart {
-  products: CartProduct[];
-}
-
-// Props interface
-interface CartContentsProps {
-  cart: Cart;
-  userId?: string; // Optional - might be undefined for guest users
-  guestId?: string; // Optional - might be undefined for logged-in users
-}
+// ✅ Import all types from unified file
+import type {
+  CartContentsProps,
+  CartItemHandler,
+  CartProduct,
+  RemoveItemHandler
+} from "../../types/cart";
 
 const CartContents: React.FC<CartContentsProps> = ({
   cart,
@@ -33,14 +18,14 @@ const CartContents: React.FC<CartContentsProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  // Handle adding or subtracting from cart
-  const handleAddToCart = (
-    productId: string,
-    delta: number,
-    quantity: number,
-    size: string,
-    color: string
-  ): void => {
+  // ✅ Using proper type
+  const handleAddToCart: CartItemHandler = (
+    productId,
+    delta,
+    quantity,
+    size,
+    color
+  ) => {
     const newQuantity = quantity + delta;
     if (newQuantity >= 1) {
       dispatch(
@@ -56,12 +41,17 @@ const CartContents: React.FC<CartContentsProps> = ({
     }
   };
 
-  const handleRemoveFromCart = (
-    productId: string,
-    size: string,
-    color: string
-  ): void => {
-    dispatch(removeFromCart({ productId, guestId, userId, size, color }));
+  // ✅ Using proper type
+  const handleRemoveFromCart: RemoveItemHandler = (productId, size, color) => {
+    dispatch(
+      removeFromCart({
+        productId,
+        guestId,
+        userId,
+        size,
+        color,
+      })
+    );
   };
 
   return (
@@ -112,8 +102,8 @@ const CartContents: React.FC<CartContentsProps> = ({
                 >
                   +
                 </button>
-            </div>
               </div>
+            </div>
           </div>
           <div>
             <p className="font-medium">$ {Number(product.price).toFixed(2)}</p>

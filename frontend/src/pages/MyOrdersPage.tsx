@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store";
 interface OrderItem {
   productId: string;
   name: string;
-  image: string;
+  image?: string;
   price: number;
   size?: string;
   color?: string;
@@ -21,19 +21,22 @@ interface ShippingAddress {
   country: string;
 }
 
-// Types
+// Your complete Order interface (from previous conversation)
 interface Order {
   _id: string;
-  user: string;
-  orderItems: OrderItem[];
+  user: {
+    name: string;
+    email: string;
+  };
+  orderItems: OrderItem[];        // ← Missing in first interface
   shippingAddress: ShippingAddress;
   paymentMethod: string;
-  totalPrice: number;
-  isPaid: boolean;
+  totalPrice: number;             // ← Missing in first interface
+  isPaid: boolean;                // ← Missing in first interface
   paidAt?: Date;
-  isDelivered: boolean;
+  isDelivered: boolean;           // ← Missing in first interface
   deliveredAt?: Date;
-  paymentStatus: string;
+  paymentStatus: string;          // ← Missing in first interface
   status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
   createdAt: Date;
   updatedAt: Date;
@@ -74,7 +77,7 @@ const MyOrdersPage: React.FC = () => {
     </span>
   );
 
-  const handleRowClick = (orderId: number) => {
+  const handleRowClick = (orderId:string) => {
     navigate(`/order/${orderId}`);
   };
 
@@ -119,7 +122,7 @@ const MyOrdersPage: React.FC = () => {
                 </td>
               </tr>
             ) : /* ✅ Use global orders state */ orders.length > 0 ? (
-              orders.map((order:Order) => (
+              orders.map((order: Order) => (
                 <tr
                   key={order._id}
                   onClick={() => handleRowClick(order._id)}
@@ -137,7 +140,7 @@ const MyOrdersPage: React.FC = () => {
                     #{order._id}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {formatDate(order.createdAt)}
+                    {formatDate(new Date(order.createdAt))}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     {formatShippingAddress(order.shippingAddress)}

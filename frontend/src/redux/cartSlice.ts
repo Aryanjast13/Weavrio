@@ -1,42 +1,38 @@
-import type { PayloadAction } from "@reduxjs/toolkit";
+// redux/cartSlice.ts
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
-// Types
-export interface CartProduct {
-  _id: string;
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  size?: string;
-  color?: string;
-  image?: string;
-  // add other product fields as per your API
-}
-
-export interface Cart {
-  products: CartProduct[];
-  totalItems?: number;
-  totalPrice?: number;
-  userId?: string;
-  guestId?: string;
-}
-
-export interface CartState {
-  cart: Cart;
-  loading: boolean;
-  error: string | null;
-}
+// ✅ Import all types from unified file
+import type {
+  AddToCartParams,
+  AddToCartResponse,
+  Cart,
+  CartState,
+  FetchCartParams,
+  FetchCartResponse,
+  MergeCartParams,
+  RemoveFromCartParams,
+  RemoveFromCartResponse,
+  UpdateCartItemParams,
+  UpdateCartResponse
+} from "../types/cart";
 
 // Helper functions
 const loadCartFromStorage = (): Cart => {
   try {
     const storedCart = localStorage.getItem("cart");
-    return storedCart ? (JSON.parse(storedCart) as Cart) : { products: [] };
+    return storedCart
+      ? (JSON.parse(storedCart) as Cart)
+      : {
+          products: [],
+          totalPrice: 0,
+        };
   } catch {
-    return { products: [] };
+    return {
+      products: [],
+      totalPrice: 0,
+    };
   }
 };
 
@@ -44,169 +40,114 @@ const saveCartToStorage = (cart: Cart): void => {
   localStorage.setItem("cart", JSON.stringify(cart));
 };
 
-// Thunk parameter types
-interface FetchCartParams {
-  userId?: string;
-  guestId?: string;
-}
-
-interface AddToCartParams {
-  productId: string;
-  quantity: number;
-  size?: string;
-  color?: string;
-  guestId?: string;
-  userId?: string;
-}
-
-interface UpdateCartItemParams {
-  productId: string;
-  quantity: number;
-  guestId?: string;
-  userId?: string;
-  size?: string;
-  color?: string;
-}
-
-interface RemoveFromCartParams {
-  productId: string;
-  guestId?: string;
-  userId?: string;
-  size?: string;
-  color?: string;
-}
-
-interface MergeCartParams {
-  guestId: string;
-  user: string;
-}
-
-// Thunks
-//fetch all carts from db
+// Async Thunks
 export const fetchCart = createAsyncThunk<
   Cart,
   FetchCartParams,
   { rejectValue: string }
->("cart/fetchCart", async ({ userId, guestId }, { rejectWithValue }) => {
+>("cart/fetchCart", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.get<Cart>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-      {
-        params: { userId, guestId },
-        withCredentials: true,
-      }
+    const queryParams = new URLSearchParams();
+    if (params.userId) queryParams.append("userId", params.userId);
+    if (params.guestId) queryParams.append("guestId", params.guestId);
+
+    const response = await axios.get<FetchCartResponse>(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart?${queryParams}`,
+      { withCredentials: true }
     );
-    return response.data;
+
+    return response.data.cart;
   } catch (err) {
     const error = err as AxiosError<any>;
-    const message =
-      error.response?.data?.message || error.message || "Failed to fetch cart";
-    return rejectWithValue(String(message));
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to fetch cart"
+    );
   }
 });
 
-//add to cart the products
 export const addToCart = createAsyncThunk<
   Cart,
   AddToCartParams,
   { rejectValue: string }
->(
-  "cart/addToCart",
-  async (
-    { productId, quantity, size, color, guestId, userId },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await axios.post<Cart>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        { productId, quantity, size, color, guestId, userId },{withCredentials:true}
-      );
-      return response.data;
-    } catch (err) {
-      const error = err as AxiosError<any>;
-      const message =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to add to cart";
-      return rejectWithValue(String(message));
-    }
-  }
-);
+>("cart/addToCart", async (params, { rejectWithValue }) => {
+  try {
+    const response = await axios.post<AddToCartResponse>(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/add`,
+      params,
+      { withCredentials: true }
+    );
 
-//update the cart product quantity
+    return response.data.cart;
+  } catch (err) {
+    const error = err as AxiosError<any>;
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to add to cart"
+    );
+  }
+});
+
 export const updateCartItemQuantity = createAsyncThunk<
   Cart,
   UpdateCartItemParams,
   { rejectValue: string }
->(
-  "cart/updateCartItemQuantity",
-  async (
-    { productId, quantity, guestId, userId, size, color },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await axios.put<Cart>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        { productId, quantity, guestId, userId, size, color } , {withCredentials:true}
-      );
-      return response.data;
-    } catch (err) {
-      const error = err as AxiosError<any>;
-      const message =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to update cart";
-      return rejectWithValue(String(message));
-    }
+>("cart/updateCartItemQuantity", async (params, { rejectWithValue }) => {
+  try {
+    const response = await axios.put<UpdateCartResponse>(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/update`,
+      params,
+      { withCredentials: true }
+    );
+
+    return response.data.cart;
+  } catch (err) {
+    const error = err as AxiosError<any>;
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to update cart"
+    );
   }
-);
+});
 
-
-//remove product from cart
 export const removeFromCart = createAsyncThunk<
   Cart,
   RemoveFromCartParams,
   { rejectValue: string }
->(
-  "cart/removeFromCart",
-  async ({ productId, guestId, userId, size, color }, { rejectWithValue }) => {
-    try {
-      const response = await axios.delete<Cart>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        {
-          data: { productId, guestId, userId, size, color },
-          withCredentials:true
-        }
-      );
-      return response.data;
-    } catch (err) {
-      const error = err as AxiosError<any>;
-      const message =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to remove item";
-      return rejectWithValue(String(message));
-    }
-  }
-);
+>("cart/removeFromCart", async (params, { rejectWithValue }) => {
+  try {
+    const response = await axios.delete<RemoveFromCartResponse>(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/remove`,
+      {
+        data: params,
+        withCredentials: true,
+      }
+    );
 
-//merging cart into user with guestId 
+    return response.data.cart;
+  } catch (err) {
+    const error = err as AxiosError<any>;
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to remove from cart"
+    );
+  }
+});
+
 export const mergeCart = createAsyncThunk<
   Cart,
   MergeCartParams,
   { rejectValue: string }
->("cart/mergeCart", async ({ guestId, user }, { rejectWithValue }) => {
+>("cart/mergeCart", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.post<Cart>(
+    const response = await axios.post<AddToCartResponse>(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,
-      { guestId, user },{withCredentials:true}
+      params,
+      { withCredentials: true }
     );
-    return response.data;
+
+    return response.data.cart;
   } catch (err) {
     const error = err as AxiosError<any>;
-    const message =
-      error.response?.data?.message || error.message || "Failed to merge cart";
-    return rejectWithValue(String(message));
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to merge cart"
+    );
   }
 });
 
@@ -217,89 +158,90 @@ const initialState: CartState = {
   error: null,
 };
 
-// Slice
+// Cart slice
 const cartSlice = createSlice({
   name: "cart",
-  initialState, // Fixed typo
+  initialState,
   reducers: {
     clearCart: (state) => {
-      state.cart = { products: [] };
-      localStorage.removeItem("cart"); // Fixed extra parentheses
+      state.cart = { products: [], totalPrice: 0 };
+      saveCartToStorage(state.cart);
+    },
+    resetCartError: (state) => {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch cart
+      // Fetch Cart
       .addCase(fetchCart.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCart.fulfilled, (state, action: PayloadAction<Cart>) => {
+      .addCase(fetchCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
+        saveCartToStorage(state.cart);
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Failed to fetch cart";
       })
-      // Add to cart
+
+      // Add to Cart
       .addCase(addToCart.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(addToCart.fulfilled, (state, action: PayloadAction<Cart>) => {
+      .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
+        saveCartToStorage(state.cart);
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Failed to add to cart";
       })
-      // Update cart item quantity
+
+      // Update Cart Item
       .addCase(updateCartItemQuantity.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        updateCartItemQuantity.fulfilled,
-        (state, action: PayloadAction<Cart>) => {
-          state.loading = false;
-          state.cart = action.payload;
-          saveCartToStorage(action.payload);
-        }
-      )
+      .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartToStorage(state.cart);
+      })
       .addCase(updateCartItemQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Failed to update cart";
       })
-      // Remove from cart
+
+      // Remove from Cart
       .addCase(removeFromCart.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        removeFromCart.fulfilled,
-        (state, action: PayloadAction<Cart>) => {
-          state.loading = false;
-          state.cart = action.payload;
-          saveCartToStorage(action.payload);
-        }
-      )
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartToStorage(state.cart);
+      })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? "Failed to remove item";
+        state.error = action.payload ?? "Failed to remove from cart";
       })
-      // Merge cart
+
+      // Merge Cart
       .addCase(mergeCart.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(mergeCart.fulfilled, (state, action: PayloadAction<Cart>) => {
+      .addCase(mergeCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
+        saveCartToStorage(state.cart);
       })
       .addCase(mergeCart.rejected, (state, action) => {
         state.loading = false;
@@ -308,5 +250,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { clearCart } = cartSlice.actions;
+export const { clearCart, resetCartError } = cartSlice.actions;
 export default cartSlice.reducer;

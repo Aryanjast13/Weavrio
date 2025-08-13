@@ -1,82 +1,17 @@
+// redux/productSlice.ts
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
-// Types
-export interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  originalPrice: number;
-  description: string;
-  brand: string;
-  countInStock: number;
-  sku: string;
-  material: string;
-  sizes: string[];
-  colors: string[];
-  images: Array<{
-    url: string;
-    altText: string;
-  }>;
-  category?: string;
-  gender?: string;
-  collection?: string;
-  stock?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  // add other fields as per your API
-}
-
-export interface ProductFilters {
-  collection?: string;
-  size?: string;
-  color?: string;
-  gender?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  sortBy?: string;
-  search?: string;
-  category?: string;
-  material?: string;
-  brand?: string;
-  limit?: string;
-}
-
-export interface FilterState {
-  category: string;
-  size: string;
-  color: string;
-  gender: string;
-  brand: string;
-  minPrice: string;
-  maxPrice: string;
-  sortBy: string;
-  search: string;
-  material: string;
-  collection: string;
-}
-
-export interface ProductUpdateData {
-  name?: string;
-  price?: number;
-  description?: string;
-  category?: string;
-  size?: string[];
-  color?: string[];
-  stock?: number;
-  // add other updatable fields
-}
-
-export interface ProductsState {
-  products: Product[];
-  selectedProduct: Product | null;
-  similarProducts: Product[];
-  loading: boolean;
-  error: string | null;
-  filters: FilterState;
-}
+// ✅ Import all types from unified file
+import type {
+  Product,
+  ProductFilters,
+  FilterState,
+  ProductUpdateData,
+  ProductsState,
+} from "../types/product";
 
 // Thunks
 export const fetchProductsByFilters = createAsyncThunk<
@@ -115,7 +50,8 @@ export const fetchProductsByFilters = createAsyncThunk<
     if (limit) query.append("limit", limit);
 
     const response = await axios.get<Product[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,{withCredentials:true} // Fixed typo
+      `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (err) {
@@ -135,7 +71,8 @@ export const fetchProductDetails = createAsyncThunk<
 >("products/fetchProductDetails", async (id, { rejectWithValue }) => {
   try {
     const response = await axios.get<Product>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,{withCredentials:true}
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (err) {
@@ -157,8 +94,9 @@ export const updateProduct = createAsyncThunk<
   async ({ id, productData }, { rejectWithValue }) => {
     try {
       const response = await axios.put<Product>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, // Fixed URL template
-        productData,{withCredentials:true}
+        `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+        productData,
+        { withCredentials: true }
       );
       return response.data;
     } catch (err) {
@@ -179,7 +117,8 @@ export const fetchSimilarProducts = createAsyncThunk<
 >("products/fetchSimilarProducts", async ({ id }, { rejectWithValue }) => {
   try {
     const response = await axios.get<Product[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,{withCredentials:true}
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (err) {
@@ -206,7 +145,7 @@ const initialState: ProductsState = {
     gender: "",
     brand: "",
     minPrice: "",
-    maxPrice: "", // Added missing maxPrice
+    maxPrice: "",
     sortBy: "",
     search: "",
     material: "",
@@ -252,7 +191,7 @@ const productsSlice = createSlice({
         fetchProductsByFilters.fulfilled,
         (state, action: PayloadAction<Product[]>) => {
           state.loading = false;
-          state.products = Array.isArray(action.payload) ? action.payload : []; // Fixed property name
+          state.products = Array.isArray(action.payload) ? action.payload : [];
         }
       )
       .addCase(fetchProductsByFilters.rejected, (state, action) => {
@@ -267,13 +206,11 @@ const productsSlice = createSlice({
       .addCase(
         fetchProductDetails.fulfilled,
         (state, action: PayloadAction<Product>) => {
-          // Fixed action case
           state.loading = false;
           state.selectedProduct = action.payload;
         }
       )
       .addCase(fetchProductDetails.rejected, (state, action) => {
-        // Fixed action case
         state.loading = false;
         state.error = action.payload ?? "Failed to fetch product details";
       })
@@ -286,7 +223,7 @@ const productsSlice = createSlice({
         updateProduct.fulfilled,
         (state, action: PayloadAction<Product>) => {
           state.loading = false;
-          const updatedProduct = action.payload; // Fixed variable name
+          const updatedProduct = action.payload;
           const index = state.products.findIndex(
             (product) => product._id === updatedProduct._id
           );
@@ -315,7 +252,7 @@ const productsSlice = createSlice({
         fetchSimilarProducts.fulfilled,
         (state, action: PayloadAction<Product[]>) => {
           state.loading = false;
-          state.similarProducts = action.payload; // Fixed: should set similarProducts, not products
+          state.similarProducts = action.payload;
         }
       )
       .addCase(fetchSimilarProducts.rejected, (state, action) => {

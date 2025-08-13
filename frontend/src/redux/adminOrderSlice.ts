@@ -1,59 +1,26 @@
+// redux/adminOrderSlice.ts
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
+// ✅ Import all types from unified file
+import type { Order } from "../types/order";
 
-interface OrderItem {
-  productId: string;
-  name: string;
-  image: string;
-  price: number;
-  size?: string;
-  color?: string;
-  quantity: number;
-}
-
-interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-// Types
-interface Order {
-  _id: string;
-  user: {
-    id: string,
-    name: string,
-    email?:string,
-  };
-  orderItems: OrderItem[];
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  totalPrice: number;
-  isPaid: boolean;
-  paidAt?: Date;
-  isDelivered: boolean;
-  deliveredAt?: Date;
-  paymentStatus: string;
-  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
-  createdAt: Date;
-  updatedAt: Date;
-}
+// Admin-specific state interface (extends base with additional fields)
 export interface AdminOrderState {
   orders: Order[];
   totalOrders: number;
-  totalSales: number;
+  totalSales: number; // ✅ Admin-specific field
   loading: boolean;
   error: string | null;
 }
 
-// API response types - Fixed to be more specific
+// API response types
 interface FetchOrdersResponse {
-  orders: Order[]; // Made required since we expect this field
-  // adjust based on your actual API response structure
+  orders: Order[];
+  totalOrders?: number;
+  totalSales?: number;
 }
 
 // Alternative if your API sometimes returns direct array
@@ -67,7 +34,8 @@ export const fetchAllOrders = createAsyncThunk<
 >("adminOrders/fetchAllOrders", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<OrdersApiResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`, {withCredentials:true}
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
+      { withCredentials: true }
     );
 
     // Better type-safe handling
@@ -96,7 +64,8 @@ export const updateOrderStatus = createAsyncThunk<
     try {
       const response = await axios.put<Order>(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-        { status },{withCredentials:true}
+        { status },
+        { withCredentials: true }
       );
       return response.data;
     } catch (err) {
@@ -117,7 +86,8 @@ export const deleteOrder = createAsyncThunk<
 >("adminOrders/deleteOrder", async (id, { rejectWithValue }) => {
   try {
     await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,{withCredentials:true}
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
+      { withCredentials: true }
     );
     return id;
   } catch (err) {
@@ -144,7 +114,7 @@ const adminOrderSlice = createSlice({
   name: "adminOrders",
   initialState,
   reducers: {
-    // Added utility reducers for better state management
+    // Utility reducers for better state management
     clearOrders: (state) => {
       state.orders = [];
       state.totalOrders = 0;
@@ -172,7 +142,7 @@ const adminOrderSlice = createSlice({
           state.totalSales = action.payload.reduce((acc, order) => {
             return acc + order.totalPrice;
           }, 0);
-          state.error = null; // Clear any previous errors
+          state.error = null;
         }
       )
       .addCase(fetchAllOrders.rejected, (state, action) => {

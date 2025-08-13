@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import type { Product } from "../../redux/productsSlice";
+import type { Product } from "../../types/product";
 
 
 

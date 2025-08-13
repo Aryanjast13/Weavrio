@@ -12,7 +12,7 @@ import {
   updateUser,
 } from "../../redux/adminSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import type { User } from "../../redux/adminSlice";
+import type { User } from "../../types/user";
 
 
 // Define form data interface
@@ -22,10 +22,6 @@ interface UserFormData {
   password: string;
   role: "admin" | "customer";
 }
-
-
-
-
 
 
 

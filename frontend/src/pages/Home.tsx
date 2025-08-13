@@ -10,30 +10,7 @@ import ProductDetails from "../components/Product/ProductDetails";
 import ProductGrid from "../components/Product/ProductGrid";
 import { fetchProductsByFilters } from "../redux/productsSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-
-// Product interface (use the same from your Redux slice)
-export interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  originalPrice: number;
-  description: string;
-  brand: string;
-  material: string;
-  sizes: string[];
-  colors: string[];
-  images: Array<{
-    url: string;
-    altText: string;
-  }>;
-  category?: string;
-  gender?: string;
-  collection?: string;
-  stock?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  // add other fields as per your API
-}
+import type { Product } from "../types/product";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();

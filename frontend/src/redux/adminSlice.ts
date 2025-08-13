@@ -1,37 +1,21 @@
+// redux/adminSlice.ts
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
-// Types
-export interface User {
-  _id: string;
-  name: string;
-  email: string;
-  role: string;
-}
-
-export interface UserData {
-  name: string;
-  email: string;
-  role: string;
-  password?: string;
-  // add other fields needed for user creation
-}
-
-export interface UpdateUserData {
-  id: string;
-  role: string;
-}
-
-export interface AdminState {
-  users: User[];
-  loading: boolean;
-  error: string | null;
-}
+// ✅ Import all types from unified file
+import type {
+  User,
+  UserData,
+  UpdateUserData,
+  AdminState,
+  AddUserResponse,
+  DeleteUserResponse,
+} from "../types/user";
 
 // Thunks
-//fetch all users from db for admin
+// Fetch all users from db for admin
 export const fetchUsers = createAsyncThunk<
   User[],
   void,
@@ -51,20 +35,20 @@ export const fetchUsers = createAsyncThunk<
   }
 });
 
-//add a new user by admin
+// Add a new user by admin
 export const addUser = createAsyncThunk<
   User,
   UserData,
   { rejectValue: string }
 >("admin/addUser", async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post<{ user: User }>(
+    const response = await axios.post<AddUserResponse>(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
-      userData, {
-        withCredentials:true
-      }
+      userData,
+      { withCredentials: true }
     );
-    return response.data.user || response.data;
+    // Handle both possible response formats
+    return response.data.user || (response.data as any);
   } catch (err) {
     const error = err as AxiosError<any>;
     const message =
@@ -73,40 +57,42 @@ export const addUser = createAsyncThunk<
   }
 });
 
-//update a user by admin
+// Update a user by admin
 export const updateUser = createAsyncThunk<
   User,
   UpdateUserData,
   { rejectValue: string }
->(
-  "admin/updateUser",
-  async ({ id, role }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put<User>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
-        { name, role },{withCredentials:true}
-      );
-      return response.data;
-    } catch (err) {
-      const error = err as AxiosError<any>;
-      const message =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to update user";
-      return rejectWithValue(String(message));
-    }
-  }
-);
+>("admin/updateUser", async ({ id, name, role }, { rejectWithValue }) => {
+  try {
+    // ✅ Fixed: now properly destructures name and role
+    const updateData: Partial<UserData> = {};
+    if (name) updateData.name = name;
+    if (role) updateData.role = role;
 
-//delete a user by admin
+    const response = await axios.put<User>(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+      updateData,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    const error = err as AxiosError<any>;
+    const message =
+      error.response?.data?.message || error.message || "Failed to update user";
+    return rejectWithValue(String(message));
+  }
+});
+
+// Delete a user by admin
 export const deleteUser = createAsyncThunk<
   string,
   string,
   { rejectValue: string }
 >("admin/deleteUser", async (id, { rejectWithValue }) => {
   try {
-    await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,{withCredentials:true}
+    await axios.delete<DeleteUserResponse>(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+      { withCredentials: true }
     );
     return id;
   } catch (err) {
@@ -128,7 +114,16 @@ const initialState: AdminState = {
 const adminSlice = createSlice({
   name: "admin",
   initialState,
-  reducers: {},
+  reducers: {
+    // ✅ Added utility reducers for better state management
+    clearUsers: (state) => {
+      state.users = [];
+      state.error = null;
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch users
@@ -138,7 +133,8 @@ const adminSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
         state.loading = false;
-        state.users = action.payload; // Fixed: was setting to action.payload in rejected case
+        state.users = action.payload;
+        state.error = null;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
@@ -146,12 +142,12 @@ const adminSlice = createSlice({
       })
       // Add user
       .addCase(addUser.pending, (state) => {
-        state.loading = true; // Fixed: was false
+        state.loading = true;
         state.error = null;
       })
       .addCase(addUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.loading = false; // Fixed: was true
-        state.users.push(action.payload); // Fixed: removed .user since we return user directly
+        state.loading = false;
+        state.users.push(action.payload);
         state.error = null;
       })
       .addCase(addUser.rejected, (state, action) => {
@@ -165,7 +161,7 @@ const adminSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
-        const updatedUser = action.payload; // Fixed variable name
+        const updatedUser = action.payload;
         const userIndex = state.users.findIndex(
           (user) => user._id === updatedUser._id
         );
@@ -195,4 +191,5 @@ const adminSlice = createSlice({
   },
 });
 
+export const { clearUsers, clearError } = adminSlice.actions;
 export default adminSlice.reducer;

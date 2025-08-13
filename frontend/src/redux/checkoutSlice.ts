@@ -1,75 +1,35 @@
+// redux/checkoutSlice.ts
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
-// Types
-// CheckoutItem interface (subdocument)
-export interface CheckoutItem {
-  productId: string; // ObjectId as string in frontend
-  name: string;
-  image?: string |undefined;
-  price: number;
-  quantity: number;
-  size?: string; // Optional
-  color?: string; // Optional
-} 
-
-// Shipping Address interface
-interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-// Main Checkout interface
-export interface CheckoutData {
-  _id?: string; // MongoDB ObjectId as string
-  user?: string; // ObjectId as string in frontend
-  checkoutItems: CheckoutItem[];
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  totalPrice: number | undefined;
-  isPaid?: boolean;
-  paidAt?: Date; // Optional
-  paymentStatus?: string;
-  paymentDetails?: any; // Mixed type from schema
-  isFinalized?: boolean;
-  finalizedAt?: Date; // Optional
-  createdAt?: Date; // From timestamps: true
-  updatedAt?: Date; // From timestamps: true
-}
-
-
-export interface CheckoutSession {
-  sessionId: string;
-  paymentUrl?: string;
-  orderId?: string;
-  status: string;
-  totalAmount: number;
-  // add other response fields as per your API
-}
-
-export interface CheckoutState {
-  checkout: CheckoutSession | null;
-  loading: boolean;
-  error: string | null;
-}
-
-// Thunk
-//create a checkout for user
-export const createCheckout = createAsyncThunk<
-  CheckoutSession,
+// ✅ Import all types from single file
+import type {
   CheckoutData,
+  CheckoutState,
+  CreateCheckoutRequest,
+  CreateCheckoutResponse,
+} from "../types/checkout";
+
+// Thunk - Create a checkout for user
+export const createCheckout = createAsyncThunk<
+  CheckoutData,
+  CreateCheckoutRequest,
   { rejectValue: string }
 >("checkout/createCheckout", async (checkoutData, { rejectWithValue }) => {
   try {
-    const response = await axios.post<CheckoutSession>(
+    const response = await axios.post<CreateCheckoutResponse>(
       `${import.meta.env.VITE_BACKEND_URL}/api/checkout`,
-      checkoutData,{withCredentials:true}
+      checkoutData,
+      { withCredentials: true }
     );
-    return response.data;
+
+    // Return the checkout data with _id included
+    return {
+      ...response.data.checkout,
+      _id: response.data._id,
+    } as CheckoutData;
   } catch (err) {
     const error = err as AxiosError<any>;
     const message =
@@ -108,9 +68,9 @@ const checkoutSlice = createSlice({
       })
       .addCase(
         createCheckout.fulfilled,
-        (state, action: PayloadAction<CheckoutSession>) => {
+        (state, action: PayloadAction<CheckoutData>) => {
           state.loading = false;
-          state.checkout = action.payload; // Fixed: was setting error instead of checkout
+          state.checkout = action.payload;
           state.error = null;
         }
       )

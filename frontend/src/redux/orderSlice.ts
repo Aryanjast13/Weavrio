@@ -1,60 +1,11 @@
+// redux/orderSlice.ts
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import axios from "axios";
 
-// Types
-export interface OrderItem {
-  _id: string;
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  size?: string;
-  color?: string;
-  imageUrl?: string;
-}
-
-export interface Order {
-  _id: string;
-  user: {
-    id: string,
-    name:string,
-  };
-  items: OrderItem[];
-  totalAmount: number;
-  status: string;
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  createdAt: string;
-  updatedAt: string;
-  // add other order fields as per your API
-}
-
-export interface ShippingAddress {
-  firstName: string;
-  lastName: string;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  phone?: string;
-}
-
-export interface OrderDetails extends Order {
-  trackingNumber?: string;
-  estimatedDelivery?: string;
-  // add other detailed fields specific to order details
-}
-
-export interface OrderState {
-  orders: Order[];
-  totalOrders: number;
-  orderDetails: OrderDetails | null;
-  loading: boolean;
-  error: string | null;
-}
+// ✅ Import all types from unified file
+import type { Order, OrderDetails, OrderState } from "../types/order";
 
 // Thunks
 export const fetchUserOrders = createAsyncThunk<
@@ -64,7 +15,8 @@ export const fetchUserOrders = createAsyncThunk<
 >("order/fetchUserOrders", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get<Order[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`,{withCredentials:true}
+      `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (err) {
@@ -84,7 +36,8 @@ export const fetchOrderDetails = createAsyncThunk<
 >("order/fetchOrderDetails", async (orderId, { rejectWithValue }) => {
   try {
     const response = await axios.get<OrderDetails>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,{withCredentials:true}
+      `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (err) {
@@ -131,7 +84,7 @@ const orderSlice = createSlice({
         (state, action: PayloadAction<Order[]>) => {
           state.loading = false;
           state.orders = action.payload;
-          state.totalOrders = action.payload.length; // Calculate total orders
+          state.totalOrders = action.payload.length;
           state.error = null;
         }
       )
