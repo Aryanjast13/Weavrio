@@ -24,7 +24,7 @@ const Checkout: React.FC = () => {
 
   const [checkoutId, setCheckoutId] = useState<string | null>(null);
   const [isCreatingCheckout, setIsCreatingCheckout] = useState<boolean>(false);
-  const [razorpayOrder, setRazorpayOrder] = useState<any>(null);
+  const [_razorpayOrder, setRazorpayOrder] = useState<any>(null);
   const [isCreatingPaymentOrder, setIsCreatingPaymentOrder] =
     useState<boolean>(false);
 

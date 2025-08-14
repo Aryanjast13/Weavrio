@@ -1,9 +1,3 @@
-// types/order.ts
-
-// ============================================================================
-// CORE ORDER INTERFACES
-// ============================================================================
-
 // Order Item interface
 export interface OrderItem {
   _id: string;
@@ -48,14 +42,17 @@ export interface Order {
   deliveredAt?: Date;
   paymentStatus: string;
   status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Extended Order Details interface
 export interface OrderDetails extends Order {
   trackingNumber?: string;
   estimatedDelivery?: string;
+  shippingCost?: number; // Added - used in component
+  tax?: number; // Added - used in component
+  notes?: string; // Added - used in component
 }
 
 // Orders Redux State interface

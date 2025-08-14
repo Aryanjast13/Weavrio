@@ -1,19 +1,16 @@
-// types/checkout.ts
-
-// ============================================================================
-// CORE INTERFACES
-// ============================================================================
-
 // Checkout Item interface
 export interface CheckoutItem {
   _id?: string;
   productId: string;
   name: string;
-  image: string | undefined; // Required field
+  image: string; // Required field - every product should have an image
   price: number;
   quantity: number;
   size?: string;
   color?: string;
+  // Optional: Add these for better tracking
+  sku?: string;
+  category?: string;
 }
 
 // Shipping Address interface
@@ -39,6 +36,23 @@ export interface PaymentDetails {
   status?: string;
 }
 
+// Guest User interface
+export interface GuestUser {
+  guestId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+}
+
+// Order Status enum for consistency
+export type CheckoutStatus =
+  | "Pending"
+  | "Processing"
+  | "Completed"
+  | "Failed"
+  | "Cancelled";
+
 // Main Checkout Data interface
 export interface CheckoutData {
   _id?: string;
@@ -54,8 +68,9 @@ export interface CheckoutData {
   paymentDetails?: PaymentDetails;
   isFinalized: boolean;
   finalizedAt?: string; // ISO string from API
-  createdAt?: string; // ISO string from API
-  updatedAt?: string; // ISO string from API
+  status?: CheckoutStatus; // Add status tracking
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ============================================================================
@@ -112,20 +127,30 @@ declare global {
   }
 }
 
-// ============================================================================
-// REDUX STATE INTERFACES
-// ============================================================================
+
+// Checkout Error interface for better error handling
+export interface CheckoutError {
+  code: string;
+  message: string;
+  field?: string;
+}
+
+// Form Validation interface
+export interface FormValidation {
+  isValid: boolean;
+  errors: Record<string, string>;
+}
+
+
 
 // Redux state interface
 export interface CheckoutState {
   checkout: CheckoutData | null;
   loading: boolean;
-  error: string | null;
+  error: string | CheckoutError | null; // More flexible error handling
 }
 
-// ============================================================================
-// API REQUEST/RESPONSE INTERFACES
-// ============================================================================
+
 
 // Create Checkout Request interface
 export interface CreateCheckoutRequest {
@@ -152,6 +177,11 @@ export interface UpdatePaymentRequest {
   paymentDetails: PaymentDetails;
 }
 
+// Checkout Form Data interface
+export interface CheckoutFormData
+  extends Omit<CheckoutData, "_id" | "createdAt" | "updatedAt"> {
+  validation?: FormValidation;
+}
 
 
 // Address Change Handler type
@@ -160,3 +190,8 @@ export type AddressChangeHandler = (
   value: string
 ) => void;
 
+// Payment Handler type
+export type PaymentHandler = (paymentData: PaymentDetails) => Promise<void>;
+
+// Checkout Step type
+export type CheckoutStep = "cart" | "shipping" | "payment" | "confirmation";

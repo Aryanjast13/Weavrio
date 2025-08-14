@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { clearCart } from "../redux/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-
+import type { CheckoutState } from "../types/checkout";
 
 const OrderConfirmation = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { checkout } = useAppSelector(state => state.checkout);
+  const { checkout } = useAppSelector((state:{checkout:CheckoutState}) => state.checkout);
 
   //clear the cart when the order is confirmed
   useEffect(() => {
@@ -21,7 +21,7 @@ const OrderConfirmation = () => {
   
   
 
-  const calculateEstimatedDelivery = (createdAt) => {
+  const calculateEstimatedDelivery = (createdAt:string ) => {
     const orderDate = new Date(createdAt);
     orderDate.setDate(orderDate.getDate() + 10); //add 10 days to the order date
     return orderDate.toLocaleDateString();
@@ -57,7 +57,7 @@ const OrderConfirmation = () => {
           {/* Ordered Items */}
           <div className="mb-20">
             {checkout.checkoutItems.map((item) => (
-              <div key={item.prouductid} className="flex items-center mb-4">
+              <div key={item.productId} className="flex items-center mb-4">
                 <img
                   src={item.image}
                   alt={item.name}
@@ -65,12 +65,12 @@ const OrderConfirmation = () => {
                 />
                 <div>
                   <h4 className="text-md font-semibold">{item.name}</h4>
-                  <p className="text-sm text-gray">
+                  <p className="text-sm text-gray-500">
                     {item.color} | {item.size}
                   </p>
                 </div>
                 <div className="ml-auto text-right">
-                  <p className="text-md">${item.price}</p>
+                  <p className="text-md">₹{item.price}</p>
                   <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
               </div>
@@ -81,7 +81,7 @@ const OrderConfirmation = () => {
                       {/* Payment Info */}
                       <div>
                           <h4 className="text-lg font-medium mb-2">Payment</h4>
-                          <p className="text-gray-600">PayPal</p>
+              <p className="text-gray-600">{ checkout.paymentMethod || 'Razorpay'}</p>
                       </div>
                       {/* Deliver Info */}
                       <div>

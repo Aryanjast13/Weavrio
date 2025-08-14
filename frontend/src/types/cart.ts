@@ -1,15 +1,9 @@
-// types/cart.ts
-
-// ============================================================================
-// CORE CART INTERFACES
-// ============================================================================
-
 // Cart Product interface (matches your MongoDB cartItemSchema)
 export interface CartProduct {
-  productId: string; // ObjectId as string in frontend
+  productId: string; 
   name: string;
   image: string;
-  price: number; // Changed from string to number for frontend calculations
+  price: number; 
   quantity: number;
   size?: string;
   color?: string;
@@ -17,26 +11,23 @@ export interface CartProduct {
 
 // Cart interface (matches your MongoDB cartSchema)
 export interface Cart {
-  _id?: string; // MongoDB document ID
-  user?: string; // ObjectId as string (optional)
-  guestId?: string; // Optional for guest users
-  products: CartProduct[];
-  totalPrice: number; // Required field with default 0
-  totalItems?: number; // Calculated field
-  createdAt?: string; // From timestamps
-  updatedAt?: string; // From timestamps
+  _id?: string; 
+  user?: string; 
+  guestId?: string; 
+  products:CartProduct[],
+  totalPrice: number; 
+  totalItems?: number; 
+  createdAt?: string; 
+  updatedAt?: string; 
 }
 
 // Redux Cart State interface
 export interface CartState {
   cart: Cart;
   loading: boolean;
-  error: string | null;
+  error: string | null | undefined;
 }
 
-// ============================================================================
-// API PARAMETER INTERFACES
-// ============================================================================
 
 // Fetch Cart Parameters
 export interface FetchCartParams {
@@ -76,12 +67,9 @@ export interface RemoveFromCartParams {
 // Merge Cart Parameters (guest to user)
 export interface MergeCartParams {
   guestId: string;
-  userId: string;
+  user: string;
 }
 
-// ============================================================================
-// COMPONENT PROPS INTERFACES
-// ============================================================================
 
 // Cart Contents Component Props
 export interface CartContentsProps {
@@ -90,9 +78,6 @@ export interface CartContentsProps {
   guestId?: string;
 }
 
-// ============================================================================
-// API RESPONSE INTERFACES
-// ============================================================================
 
 // Add to Cart Response
 export interface AddToCartResponse {
@@ -121,10 +106,6 @@ export interface FetchCartResponse {
   cart: Cart;
   message?: string;
 }
-
-// ============================================================================
-// UTILITY TYPES
-// ============================================================================
 
 // Cart Item Handler function types
 export type CartItemHandler = (

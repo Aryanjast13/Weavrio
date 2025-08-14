@@ -3,63 +3,7 @@ import { Link, useParams } from "react-router";
 import { fetchOrderDetails } from "../redux/orderSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
-// Types - आपके comprehensive interfaces से
-interface OrderUser {
-  _id?: string;
-  name: string;
-  email: string;
-}
-
-interface OrderItem {
-  _id: string;
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  size?: string;
-  color?: string;
-  image?: string;
-}
-
-interface ShippingAddress {
-  firstName: string;
-  lastName: string;
-  address: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-  phone?: string;
-}
-
-interface OrderDetails {
-  _id: string;
-  user: OrderUser;
-  orderItems: OrderItem[];
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  totalPrice: number;
-  isPaid: boolean;
-  paidAt?: Date;
-  isDelivered: boolean;
-  deliveredAt?: Date;
-  paymentStatus: string;
-  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
-  createdAt: Date;
-  updatedAt: Date;
-  // Extended fields
-  trackingNumber?: string;
-  estimatedDelivery?: string;
-  shippingCost?: number;
-  tax?: number;
-  notes?: string;
-}
-
-interface OrderState {
-  orderDetails: OrderDetails | null;
-  loading: boolean;
-  error: string | null;
-}
+import type { OrderState, OrderItem} from "../types/order";
 
 const OrderDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -81,7 +25,7 @@ const OrderDetailPage: React.FC = () => {
     return `₹${amount.toFixed(2)}`;
   };
 
-  const formatDate = (date: Date): string => {
+  const formatDate = (date: string | Date): string => {
     try {
       return new Date(date).toLocaleDateString("en-US", {
         year: "numeric",

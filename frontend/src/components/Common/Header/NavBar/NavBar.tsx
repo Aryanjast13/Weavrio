@@ -2,10 +2,10 @@ import { useState } from "react";
 import { HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi";
 import { HiBars3BottomRight } from "react-icons/hi2";
 import { IoMdClose } from "react-icons/io";
-import { Link, useFormAction } from "react-router";
+import { Link } from "react-router";
+import { useAppSelector } from "../../../../redux/store";
 import CartDrawer from "../CartDrawer";
 import SearchBar from "./SearchBar";
-import { useAppSelector } from "../../../../redux/store";
 
 const NavBar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
