@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+dotenv.config();
 
 // Remove this - dotenv.config() is already called in server.js
 // dotenv.config();
