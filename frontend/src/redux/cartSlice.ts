@@ -72,7 +72,7 @@ export const addToCart = createAsyncThunk<
 >("cart/addToCart", async (params, { rejectWithValue }) => {
   try {
     const response = await axios.post<AddToCartResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/add`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
       params,
       { withCredentials: true }
     );
@@ -93,7 +93,7 @@ export const updateCartItemQuantity = createAsyncThunk<
 >("cart/updateCartItemQuantity", async (params, { rejectWithValue }) => {
   try {
     const response = await axios.put<UpdateCartResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/update`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
       params,
       { withCredentials: true }
     );
@@ -114,7 +114,7 @@ export const removeFromCart = createAsyncThunk<
 >("cart/removeFromCart", async (params, { rejectWithValue }) => {
   try {
     const response = await axios.delete<RemoveFromCartResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/remove`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
       {
         data: params,
         withCredentials: true,
