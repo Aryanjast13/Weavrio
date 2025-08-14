@@ -25,18 +25,30 @@ app.use(cors({
     credentials:true
 }));
 app.use(cookieParser());
-app.use(urlencoded());
+app.use(urlencoded({extended:true}));
 
 const PORT = 8000;
 
-//Connect to MongoDb
-connectDB();
 
-app.get("/", (req, res) => {
-    res.send("Welcome to Weavrio");
-});
 
-app.use("/api/users", userRoutes);
+
+
+
+
+
+// Connect to MongoDB and start server
+const startServer = async () => {
+    try {
+        await connectDB(); // Wait for DB connection
+        
+        // Routes setup after successful DB connection
+        app.get("/", (req, res) => {
+            res.send("Welcome to Weavrio");
+        });
+
+ 
+
+        app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/checkout", checkoutRoutes);
@@ -49,8 +61,15 @@ app.use("/api/admin/users", adminRoutes);
 app.use("/api/admin/products", productAdminRoutes)
 app.use("/api/admin/orders",orderAdminRoutes)
 
-app.listen(PORT, () => {
-    console.log(`server is running on https://localhost:${PORT}`);
-});
 
 
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error("Failed to start server:", error);
+        process.exit(1);
+    }
+};
+
+startServer();
