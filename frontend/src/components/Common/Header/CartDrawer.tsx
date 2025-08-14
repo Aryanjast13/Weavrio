@@ -12,6 +12,7 @@ const CartDrawer = ({ drawerOpen, handleDrawerToggle }: Props) => {
   const navigate = useNavigate();
   const { user, guestId } = useAppSelector((state) => state.auth);
   const { cart } = useAppSelector((state) => state.cart);
+  
 
   // ✅ Fix: Use undefined instead of null to match expected type
   const userId = user ? user?._id : undefined;

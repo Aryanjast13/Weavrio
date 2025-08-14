@@ -17,12 +17,15 @@ const Home: React.FC = () => {
   const { products, loading, error } = useAppSelector(
     (state) => state.products
   );
+  
   const [bestSellerProduct, setBestSellerProduct] = useState<Product | null>(
     null
   );
   const [bestSellerLoading, setBestSellerLoading] = useState<boolean>(true);
   const [bestSellerError, setBestSellerError] = useState<string | null>(null);
 
+   
+  
   useEffect(() => {
     // Fetch products for a specific collection
     dispatch(
@@ -32,6 +35,8 @@ const Home: React.FC = () => {
         limit: "8", // Convert to string as expected by your Redux slice
       })
     );
+
+   
 
     // Fetch best seller product
     const fetchBestSeller = async (): Promise<void> => {

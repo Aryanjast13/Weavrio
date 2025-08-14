@@ -10,7 +10,6 @@ import type {
   Cart,
   CartState,
   FetchCartParams,
-  FetchCartResponse,
   MergeCartParams,
   RemoveFromCartParams,
   RemoveFromCartResponse,
@@ -51,12 +50,14 @@ export const fetchCart = createAsyncThunk<
     if (params.userId) queryParams.append("userId", params.userId);
     if (params.guestId) queryParams.append("guestId", params.guestId);
 
-    const response = await axios.get<FetchCartResponse>(
+    const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart?${queryParams}`,
       { withCredentials: true }
     );
 
-    return response.data.cart;
+
+    console.log(response.data);
+    return response.data;
   } catch (err) {
     const error = err as AxiosError<any>;
     return rejectWithValue(

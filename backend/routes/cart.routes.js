@@ -146,6 +146,7 @@ router.delete("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
     const { userId, guestId } = req.query;
+    console.log(userId, guestId);
     try {
         const cart = await getCart(userId, guestId);
         
@@ -165,7 +166,7 @@ router.get("/", async (req, res) => {
 //@desc Merge guest cart into user cart on login
 //@access Private
 
-router.post("/merge", protectRoute, async (req, res) => {
+router.post("/merge",protectRoute, protectRoute, async (req, res) => {
     const { guestId } = req.body;
 
     try {
