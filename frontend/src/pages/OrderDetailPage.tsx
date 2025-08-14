@@ -143,7 +143,6 @@ const OrderDetailPage: React.FC = () => {
               <p>Address: {orderDetails.shippingAddress.address}</p>
               <p>
                 City: {orderDetails.shippingAddress.city},{" "}
-                {orderDetails.shippingAddress.state}
               </p>
               <p>Country: {orderDetails.shippingAddress.country}</p>
               <p>Postal Code: {orderDetails.shippingAddress.postalCode}</p>
