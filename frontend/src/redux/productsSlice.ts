@@ -21,7 +21,7 @@ export const fetchProductsByFilters = createAsyncThunk<
 >("products/fetchByFilters", async (filters, { rejectWithValue }) => {
   try {
     const {
-      collection,
+      collections,
       size,
       color,
       gender,
@@ -36,7 +36,7 @@ export const fetchProductsByFilters = createAsyncThunk<
     } = filters;
 
     const query = new URLSearchParams();
-    if (collection) query.append("collection", collection);
+    if (collections) query.append("collection", collections);
     if (size) query.append("size", size);
     if (color) query.append("color", color);
     if (gender) query.append("gender", gender);
@@ -149,7 +149,7 @@ const initialState: ProductsState = {
     sortBy: "",
     search: "",
     material: "",
-    collection: "",
+    collections: "",
   },
 };
 
@@ -173,7 +173,7 @@ const productsSlice = createSlice({
         sortBy: "",
         search: "",
         material: "",
-        collection: "",
+        collections: "",
       };
     },
     clearSelectedProduct: (state) => {

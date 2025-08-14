@@ -1,46 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { fetchUserOrders } from "../redux/orderSlice";
+import { fetchUserOrders } from "../redux/orderSlice.ts";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-
-
-interface OrderItem {
-  productId: string;
-  name: string;
-  image?: string;
-  price: number;
-  size?: string;
-  color?: string;
-  quantity: number;
-}
-
-interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
-// Your complete Order interface (from previous conversation)
-interface Order {
-  _id: string;
-  user: {
-    name: string;
-    email: string;
-  };
-  orderItems: OrderItem[];        // ← Missing in first interface
-  shippingAddress: ShippingAddress;
-  paymentMethod: string;
-  totalPrice: number;             // ← Missing in first interface
-  isPaid: boolean;                // ← Missing in first interface
-  paidAt?: Date;
-  isDelivered: boolean;           // ← Missing in first interface
-  deliveredAt?: Date;
-  paymentStatus: string;          // ← Missing in first interface
-  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
-  createdAt: Date;
-  updatedAt: Date;
-}
+// Import types from your type file
+import type {
+  Order,
+  ShippingAddress
+} from "../types/order.ts"; // Adjust path as needed
 
 const MyOrdersPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +19,9 @@ const MyOrdersPage: React.FC = () => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
 
-  const formatDate = (date: Date): string => {
+  // ✅ Updated to handle string dates from API
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "short",
@@ -63,8 +31,16 @@ const MyOrdersPage: React.FC = () => {
     }).format(date);
   };
 
+  // ✅ Updated to handle new ShippingAddress interface
   const formatShippingAddress = (address: ShippingAddress): string => {
-    return `${address.city}, ${address.country}`;
+    // Handle the new required fields in ShippingAddress
+    const fullName = `${address.firstName || ""} ${
+      address.lastName || ""
+    }`.trim();
+    const location = [address.city,  address.country]
+      .filter(Boolean)
+      .join(", ");
+    return fullName ? `${fullName}, ${location}` : location;
   };
 
   const getStatusBadge = (isPaid: boolean) => (
@@ -77,7 +53,7 @@ const MyOrdersPage: React.FC = () => {
     </span>
   );
 
-  const handleRowClick = (orderId:string) => {
+  const handleRowClick = (orderId: string) => {
     navigate(`/order/${orderId}`);
   };
 
@@ -121,7 +97,7 @@ const MyOrdersPage: React.FC = () => {
                   </div>
                 </td>
               </tr>
-            ) : /* ✅ Use global orders state */ orders.length > 0 ? (
+            ) : orders.length > 0 ? (
               orders.map((order: Order) => (
                 <tr
                   key={order._id}
@@ -130,17 +106,22 @@ const MyOrdersPage: React.FC = () => {
                 >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     <img
-                      src={order.orderItems[0]?.image}
+                      src={
+                        order.orderItems[0]?.image || "/placeholder-image.jpg"
+                      }
                       alt={order.orderItems[0]?.name || "Product"}
                       className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg"
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = "/placeholder-image.jpg";
+                      }}
                     />
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
-                    #{order._id}
+                    #{order._id.slice(-8)}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {formatDate(new Date(order.createdAt))}
+                    {formatDate(order.createdAt)}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     {formatShippingAddress(order.shippingAddress)}
