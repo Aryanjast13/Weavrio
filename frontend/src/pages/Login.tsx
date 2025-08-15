@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router"; // Actually fixed the import
+import { Link, useNavigate } from "react-router"; // Actually fixed the import
 import login from "../assets/login.webp";
 import { loginUser } from "../redux/authSlice";
-import { mergeCart } from "../redux/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
 // Types for better type safety
@@ -18,40 +17,20 @@ const Login: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  
 
-  const { user, guestId, loading, error } = useAppSelector(
+  const { user, loading, error } = useAppSelector(
     (state) => state.auth
   );
-  const { cart } = useAppSelector((state) => state.cart);
+  
+      useEffect(()=>{
+        if (user) {
+          navigate("/");
+          console.log("Sfdsfdsfsf")
+        }
 
-  // Get redirect parameter and check if it's checkout
-  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
-  const isCheckoutRedirect = redirect.includes("checkout");
-
-  useEffect(() => {
-    if (user) {
-      // Fixed: cart?.products.length > 0 instead of ? 0
-      if (cart?.products && cart.products.length > 0 && guestId) {
-        dispatch(
-          mergeCart({
-            guestId,
-            user: user._id, // Fixed: pass user ID instead of user object
-          })
-        )
-          .then(() => {
-            navigate(isCheckoutRedirect ? "/checkout" : "/");
-          })
-          .catch((error) => {
-            console.error("Failed to merge cart:", error);
-            // Still navigate even if merge fails
-            navigate(isCheckoutRedirect ? "/checkout" : "/");
-          });
-      } else {
-        navigate(isCheckoutRedirect ? "/checkout" : "/");
-      }
-    }
-  }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
+      },[user])
+  
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -155,7 +134,7 @@ const Login: React.FC = () => {
           <p className="mt-6 text-center text-sm">
             Don't have an account?{" "}
             <Link
-              to={`/register?redirect=${encodeURIComponent(redirect)}`}
+              to={`/register}`}
               className="text-blue-500 hover:underline"
             >
               Register

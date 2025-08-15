@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router";
 import { fetchOrderDetails } from "../redux/orderSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
-import type { OrderState, OrderItem} from "../types/order";
+import type { OrderItem, OrderState } from "../types/order";
 
 const OrderDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -112,9 +112,7 @@ const OrderDetailPage: React.FC = () => {
               >
                 {orderDetails.isDelivered ? "Delivered" : "Processing"}
               </span>
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                Status: {orderDetails.status}
-              </span>
+             
               {orderDetails.trackingNumber && (
                 <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium mt-2">
                   Tracking: {orderDetails.trackingNumber}
@@ -137,7 +135,7 @@ const OrderDetailPage: React.FC = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Shipping Info</h4>
               <p>
-                Name: {orderDetails.shippingAddress.firstName}{" "}
+                Name: {orderDetails.shippingAddress.firstName}
                 {orderDetails.shippingAddress.lastName}
               </p>
               <p>Address: {orderDetails.shippingAddress.address}</p>

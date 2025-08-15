@@ -38,7 +38,6 @@ export interface PaymentDetails {
 
 // Guest User interface
 export interface GuestUser {
-  guestId: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -56,26 +55,22 @@ export type CheckoutStatus =
 // Main Checkout Data interface
 export interface CheckoutData {
   _id?: string;
-  user?: string; // Optional for guest checkout
-  guestId?: string; // For guest users
+  user?: string; 
   checkoutItems: CheckoutItem[];
   shippingAddress: ShippingAddress;
   paymentMethod: string;
   totalPrice: number;
   isPaid: boolean;
-  paidAt?: string; // ISO string from API
+  paidAt?: string; 
   paymentStatus: string;
   paymentDetails?: PaymentDetails;
   isFinalized: boolean;
-  finalizedAt?: string; // ISO string from API
-  status?: CheckoutStatus; // Add status tracking
+  finalizedAt?: string; 
+  status?: CheckoutStatus; 
   createdAt: string;
   updatedAt: string;
 }
 
-// ============================================================================
-// RAZORPAY INTERFACES
-// ============================================================================
 
 // Razorpay Response interface
 export interface RazorpayResponse {
@@ -159,7 +154,6 @@ export interface CreateCheckoutRequest {
   paymentMethod: string;
   totalPrice: number;
   user?: string;
-  guestId?: string;
 }
 
 // Create Checkout Response interface

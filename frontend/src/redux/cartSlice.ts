@@ -6,15 +6,11 @@ import axios from "axios";
 // ✅ Import all types from unified file
 import type {
   AddToCartParams,
-  AddToCartResponse,
   Cart,
   CartState,
   FetchCartParams,
-  MergeCartParams,
   RemoveFromCartParams,
-  RemoveFromCartResponse,
-  UpdateCartItemParams,
-  UpdateCartResponse
+  UpdateCartItemParams
 } from "../types/cart";
 
 // Helper functions
@@ -48,15 +44,13 @@ export const fetchCart = createAsyncThunk<
   try {
     const queryParams = new URLSearchParams();
     if (params.userId) queryParams.append("userId", params.userId);
-    if (params.guestId) queryParams.append("guestId", params.guestId);
-
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart?${queryParams}`,
       { withCredentials: true }
     );
 
 
-    console.log(response.data);
+     
     return response.data;
   } catch (err) {
     const error = err as AxiosError<any>;
@@ -72,13 +66,13 @@ export const addToCart = createAsyncThunk<
   { rejectValue: string }
 >("cart/addToCart", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.post<AddToCartResponse>(
+    const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
       params,
       { withCredentials: true }
     );
 
-    return response.data.cart;
+    return response.data;
   } catch (err) {
     const error = err as AxiosError<any>;
     return rejectWithValue(
@@ -93,13 +87,13 @@ export const updateCartItemQuantity = createAsyncThunk<
   { rejectValue: string }
 >("cart/updateCartItemQuantity", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.put<UpdateCartResponse>(
+    const response = await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
       params,
       { withCredentials: true }
     );
 
-    return response.data.cart;
+    return response.data;
   } catch (err) {
     const error = err as AxiosError<any>;
     return rejectWithValue(
@@ -114,7 +108,7 @@ export const removeFromCart = createAsyncThunk<
   { rejectValue: string }
 >("cart/removeFromCart", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.delete<RemoveFromCartResponse>(
+    const response = await axios.delete(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
       {
         data: params,
@@ -122,7 +116,7 @@ export const removeFromCart = createAsyncThunk<
       }
     );
 
-    return response.data.cart;
+    return response.data;
   } catch (err) {
     const error = err as AxiosError<any>;
     return rejectWithValue(
@@ -131,26 +125,6 @@ export const removeFromCart = createAsyncThunk<
   }
 });
 
-export const mergeCart = createAsyncThunk<
-  Cart,
-  MergeCartParams,
-  { rejectValue: string }
->("cart/mergeCart", async (params, { rejectWithValue }) => {
-  try {
-    const response = await axios.post<AddToCartResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,
-      params,
-      { withCredentials: true }
-    );
-
-    return response.data.cart;
-  } catch (err) {
-    const error = err as AxiosError<any>;
-    return rejectWithValue(
-      error.response?.data?.message || "Failed to merge cart"
-    );
-  }
-});
 
 // Initial state
 const initialState: CartState = {
@@ -234,20 +208,7 @@ const cartSlice = createSlice({
         state.error = action.payload ?? "Failed to remove from cart";
       })
 
-      // Merge Cart
-      .addCase(mergeCart.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(mergeCart.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cart = action.payload;
-        saveCartToStorage(state.cart);
-      })
-      .addCase(mergeCart.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload ?? "Failed to merge cart";
-      });
+      
   },
 });
 

@@ -8,8 +8,7 @@ import axios from "axios";
 import type {
   CheckoutData,
   CheckoutState,
-  CreateCheckoutRequest,
-  CreateCheckoutResponse,
+  CreateCheckoutRequest
 } from "../types/checkout";
 
 // Thunk - Create a checkout for user
@@ -19,15 +18,17 @@ export const createCheckout = createAsyncThunk<
   { rejectValue: string }
 >("checkout/createCheckout", async (checkoutData, { rejectWithValue }) => {
   try {
-    const response = await axios.post<CreateCheckoutResponse>(
+    const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/checkout`,
       checkoutData,
       { withCredentials: true }
     );
 
+
+    console.log(response.data);
     // Return the checkout data with _id included
     return {
-      ...response.data.checkout,
+      ...response.data,
       _id: response.data._id,
     } as CheckoutData;
   } catch (err) {

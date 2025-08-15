@@ -24,7 +24,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
   const { selectedProduct, loading, error, similarProducts } = useAppSelector(
     (state) => state.products
   );
-  const { user, guestId } = useAppSelector((state) => state.auth);
+  const { user,  } = useAppSelector((state) => state.auth);
 
   // State with proper TypeScript typing
   const [mainImage, setMainImage] = useState<string | null>(null);
@@ -83,7 +83,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
           quantity,
           size: selectedSize,
           color: selectedColor,
-          guestId,
           userId: user?._id,
         })
       ).unwrap(); // unwrap to handle rejections
