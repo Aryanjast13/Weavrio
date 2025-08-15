@@ -21,7 +21,7 @@ const SortOptions = () => {
       >
         <option value="">Default</option>
         <option value="priceAsc">Price: Low to High</option>
-        <option value="priceDes">Price: High to Low</option>
+        <option value="priceDesc">Price: High to Low</option>
         <option value="popularity">Popularity</option>
       </select>
     </div>
