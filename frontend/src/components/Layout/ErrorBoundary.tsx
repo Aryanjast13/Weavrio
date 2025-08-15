@@ -1,7 +1,9 @@
 import { useNavigate, useRouteError } from "react-router";
 
-const  ErrorBoundary = () =>{
-  const error = useRouteError();
+
+
+const ErrorBoundary = () => {
+  const error = useRouteError() as Error;
   const navigate = useNavigate();
 
   return (
@@ -12,6 +14,6 @@ const  ErrorBoundary = () =>{
       <button onClick={() => navigate(-1)}>Go Back</button>
     </div>
   );
-}
+};
 
 export default ErrorBoundary;
