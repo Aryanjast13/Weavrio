@@ -10,9 +10,9 @@ interface Props {
 
 const CartDrawer = ({ drawerOpen, handleDrawerToggle }: Props) => {
   const navigate = useNavigate();
-  const { user, guestId } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
   const { cart } = useAppSelector((state) => state.cart);
-  
+ 
 
   // ✅ Fix: Use undefined instead of null to match expected type
   const userId = user ? user?._id : undefined;
@@ -44,7 +44,7 @@ const CartDrawer = ({ drawerOpen, handleDrawerToggle }: Props) => {
         <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
         {/* Component for Cart content */}
         {cart && cart?.products?.length > 0 ? (
-          <CartContents cart={cart} userId={userId} guestId={guestId} />
+          <CartContents cart={cart} userId={userId} />
         ) : (
           <p>Your cart is empty</p>
         )}

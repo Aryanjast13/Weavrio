@@ -8,6 +8,7 @@ import Hero from "../components/Home/Hero";
 import NewArrivals from "../components/Home/NewArrivals";
 import ProductDetails from "../components/Product/ProductDetails";
 import ProductGrid from "../components/Product/ProductGrid";
+import { fetchCart } from "../redux/cartSlice";
 import { fetchProductsByFilters } from "../redux/productsSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import type { Product } from "../types/product";
@@ -17,14 +18,23 @@ const Home: React.FC = () => {
   const { products, loading, error } = useAppSelector(
     (state) => state.products
   );
-  
+  const {user,} = useAppSelector(state=>state.auth)
   const [bestSellerProduct, setBestSellerProduct] = useState<Product | null>(
     null
   );
   const [bestSellerLoading, setBestSellerLoading] = useState<boolean>(true);
   const [bestSellerError, setBestSellerError] = useState<string | null>(null);
 
-   
+   const userId = user ? user?._id : undefined;
+
+  useEffect(() => {
+     if (userId ) {
+     dispatch(fetchCart({ userId,  }));
+      
+     }
+    
+    
+  },[]);
   
   useEffect(() => {
     // Fetch products for a specific collection

@@ -16,14 +16,12 @@ export interface User {
 
 export interface AuthState {
   user: User | null;
-  guestId: string;
   loading: boolean;
   error: string | null;
 }
 
 // LocalStorage keys
 const USER_INFO_KEY = "userInfo";
-const GUEST_ID_KEY = "guestId";
 
 // Helpers
 const getStoredUser = (): User | null => {
@@ -36,14 +34,10 @@ const getStoredUser = (): User | null => {
   }
 };
 
-// Guest id
-const initialGuestId = localStorage.getItem(GUEST_ID_KEY) || `guest_${new Date().getTime()}`;
-localStorage.setItem(GUEST_ID_KEY, initialGuestId);
 
 // Initial state
 const initialState: AuthState = {
   user: getStoredUser(),
-  guestId: initialGuestId,
   loading: false,
   error: null,
 };
@@ -109,14 +103,9 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      state.guestId = `guest_${new Date().getTime()}`;
       localStorage.removeItem(USER_INFO_KEY);
-      localStorage.setItem(GUEST_ID_KEY, state.guestId);
     },
-    generateNewGuestId: (state) => {
-      state.guestId = `guest_${new Date().getTime()}`;
-      localStorage.setItem(GUEST_ID_KEY, state.guestId);
-    },
+   
   },
   extraReducers: (builder) => {
     // login
@@ -130,7 +119,6 @@ const authSlice = createSlice({
         state.user = action.payload;
         console.log(action.payload);
         localStorage.setItem(USER_INFO_KEY, JSON.stringify(action.payload));
-        localStorage.setItem("Sfsdf", "Sfsfsdfds");
 
         state.error = null;
       })
@@ -159,5 +147,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, generateNewGuestId } = authSlice.actions;
+export const { logout} = authSlice.actions;
 export default authSlice.reducer;

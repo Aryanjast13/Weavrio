@@ -14,7 +14,6 @@ import type {
 const CartContents: React.FC<CartContentsProps> = ({
   cart,
   userId,
-  guestId,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -32,7 +31,6 @@ const CartContents: React.FC<CartContentsProps> = ({
         updateCartItemQuantity({
           productId,
           quantity: newQuantity,
-          guestId,
           userId,
           size,
           color,
@@ -46,7 +44,6 @@ const CartContents: React.FC<CartContentsProps> = ({
     dispatch(
       removeFromCart({
         productId,
-        guestId,
         userId,
         size,
         color,

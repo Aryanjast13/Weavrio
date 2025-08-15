@@ -13,7 +13,6 @@ export interface CartProduct {
 export interface Cart {
   _id?: string; 
   user?: string; 
-  guestId?: string; 
   products:CartProduct[],
   totalPrice: number; 
   totalItems?: number; 
@@ -32,7 +31,6 @@ export interface CartState {
 // Fetch Cart Parameters
 export interface FetchCartParams {
   userId?: string;
-  guestId?: string;
 }
 
 // Add to Cart Parameters
@@ -41,7 +39,6 @@ export interface AddToCartParams {
   quantity: number;
   size?: string;
   color?: string;
-  guestId?: string;
   userId?: string;
 }
 
@@ -49,7 +46,6 @@ export interface AddToCartParams {
 export interface UpdateCartItemParams {
   productId: string;
   quantity: number;
-  guestId?: string;
   userId?: string;
   size?: string;
   color?: string;
@@ -58,7 +54,6 @@ export interface UpdateCartItemParams {
 // Remove from Cart Parameters
 export interface RemoveFromCartParams {
   productId: string;
-  guestId?: string;
   userId?: string;
   size?: string;
   color?: string;
@@ -66,7 +61,6 @@ export interface RemoveFromCartParams {
 
 // Merge Cart Parameters (guest to user)
 export interface MergeCartParams {
-  guestId: string;
   user: string;
 }
 
@@ -75,7 +69,6 @@ export interface MergeCartParams {
 export interface CartContentsProps {
   cart: Cart;
   userId?: string;
-  guestId?: string;
 }
 
 
