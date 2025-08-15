@@ -1,26 +1,28 @@
 import { useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../redux/store"
-import MyOrdersPage from "./MyOrdersPage"
-import { useEffect } from "react";
-import { logout } from "../redux/authSlice";
+import { logoutUser } from "../redux/authSlice";
 import { clearCart } from "../redux/cartSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import MyOrdersPage from "./MyOrdersPage";
 
 const Profile = () => {
-  const { user } = useAppSelector(state => state.auth);
+  const { user ,loading,error } = useAppSelector(state => state.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
+  
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     dispatch(clearCart());
     navigate("/login");
   };
+
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  if (error) {
+    <p>error</p>
+  }
 
   return (
       <div className="min-h-screen flex flex-col">

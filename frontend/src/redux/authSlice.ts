@@ -14,6 +14,8 @@ export interface User {
   // add any other fields you store
 }
 
+
+
 export interface AuthState {
   user: User | null;
   loading: boolean;
@@ -74,7 +76,7 @@ export const registerUser = createAsyncThunk<
   { rejectValue: string }
 >("auth/registerUser", async (userData, { rejectWithValue }) => {
   try {
-    const res = await axios.post<User>(
+    const res = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
         userData,
       {withCredentials:true}
@@ -96,15 +98,35 @@ export const registerUser = createAsyncThunk<
   }
 });
 
+// Thunks
+export const logoutUser = createAsyncThunk<User,void,{ rejectValue: string }>
+  ("auth/logoutUser", async ( _ ,{ rejectWithValue }) => {
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/logout`,{},
+      { withCredentials: true }
+    );
+    return res.data;
+  } catch (err) {
+    // More specific error handling
+    if (axios.isAxiosError(err)) {
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "Logout failed";
+      return rejectWithValue(message);
+    }
+
+    // Handle non-axios errors
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
 // Slice
 const authSlice = createSlice({
   name: "auth",
   initialState, // fixed: use initialState here (not inside reducers)
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      localStorage.removeItem(USER_INFO_KEY);
-    },
    
   },
   extraReducers: (builder) => {
@@ -117,18 +139,16 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
         state.user = action.payload;
-        console.log(action.payload);
         localStorage.setItem(USER_INFO_KEY, JSON.stringify(action.payload));
 
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? "Login failed"; // fixed: set error
-      });
+        state.error = action.payload ?? "Login failed";
+      })
 
     // register
-    builder
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -142,10 +162,27 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? "Registration failed"; // fixed
+        state.error = action.payload ?? "Registration failed"; 
+      })
+  
+
+   // logout
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null; 
+        localStorage.removeItem(USER_INFO_KEY);
+        localStorage.removeItem("cart");
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "logout failed";
       });
   },
 });
 
-export const { logout} = authSlice.actions;
 export default authSlice.reducer;

@@ -18,24 +18,43 @@ const Home: React.FC = () => {
   const { products, loading, error } = useAppSelector(
     (state) => state.products
   );
-  const {user,} = useAppSelector(state=>state.auth)
+  const { user } = useAppSelector((state) => state.auth);
   const [bestSellerProduct, setBestSellerProduct] = useState<Product | null>(
     null
   );
   const [bestSellerLoading, setBestSellerLoading] = useState<boolean>(true);
   const [bestSellerError, setBestSellerError] = useState<string | null>(null);
 
-   const userId = user ? user?._id : undefined;
+  const userId = user ? user?._id : undefined;
 
   useEffect(() => {
-     if (userId ) {
-     dispatch(fetchCart({ userId,  }));
-      
-     }
-    
-    
-  },[]);
-  
+    if (userId) {
+      dispatch(fetchCart({ userId }));
+    }
+  }, []);
+
+  // Fetch best seller product
+  const fetchBestSeller = async (): Promise<void> => {
+    try {
+      setBestSellerLoading(true);
+      setBestSellerError(null);
+      const response = await axios.get<Product>(
+        `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`
+      );
+      setBestSellerProduct(response.data);
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to fetch best seller";
+      setBestSellerError(errorMessage);
+      console.error("Error fetching best seller:", errorMessage);
+    } finally {
+      setBestSellerLoading(false);
+    }
+  };
+
   useEffect(() => {
     // Fetch products for a specific collection
     dispatch(
@@ -45,30 +64,6 @@ const Home: React.FC = () => {
         limit: "8", // Convert to string as expected by your Redux slice
       })
     );
-
-   
-
-    // Fetch best seller product
-    const fetchBestSeller = async (): Promise<void> => {
-      try {
-        setBestSellerLoading(true);
-        setBestSellerError(null);
-        const response = await axios.get<Product>(
-          `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`
-        );
-        setBestSellerProduct(response.data);
-      } catch (err) {
-        const error = err as AxiosError<{ message?: string }>;
-        const errorMessage =
-          error.response?.data?.message ||
-          error.message ||
-          "Failed to fetch best seller";
-        setBestSellerError(errorMessage);
-        console.error("Error fetching best seller:", errorMessage);
-      } finally {
-        setBestSellerLoading(false);
-      }
-    };
 
     fetchBestSeller();
   }, [dispatch]);
