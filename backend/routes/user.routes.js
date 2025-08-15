@@ -78,6 +78,29 @@ router.post("/login", async (req, res) => {
     }
 })
 
+
+router.post("/logout", protectRoute, async (req, res) => {
+  const user = req.user;
+  try {
+    if (user) {
+    res.status(200)
+      .clearCookie("accessToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      }).json({ message: "successfull logged out" });
+    return;
+  }
+  else {
+     res.status(400).json({ message: "No Token Provieded" });
+}  } 
+  catch (error) {
+    console.log("Error in logout controller",error.message);
+    res.status(500).json({ message: error.message }); 
+  }
+});
+
+
 router.get("/profile",protectRoute ,async (req, res) => {
     res.json(req.user);
 })

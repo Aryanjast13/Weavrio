@@ -1,7 +1,7 @@
 import express from "express";
+import { protectRoute } from "../middleware/auth.middleware.js";
 import Cart from "../models/Cart.model.js";
 import Product from "../models/Product.model.js";
-import {protectRoute} from "../middleware/auth.middleware.js"
 
 const router = express.Router();
 
@@ -141,7 +141,6 @@ router.delete("/",protectRoute, async (req, res) => {
 
 router.get("/",protectRoute, async (req, res) => {
     const { userId } = req.query;
-    console.log(userId);
     try {
         const cart =  await Cart.findOne({
             user:userId

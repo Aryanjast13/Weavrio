@@ -19,43 +19,55 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
 import { Provider } from "react-redux";
+import ProtectedProfile from "./components/Layout/ProtectedProfile";
 import ProtectedRoute from "./components/Layout/ProtectedRoute";
 import store from "./redux/store";
-
+import NotFound from "./components/Layout/NotFound";
+import ErrorBoundary from "./components/Layout/ErrorBoundary";
 
 function App() {
   return (
     <Provider store={store}>
+      <Router>
+        <Toaster position="top-right" />
+        <Routes>
+          {/* User layout */}
+          
+            <Route path="/" element={<UserLayout />} errorElement={<ErrorBoundary/>}>
+              <Route index element={<Home />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route
+                path="collections/:collection"
+                element={<CollectionPage />}
+              />
+              <Route path="product/:id" element={<ProductDetails />} />
 
-    <Router>
-      <Toaster position="top-right" />
-      <Routes>
-        {/* User layout */}
-        <Route path="/" element={<UserLayout />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="collections/:collection" element={<CollectionPage />} />
-          <Route path="product/:id" element={<ProductDetails />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route path="order-confirmation" element={<OrderConfirmation />} />
-          <Route path="order/:id" element={<OrderDetailPage />} />
-            <Route path="my-orders" element={<MyOrdersPage />} />
-            <Route path="/admin" element={<ProtectedRoute role="admin" ><AdminLayout/></ProtectedRoute>}/>
-        </Route>
+              <Route element={<ProtectedProfile />}>
+                <Route path="profile" element={<Profile />} />
+                <Route path="checkout" element={<Checkout />} />
+                <Route
+                  path="order-confirmation"
+                  element={<OrderConfirmation />}
+                />
+                <Route path="order/:id" element={<OrderDetailPage />} />
+                <Route path="my-orders" element={<MyOrdersPage />} />
+              </Route>
+            </Route>
 
-        {/* Admin layout */}
-
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminHomePage />} />
-          <Route path="users" element={<UserManagment />} />
-          <Route path="products" element={<ProductManagment />} />
-          <Route path="products/:id/edit" element={<EditProduct />} />
-          <Route path="orders" element={<OrderManagment/>}/>
-        </Route>
-      </Routes>
-    </Router>
+            {/* Admin layout */}
+            <Route path="/admin" element={<ProtectedRoute role="admin" />} errorElement={<ErrorBoundary/>}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<AdminHomePage />} />
+                <Route path="users" element={<UserManagment />} />
+                <Route path="products" element={<ProductManagment />} />
+                <Route path="products/:id/edit" element={<EditProduct />} />
+                <Route path="orders" element={<OrderManagment />} />
+              </Route>
+            </Route>
+            <Route path="*" element={<NotFound/>}/>
+        </Routes>
+      </Router>
     </Provider>
   );
 }
