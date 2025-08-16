@@ -118,9 +118,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
             <h1 className="text-2xl md:text-3xl font-medium mb-2">
               {selectedProduct.name}
             </h1>
-            {selectedProduct.originalPrice && (
+            {selectedProduct.dicountPrice && (
               <p className="text-lg text-gray-600 mb-1 line-through">
-                ${selectedProduct.originalPrice}
+                ${selectedProduct.dicountPrice}
               </p>
             )}
             <p className="text-xl text-gray-500 mb-2">
