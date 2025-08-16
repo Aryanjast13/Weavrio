@@ -2,9 +2,9 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import axios from "axios";
 
 // ✅ Import all types from single file
+import api from "../api/api";
 import type {
   CheckoutData,
   CheckoutState,
@@ -18,10 +18,10 @@ export const createCheckout = createAsyncThunk<
   { rejectValue: string }
 >("checkout/createCheckout", async (checkoutData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/checkout`,
+    const response = await api.post(
+      `/api/checkout`,
       checkoutData,
-      { withCredentials: true }
+      
     );
 
 

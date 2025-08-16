@@ -1,9 +1,9 @@
 // redux/cartSlice.ts
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import axios from "axios";
 
 // ✅ Import all types from unified file
+import api from "../api/api";
 import type {
   AddToCartParams,
   Cart,
@@ -44,9 +44,9 @@ export const fetchCart = createAsyncThunk<
   try {
     const queryParams = new URLSearchParams();
     if (params.userId) queryParams.append("userId", params.userId);
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart?${queryParams}`,
-      { withCredentials: true }
+    const response = await api.get(
+      `/api/cart?${queryParams}`,
+      
     );
 
 
@@ -66,10 +66,10 @@ export const addToCart = createAsyncThunk<
   { rejectValue: string }
 >("cart/addToCart", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
+    const response = await api.post(
+      `/api/cart/`,
       params,
-      { withCredentials: true }
+      
     );
 
     return response.data;
@@ -87,10 +87,10 @@ export const updateCartItemQuantity = createAsyncThunk<
   { rejectValue: string }
 >("cart/updateCartItemQuantity", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
+    const response = await api.put(
+      `/api/cart/`,
       params,
-      { withCredentials: true }
+    
     );
 
     return response.data;
@@ -108,11 +108,10 @@ export const removeFromCart = createAsyncThunk<
   { rejectValue: string }
 >("cart/removeFromCart", async (params, { rejectWithValue }) => {
   try {
-    const response = await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
+    const response = await api.delete(
+      `/api/cart/`,
       {
         data: params,
-        withCredentials: true,
       }
     );
 

@@ -2,13 +2,13 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import axios from "axios";
 
 // ✅ Import all types from unified file
+import api from "../api/api";
 import type {
+  FilterState,
   Product,
   ProductFilters,
-  FilterState,
   ProductUpdateData,
   ProductsState,
 } from "../types/product";
@@ -49,9 +49,9 @@ export const fetchProductsByFilters = createAsyncThunk<
     if (brand) query.append("brand", brand);
     if (limit) query.append("limit", limit);
 
-    const response = await axios.get<Product[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,
-      { withCredentials: true }
+    const response = await api.get<Product[]>(
+      `/api/products?${query.toString()}`,
+     
     );
     return response.data;
   } catch (err) {
@@ -70,9 +70,9 @@ export const fetchProductDetails = createAsyncThunk<
   { rejectValue: string }
 >("products/fetchProductDetails", async (id, { rejectWithValue }) => {
   try {
-    const response = await axios.get<Product>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
-      { withCredentials: true }
+    const response = await api.get<Product>(
+      `/api/products/${id}`,
+      
     );
     return response.data;
   } catch (err) {
@@ -93,10 +93,10 @@ export const updateProduct = createAsyncThunk<
   "products/updateProduct",
   async ({ id, productData }, { rejectWithValue }) => {
     try {
-      const response = await axios.put<Product>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+      const response = await api.put<Product>(
+        `/api/products/${id}`,
         productData,
-        { withCredentials: true }
+      
       );
       return response.data;
     } catch (err) {
@@ -116,9 +116,9 @@ export const fetchSimilarProducts = createAsyncThunk<
   { rejectValue: string }
 >("products/fetchSimilarProducts", async ({ id }, { rejectWithValue }) => {
   try {
-    const response = await axios.get<Product[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,
-      { withCredentials: true }
+    const response = await api.get<Product[]>(
+      `/api/products/similar/${id}`,
+      
     );
     return response.data;
   } catch (err) {
