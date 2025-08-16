@@ -4,10 +4,10 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
-  originalPrice?: number; // Optional if not always present
+  dicountPrice?: number;
   description: string;
   brand: string;
-  countInStock: number; // ✅ Matches your API
+  countInStock: number;
   sku: string;
   material: string;
   sizes: string[];
@@ -62,20 +62,24 @@ export interface FilterState {
 }
 
 export interface ProductUpdateData {
-  name?: string;
-  price?: number;
-  originalPrice?: number;
-  description?: string;
-  category?: string;
-  brand?: string;
-  material?: string;
-  sizes?: string[];
-  colors?: string[];
-  countInStock?: number;
+  name: string;
+  price: number;
+  images: Array<{
+    url: string;
+    altText?: string;
+  }>;
+  description: string;
+  sku: string;
+  category: string;
+  brand: string;
+  material: string;
+  sizes: string[];
+  colors: string[];
+  countInStock: number;
   isFeatured?: boolean;
   isPublished?: boolean;
-  gender?: string;
-  collections?: string;
+  gender: string;
+  collections: string;
   tags?: string[];
 }
 

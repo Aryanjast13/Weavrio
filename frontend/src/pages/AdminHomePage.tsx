@@ -1,19 +1,18 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
-import { fetchAllOrders } from "../redux/adminOrderSlice";
-import { fetchAdminProducts } from "../redux/adminProductSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-
+import { useAdminHomeData } from "../hooks/useAdminHomeData";
 const AdminHomePage = () => {
-  const dispatch = useAppDispatch();
-  const { products, loading:productLoading,error:productError} = useAppSelector(state=>state.adminProducts);
-  const {orders,totalOrders,totalSales,loading:ordersLoading,error:ordersError} = useAppSelector(state=>state.adminOrders);
+  const {
+    products,
+    productLoading,
+    productError,
+    orders,
+    totalOrders,
+    totalSales,
+    ordersLoading,
+    ordersError,
+  } = useAdminHomeData();
 
-  useEffect(() => {
-    dispatch(fetchAdminProducts());
-    dispatch(fetchAllOrders());
-  }, [dispatch]);
-
+ 
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>

@@ -9,53 +9,21 @@ import type {
 } from "../types/order.ts"; // Adjust path as needed
 
 const MyOrdersPage: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+   const navigate = useNavigate();
+   const {
+     orders,
+     loading,
+     error,
+     formatDate,
+     formatShippingAddress,
+     getStatusBadge,
+   } = useMyOrders();
 
-  // ✅ Only use global Redux state
-  const { orders, loading, error } = useAppSelector((state) => state.orders);
+   // Handler for row click (uses navigate, which is component-specific)
+   const handleRowClick = (orderId: string) => {
+     navigate(`/order/${orderId}`);
+   };
 
-  useEffect(() => {
-    dispatch(fetchUserOrders());
-  }, [dispatch]);
-
-  // ✅ Updated to handle string dates from API
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
-  // ✅ Updated to handle new ShippingAddress interface
-  const formatShippingAddress = (address: ShippingAddress): string => {
-    // Handle the new required fields in ShippingAddress
-    const fullName = `${address.firstName || ""} ${
-      address.lastName || ""
-    }`.trim();
-    const location = [address.city,  address.country]
-      .filter(Boolean)
-      .join(", ");
-    return fullName ? `${fullName}, ${location}` : location;
-  };
-
-  const getStatusBadge = (isPaid: boolean) => (
-    <span
-      className={`px-2 py-1 rounded-full text-xs sm:text-sm font-medium ${
-        isPaid ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-      }`}
-    >
-      {isPaid ? "Paid" : "Pending"}
-    </span>
-  );
-
-  const handleRowClick = (orderId: string) => {
-    navigate(`/order/${orderId}`);
-  };
 
   // ✅ Use global error state
   if (error) {
@@ -158,3 +126,59 @@ const MyOrdersPage: React.FC = () => {
 };
 
 export default MyOrdersPage;
+
+
+
+
+
+const useMyOrders = () => {
+  const dispatch = useAppDispatch();
+
+  const { orders, loading, error } = useAppSelector((state) => state.orders);
+
+  useEffect(() => {
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  };
+
+
+  const formatShippingAddress = (address: ShippingAddress): string => {
+  
+    const fullName = `${address.firstName || ""} ${
+      address.lastName || ""
+    }`.trim();
+    const location = [address.city, address.country].filter(Boolean).join(", ");
+    return fullName ? `${fullName}, ${location}` : location;
+  };
+
+  
+  const getStatusBadge = (isPaid: boolean) => (
+    <span
+      className={`px-2 py-1 rounded-full text-xs sm:text-sm font-medium ${
+        isPaid ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+      }`}
+    >
+      {isPaid ? "Paid" : "Pending"}
+    </span>
+  );
+
+  
+  return {
+    orders,
+    loading,
+    error,
+    formatDate,
+    formatShippingAddress,
+    getStatusBadge,
+  };
+};

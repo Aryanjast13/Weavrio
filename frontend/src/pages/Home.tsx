@@ -1,6 +1,3 @@
-import type { AxiosError } from "axios";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import FeaturedCollection from "../components/Home/FeaturedCollection";
 import FeaturedSection from "../components/Home/FeaturedSection";
 import GenderCollection from "../components/Home/GenderCollection";
@@ -8,65 +5,17 @@ import Hero from "../components/Home/Hero";
 import NewArrivals from "../components/Home/NewArrivals";
 import ProductDetails from "../components/Product/ProductDetails";
 import ProductGrid from "../components/Product/ProductGrid";
-import { fetchCart } from "../redux/cartSlice";
-import { fetchProductsByFilters } from "../redux/productsSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-import type { Product } from "../types/product";
+import { useHomeData } from "../hooks/useHomeData";
 
 const Home: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { products, loading, error } = useAppSelector(
-    (state) => state.products
-  );
-  const { user } = useAppSelector((state) => state.auth);
-  const [bestSellerProduct, setBestSellerProduct] = useState<Product | null>(
-    null
-  );
-  const [bestSellerLoading, setBestSellerLoading] = useState<boolean>(true);
-  const [bestSellerError, setBestSellerError] = useState<string | null>(null);
-
-  const userId = user ? user?._id : undefined;
-
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchCart({ userId }));
-    }
-  }, []);
-
-  // Fetch best seller product
-  const fetchBestSeller = async (): Promise<void> => {
-    try {
-      setBestSellerLoading(true);
-      setBestSellerError(null);
-      const response = await axios.get<Product>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`
-      );
-      setBestSellerProduct(response.data);
-    } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to fetch best seller";
-      setBestSellerError(errorMessage);
-      console.error("Error fetching best seller:", errorMessage);
-    } finally {
-      setBestSellerLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // Fetch products for a specific collection
-    dispatch(
-      fetchProductsByFilters({
-        gender: "Women",
-        category: "Bottom Wear",
-        limit: "8", // Convert to string as expected by your Redux slice
-      })
-    );
-
-    fetchBestSeller();
-  }, [dispatch]);
+  const {
+    products,
+    loading,
+    error,
+    bestSellerError,
+    bestSellerProduct,
+    bestSellerLoading,
+  } = useHomeData();
 
   return (
     <div>

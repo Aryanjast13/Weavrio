@@ -1,41 +1,11 @@
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router";
-import { fetchOrderDetails } from "../redux/orderSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
 
-import type { OrderItem, OrderState } from "../types/order";
 
-const OrderDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const dispatch = useAppDispatch();
+import { Link } from "react-router";
+import type { OrderItem,  } from "../types/order";
+import { useOrderDetail } from "../hooks/useOrderDetail";
 
-  // ✅ Properly typed selector
-  const { orderDetails, loading, error } = useAppSelector(
-    (state: { orders: OrderState }) => state.orders
-  );
-
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchOrderDetails(id));
-    }
-  }, [dispatch, id]);
-
-  // Helper functions
-  const formatCurrency = (amount: number): string => {
-    return `₹${amount.toFixed(2)}`;
-  };
-
-  const formatDate = (date: string | Date): string => {
-    try {
-      return new Date(date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return "Invalid Date";
-    }
-  };
+const OrderDetailPage = () => {
+  const {orderDetails,loading,error,formatCurrency,formatDate } = useOrderDetail();
 
   if (loading)
     return (
