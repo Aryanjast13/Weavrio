@@ -10,7 +10,7 @@ import checkoutRoutes from "./routes/checkout.route.js";
 import orderRoutes from "./routes/order.routes.js";
 import paymnetRoutes from "./routes/payment.routes.js";
 import productRoutes from "./routes/product.routes.js";
-import productAdminRoutes from "./routes/productAdmin.routes.js";
+import productAdminRoutes from "./routes/adminProduct.routes.js";
 import subscribeRoutes from "./routes/subscriber.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import userRoutes from "./routes/user.routes.js";

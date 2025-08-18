@@ -11,151 +11,226 @@ const router = express.Router();
 //@route POST /api/cart
 //desc Add a product to the cart for a  logged in user
 //@access Private
-router.post("/", protectRoute,  async (req, res) => {
-    const { productId, quantity, size, color, userId } = req.body;
-    try {
-        const product = await Product.findById(productId);
-        if (!product) return res.status(404).json({ message: "Product not found" });
+router.post("/", protectRoute, async (req, res) => {
+  const { productId, quantity, size, color } = req.body;
+  const userId = req.user._id;
+  try {
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
-        //Determine if the user is logged in or guest
-        let cart =  await Cart.findOne({
-            user:userId
-        })
+  
+    const variant = product.variants.find(
+      (v) => v.size === size && v.color === color
+    );
+    if (!variant)
+      return res
+        .status(400)
+        .json({ message: "Selected size and color variant not found" });
 
-        //If the cart exists , update it
-        if (cart) {
-            const productIndex = cart.products.findIndex((p) => p.productId.toString() === productId && p.size === size && p.color === color);
-            console.log(productIndex);
-            if (productIndex > -1) {
-                //If the product already exists ,update the quantity
-                cart.products[productIndex].quantity += quantity;
-            } else {
-                //add a new product
-                cart.products.push({
-                    productId,
-                    name: product.name,
-                    image: product.images[0].url,
-                    price: product.price,
-                    size,
-                    color,
-                    quantity,
-                });
-            }
-            
-            //Recalculate the total price 
-            cart.totalPrice = cart.products.reduce((acc, item) => acc + item.price * item.quantity, 0);
-            
-            await cart.save();
-            return res.status(200).json(cart);
-        } else {
-            //create a  new cart for the guest  or user
-            const newCart = await Cart.create({
-                user : userId ? userId : undefined,
-                products: [{
-                    productId,
-                    name: product.name,
-                    image: product.images[[0]].url,
-                    price:product.price,
-                    size,
-                    color,
-                    quantity,
-                }],
-                totalPrice: product.price * quantity,
-            });
-            return res.status(201).json(newCart);
-        }
-       
-    } catch (error) {
-        console.log("Error in create cart controller", error.message);
-        res.status(500).json({ message: error.message });
+    // Check stock availability
+    if (variant.countInStock < quantity)
+      return res
+        .status(400)
+        .json({ message: "Insufficient stock for this variant" });
+
+    
+    const productPrice = variant.price || product.price;
+
+    
+    let cart = await Cart.findOne({ user: userId });
+
+    if (cart) {
+      
+      const productIndex = cart.products.findIndex((item) =>
+        item.variantId.equals(variant._id)
+      );
+
+      if (productIndex > -1) {
+      
+        cart.products[productIndex].quantity += quantity;
+      } else {
+        // Add new item
+        cart.products.push({
+          productId,
+          variantId: variant._id,
+          quantity,
+          price: productPrice,
+        });
+      }
+
+      
+
+      await cart.save(); // This triggers the pre-save hook to recalculate totalPrice
+      return res.status(200).json(cart);
+    } else {
+      // Create a new cart
+      const newCart = new Cart({
+        user: userId || undefined, // Optional for guests
+        products: [
+          {
+            productId,
+            variantId: variant._id,
+            quantity,
+            price: productPrice,
+          },
+        ],
+        totalPrice: productPrice * quantity, 
+      });
+
+     
+
+      await newCart.save();
+      return res.status(201).json(newCart);
     }
+  } catch (error) {
+    console.log("Error in create cart controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
 });
+
 
 //@route PUT /api/cart
 //@desc Update product quantity in the cart for a  logged-in user
 //@access Private
-router.put("/",protectRoute, async (req, res) => {
-    const { productId, quantity, size, color, userId } = req.body;
-    
-    try {
-        let cart =  await Cart.findOne({
-            user:userId
-        })
-        if (!cart) return res.status(404).json({ message: "cart not found" });
-        const productIndex = cart.products.findIndex((p) => p.productId.toString() === productId && p.size === size && p.color === color);
+router.put("/", protectRoute, async (req, res) => {
+  const { productId, quantity, size, color } = req.body; // Note: userId removed; use req.user from protectRoute
+  const userId = req.user._id; // Assume protectRoute sets req.user for authenticated users
 
-        if (productIndex > -1) {
-            //update quantity
-            if (quantity > 0) {
-                cart.products[productIndex].quantity = quantity;
-            } else {
-                cart.products.splice(productIndex, 1);//Remove product if quantity is 0
-            }
-            cart.totalPrice = cart.products.reduce((acc, item) => acc + item.price * item.quantity, 0);
-            await cart.save();
-            return res.status(200).json(cart);
-        } else {
-            return res.status(404).json({ message: "Product not found in cart" })
+  try {
+    // Find the user's cart
+    let cart = await Cart.findOne({ user: userId });
+    if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+    // Fetch the product to get variant details
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    // Find the matching variant by size and color
+    const variant = product.variants.find(
+      (v) => v.size === size && v.color === color
+    );
+    if (!variant)
+      return res
+        .status(400)
+        .json({ message: "Selected size and color variant not found" });
+
+    
+    const itemIndex = cart.products.findIndex(
+      (p) => p.productId.equals(productId) && p.variantId.equals(variant._id)
+    );
+
+    if (itemIndex > -1) {
+      
+      
+      if (quantity <= 0) {
+        cart.products.splice(itemIndex, 1);
+      } else {
+        
+        if (quantity > 0 && variant.countInStock < quantity) {
+          return res
+            .status(400)
+            .json({ message: "Insufficient stock for this variant" });
         }
-    } catch (error) {
-        console.log("Error in cart update controller", error.message);
-        res.status(500).json({ message: error.message });
+       
+        cart.products[itemIndex].quantity = quantity;
+      }
+
+    
+     
+
+      await cart.save();
+      return res.status(200).json(cart);
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Product variant not found in cart" });
     }
+  } catch (error) {
+    console.log("Error in cart update controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
 });
+
 
 
 //@route DELETE /api/cart
 //@desc Remove a product from the cart
 //@access Private
 
-router.delete("/",protectRoute, async (req, res) => {
-    const { productId, size, color,  userId } = req.body;
-    try {
-         let cart = await  await Cart.findOne({
-            user:userId
-        })
-        if (!cart) return res.status(404).json({ message: "cart not found" });
-        const productIndex = cart.products.findIndex((p) => p.productId.toString() === productId && p.size === size && p.color === color);
+router.delete("/", protectRoute, async (req, res) => {
+  const { productId, size, color } = req.body;
+  const userId = req.user._id; 
 
-        if (productIndex > -1) {
-            cart.products.splice(productIndex, 1);
+  try {
+    
+    let cart = await Cart.findOne({ user: userId });
+    if (!cart) return res.status(404).json({ message: "Cart not found" });
 
-            cart.totalPrice = cart.products.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
-            await cart.save();
-            return res.status(200).json(cart);
-        } else {
-            return res.status(404).json({ message: "Product not found in cart" });
-         }
+    
+    const variant = product.variants.find(
+      (v) => v.size === size && v.color === color
+    );
+    if (!variant)
+      return res
+        .status(400)
+        .json({ message: "Selected size and color variant not found" });
 
-    } catch (error) {
-        console.log("Error in cart update controller", error.message);
-        res.status(500).json({ message: error.message });
+  
+    const itemIndex = cart.products.findIndex(
+      (p) => p.productId.equals(productId) && p.variantId.equals(variant._id)
+    );
+
+    if (itemIndex > -1) {
+      const removedQuantity = cart.products[itemIndex].quantity; 
+
+  
+      cart.products.splice(itemIndex, 1);
+
+      
+      
+
+      await cart.save();
+      return res.status(200).json(cart);
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Product variant not found in cart" });
     }
-})
+  } catch (error) {
+    console.log("Error in cart delete controller", error.message); 
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 
 //@route GET /api/cart
-//@desc Get logged-in user's or guest user's cart
+//@desc Get logged-in user's cart
 //@access Private
 
-router.get("/",protectRoute, async (req, res) => {
-    const { userId } = req.query;
-    try {
-        const cart =  await Cart.findOne({
-            user:userId
-        })
-        
-        if (cart) {
-            res.json(cart);
-        } else {
-            res.status(404).json({ message: "Cart not found" });
-        }
-    } catch (error) {
-        console.log("Error in get cart Controller", error.message);
-        res.status(500).json({ message: error.message });
+router.get("/", protectRoute, async (req, res) => {
+  try {
+    const userId = req.user._id; 
+
+    const cart = await Cart.findOne({ user: userId }).populate({
+      path: "products.productId",
+      select: "name images price", 
+    });
+
+    if (cart) {
+      res.json(cart);
+    } else {
+      res.status(404).json({ message: "Cart not found" });
     }
-} )
+  } catch (error) {
+    console.log("Error in get cart controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 
