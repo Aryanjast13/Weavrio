@@ -1,84 +1,90 @@
 import mongoose from "mongoose";
-const checkoutItemSchema = new mongoose.Schema({
+
+const checkoutItemSchema = new mongoose.Schema(
+  {
     productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        required: true,
-    },
-    price: {
-        type: Number,
-        required: true,
+    variantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
     },
     quantity: {
-        type: Number,
-        required:true,
+      type: Number,
+      required: true,
+      min: 1,
     },
-    size: String,
-    color:String,
+    price: {
+      type: Number,
+      required: true, 
+    },
+  },
+  {
+    _id: false, 
+  }
+);
 
-},
-    {
-    _id: false
-});
-
-
-const checkoutSchema = new mongoose.Schema({
+const checkoutSchema = new mongoose.Schema(
+  {
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     checkoutItems: [checkoutItemSchema],
     shippingAddress: {
-        address: { type: String, required: true },
-        city: { type: String, required: true },
-        postalCode: { type: String, required: true },
-        country: {
-            type: String, required: true,
-        }
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
     },
     paymentMethod: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     totalPrice: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
+      default: 0,
     },
     isPaid: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     paidAt: {
-        type: Date,
+      type: Date,
     },
     paymentStatus: {
-        type: String,
-        default: "pending",
+      type: String,
+      default: "pending",
     },
     paymentDetails: {
-        type: mongoose.Schema.Types.Mixed,
+      type: mongoose.Schema.Types.Mixed, // Flexible for payment gateway data
     },
     isFinalized: {
-        
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     finalizedAt: {
-        type: Date,
-    }
-}, {
+      type: Date,
+    },
+  },
+  {
     timestamps: true,
+  }
+);
+
+// Pre-save hook to calculate totalPrice automatically
+checkoutSchema.pre("save", function (next) {
+  this.totalPrice = this.checkoutItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  next();
 });
 
-const checkout = new mongoose.model("checkout", checkoutSchema);
- 
-export default checkout;
+const Checkout = mongoose.model("Checkout", checkoutSchema);
+
+export default Checkout;

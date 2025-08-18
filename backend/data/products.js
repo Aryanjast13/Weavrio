@@ -2,988 +2,380 @@
 
 const products = [
   {
-    name: "Classic Oxford Button-Down Shirt",
-    description:
-      "This classic Oxford shirt is tailored for a polished yet casual look. Crafted from high-quality cotton, it features a button-down collar and a comfortable, slightly relaxed fit. Perfect for both formal and casual occasions, it comes with long sleeves, a button placket, and a yoke at the back. The shirt is finished with a gently rounded hem and adjustable button cuffs.",
-    price: 39.99,
-    discountPrice: 34.99,
-    countInStock: 20,
-    sku: "OX-SH-001",
-    category: "Top Wear",
-    brand: "Urban Threads",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Red", "Blue", "Yellow"],
-    collections: "Business Casual",
-    material: "Cotton",
-    gender: "Men",
+    name: "Celio Men Striped Pockets T-shirt",
+    description: "Men Striped Pockets T-shirt",
+    price: 2299, // Using mrp as original price
+    discountPrice: 1333, // Using price as discounted price
+    countInStock: 8, // From inventoryInfo (only one size shown, using its inventory)
+    sku: "32878972", // Using productId as unique sku
+    category: "Tshirts",
+    brand: "Celio",
+    sizes: ["S", "M", "L", "XL", "XXL"], // From sizes string, split by comma
+    colors: ["Mustard"], // From primaryColour (colourVariants empty)
+    collections: "Summer 2025", // From season and year
+    material: "", // Not available in data
+    gender: "Men", // From gender
     images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/CrazymonkBaseball_2_9d8b5af1-1a49-41f0-9661-52c7baacd310.jpg?v=1751104682&width=535",
-        altText: "Classic Oxford Button-Down Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/CSEdt9tz_9ee06d6a5b85455098197aaf086b5230.jpg",
+        altText: "Celio Men Striped Pockets T-shirt default",
       },
       {
-        url: "https://crazymonk.in/cdn/shop/files/CrazymonkBaseball_1_CM_61d11e33-dd18-4ca5-956f-4d331b65d6dc.jpg?v=1751104682&width=360",
-        altText: "Classic Oxford Button-Down Shirt Back View",
+        url:"http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/A6P94fcN_57c10031ea7447109f6b00b1c868efb6.jpg" ,
+        altText: "Celio Men Striped Pockets T-shirt bottom",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/CSEdt9tz_9ee06d6a5b85455098197aaf086b5230.jpg",
+        altText: "Celio Men Striped Pockets T-shirt search",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/DCrzlGXK_59988658f97c47d9b7a2a866fcd7b6b3.jpg",
+        altText: "Celio Men Striped Pockets T-shirt right",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/d9F5nDgI_79d4fca444f341b6be231f471b22d4c9.jpg",
+        altText: "Celio Men Striped Pockets T-shirt left",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/rCziiRne_443c38ec5afb4985bfb81a52d7812a93.jpg",
+        altText: "Celio Men Striped Pockets T-shirt top",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/wAWYMhev_7f39b00144ba46858ba57684b91d0a6d.jpeg",
+        altText: "Celio Men Striped Pockets T-shirt front",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/FEBRUARY/20/kRkIKMyE_9d67ed26d2ef45f9bb7cb95c51a3da55.jpg",
+        altText: "Celio Men Striped Pockets T-shirt back",
       },
     ],
-    rating: 4.5,
-    numReviews: 12,
+    isFeatured: false, // No bestseller tag
+    isPublished: true, // Assuming published since listed
+    rating: 3.90910005569458,
+    numReviews: 11,
+    tags: ["Deal of the Day"], // From systemAttributes
+    user: "mockUserId123", // Mock ObjectId (replace with actual ref)
+    metaTitle: "Celio Men Striped Pockets T-shirt",
+    metaDescription: "Men Striped Pockets T-shirt",
+    metaKeywords: "Deal of the Day",
+    dimensions: {
+      length: 0,
+      width: 0,
+      height: 0,
+    },
+    weight: 0,
   },
   {
-    name: "Slim-Fit Stretch Shirt",
-    description:
-      "A versatile slim-fit shirt perfect for business or evening events. Designed with a fitted silhouette, the added stretch provides maximum comfort throughout the day. Features a crisp turn-down collar, button placket, and adjustable cuffs.",
-    price: 29.99,
-    discountPrice: 24.99,
-    countInStock: 35,
-    sku: "SLIM-SH-002",
-    category: "Top Wear",
-    brand: "Modern Fit",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Navy Blue", "Burgundy"],
-    collections: "Formal Wear",
-    material: "Cotton Blend",
-    gender: "Men",
+    name: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt",
+    description: "Men Printed Round Neck T-shirt",
+    price: 2499, // Using mrp as original price
+    discountPrice: 999, // Using price as discounted price
+    countInStock: 46, // From inventoryInfo (only one size shown, using its inventory)
+    sku: "32760282", // Using productId as unique sku
+    category: "Tshirts",
+    brand: "STRCH",
+    sizes: ["M", "L", "XL", "XXL", "3XL"], // From sizes string, split by comma
+    colors: ["Green"], // From primaryColour (colourVariants empty)
+    collections: "Summer 2025", // From season and year
+    material: "", // Not available in data
+    gender: "Men", // From gender
     images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/EndlessHope_2_CM_2bc2756f-d643-428f-ad4a-6544cb93e04d.jpg?v=1751104643&width=360",
-        altText: "Slim-Fit Stretch Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/b9089b91-5263-4b61-ba08-30ed2cc7e7681750680545339-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-1.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt default",
       },
       {
-        url: "https://picsum.photos/500/500?random=42",
-        altText: "Slim-Fit Stretch Shirt Back View",
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/04ab93a2-c3a7-430d-8bf0-20bf7cc267f11750680545197-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-6.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt top",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/6411e8d6-df08-427a-8b85-a2f8af12d2a61750680545280-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-3.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt back",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/694e5e66-0f54-40de-af7b-fb00c4c04fbb1750680545171-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-7.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt bottom",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/90e4b691-eb74-4ac9-9f8d-503f70b3239d1750680545252-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-4.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt right",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/33c03877-bae8-41d6-83db-4245d67bf8351750680545310-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-2.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt front",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/b9089b91-5263-4b61-ba08-30ed2cc7e7681750680545339-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-1.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt search",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/32760282/2025/6/23/85c8b4ee-4883-4706-8623-9e25570368611750680545225-STRCH-Men-Anti-Odour-Abstract-Printed-Round-Neck-T-shirt-714-5.jpg",
+        altText: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt left",
       },
     ],
-    rating: 4.8,
-    numReviews: 15,
+    isFeatured: false, // No bestseller tag
+    isPublished: true, // Assuming published since listed
+    rating: 0,
+    numReviews: 0,
+    tags: ["Price Crash"], // From systemAttributes
+    user: "mockUserId123", // Mock ObjectId (replace with actual ref)
+    metaTitle: "STRCH Men Anti Odour Abstract Printed Round Neck T-shirt",
+    metaDescription: "Men Printed Round Neck T-shirt",
+    metaKeywords: "Price Crash",
+    dimensions: {
+      length: 0,
+      width: 0,
+      height: 0,
+    },
+    weight: 0,
   },
   {
-    name: "Casual Denim Shirt",
-    description:
-      "This casual denim shirt is made from lightweight cotton denim. It features a regular fit, snap buttons, and a straight hem. With Western-inspired details, this shirt is perfect for layering or wearing solo.",
-    price: 49.99,
-    discountPrice: 44.99,
-    countInStock: 15,
-    sku: "CAS-DEN-003",
-    category: "Top Wear",
-    brand: "Street Style",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Light Blue", "Dark Wash"],
-    collections: "Casual Wear",
-    material: "Denim",
-    gender: "Men",
+    name: "Marks & Spencer Men Striped V-Neck Pockets T-shirt",
+    description: "Men Striped V-Neck Pockets T-shirt",
+    price: 3499, // Using mrp as original price
+    discountPrice: 3149, // Using price as discounted price
+    countInStock: 2, // From inventoryInfo (only one size shown, using its inventory)
+    sku: "33763197", // Using productId as unique sku
+    category: "Tshirts",
+    brand: "Marks & Spencer",
+    sizes: ["S", "M", "L", "XL", "XXL", "3XL"], // From sizes string, split by comma
+    colors: ["Navy Blue"], // From primaryColour (colourVariants empty)
+    collections: "Summer 2025", // From season and year
+    material: "", // Not available in data
+    gender: "Men", // From gender
     images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/Endlesshope3drubberprint.jpg?v=1751104643&width=360",
-        altText: "Casual Denim Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/2025/APRIL/24/gokeqzSq_0ba936cfb0ee4e81a50eda9faeeea8bf.jpg",
+        altText: "Marks & Spencer Men Striped V-Neck Pockets T-shirt default",
       },
       {
-        url: "https://crazymonk.in/cdn/shop/files/Endlesshope3drubberprint.jpg?v=1751104643&width=360",
-        altText: "Casual Denim Shirt Back View",
+        url: "http://assets.myntassets.com/assets/images/2025/APRIL/24/qgYkD1vS_95e69e5cf8cd4b579ed72f6eb66bee1a.jpg",
+        altText: "Marks & Spencer Men Striped V-Neck Pockets T-shirt front",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/APRIL/24/QrWv3Ksl_06f531ab0edf4b238668e95a23c0850f.jpg",
+        altText: "Marks & Spencer Men Striped V-Neck Pockets T-shirt left",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/APRIL/24/5b2PNXZe_4e3f612517164d1db0574460fd60df9c.jpg",
+        altText: "Marks & Spencer Men Striped V-Neck Pockets T-shirt right",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/APRIL/24/wmIHZToW_1017073e76a24ba18c9d5e9f74f2bb52.jpg",
+        altText: "Marks & Spencer Men Striped V-Neck Pockets T-shirt back",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2025/APRIL/24/gokeqzSq_0ba936cfb0ee4e81a50eda9faeeea8bf.jpg",
+        altText: "Marks & Spencer Men Striped V-Neck Pockets T-shirt search",
       },
     ],
-    rating: 4.6,
-    numReviews: 8,
+    isFeatured: false, // No bestseller tag
+    isPublished: true, // Assuming published since listed
+    rating: 0,
+    numReviews: 0,
+    tags: ["First time on discount", "Deal of the Day"], // From systemAttributes
+    user: "mockUserId123", // Mock ObjectId (replace with actual ref)
+    metaTitle: "Marks & Spencer Men Striped V-Neck Pockets T-shirt",
+    metaDescription: "Men Striped V-Neck Pockets T-shirt",
+    metaKeywords: "First time on discount,Deal of the Day",
+    dimensions: {
+      length: 0,
+      width: 0,
+      height: 0,
+    },
+    weight: 0,
   },
   {
-    name: "Printed Resort Shirt",
-    description:
-      "Designed for summer, this printed resort shirt is perfect for vacation or weekend getaways. It features a relaxed fit, short sleeves, and a camp collar. The all-over tropical print adds a playful vibe.",
-    price: 29.99,
-    discountPrice: 22.99,
-    countInStock: 25,
-    sku: "PRNT-RES-004",
-    category: "Top Wear",
-    brand: "Beach Breeze",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Tropical Print", "Navy Palms"],
-    collections: "Vacation Wear",
-    material: "Viscose",
-    gender: "Men",
+    name: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt",
+    description: "Unisex Oversized T-shirt",
+    price: 1499, // Using mrp as original price
+    discountPrice: 494, // Using price as discounted price
+    countInStock: 56, // From inventoryInfo (only one size shown, using its inventory)
+    sku: "26684198", // Using productId as unique sku
+    category: "Tshirts",
+    brand: "Crazymonk",
+    sizes: ["S", "M", "L", "XL", "XXL"], // From sizes string, split by comma
+    colors: ["Green"], // From primaryColour (colourVariants empty)
+    collections: "Summer 2023", // From season and year
+    material: "", // Not available in data
+    gender: "Unisex", // From gender
     images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/AstroPhile_2_CM.jpg?v=1751104614&width=360",
-        altText: "Printed Resort Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/26684198/2023/12/27/17557bba-1f82-4553-b6fc-2b61674d4ec51703670688784CrazymonkUnisexGreenPrintedT-shirt1.jpg",
+        altText: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt default",
       },
       {
-        url: "https://crazymonk.in/cdn/shop/files/AstroPhile_1.jpg?v=1751104614&width=360",
-        altText: "Printed Resort Shirt Back View",
+        url: "http://assets.myntassets.com/assets/images/26684198/2023/12/27/708fe3a5-a9dc-4244-ba1d-c5978521d12a1703670688791CrazymonkUnisexGreenPrintedT-shirt3.jpg",
+        altText: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt back",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/26684198/2023/12/27/17557bba-1f82-4553-b6fc-2b61674d4ec51703670688784CrazymonkUnisexGreenPrintedT-shirt1.jpg",
+        altText: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt search",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/26684198/2023/12/27/991732b4-60d9-4a55-8d17-96af520295001703670688763CrazymonkUnisexGreenPrintedT-shirt2.jpg",
+        altText: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt front",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/26684198/2023/12/27/370950b4-d10a-4029-a301-43685f71aa8c1703670688771CrazymonkUnisexGreenPrintedT-shirt5.jpg",
+        altText: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt left",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/26684198/2023/12/27/81df6a34-7c25-47b0-8de6-f6ffc9397cd41703670688777CrazymonkUnisexGreenPrintedT-shirt4.jpg",
+        altText: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt right",
       },
     ],
-    rating: 4.4,
-    numReviews: 10,
+    isFeatured: true, // Has BESTSELLER in systemAttributes
+    isPublished: true, // Assuming published since listed
+    rating: 4.437099933624268,
+    numReviews: 302,
+    tags: ["BESTSELLER", "Rising Stars", "Everyday Steal", "Deal of the Day", "Mega Price Drop", "Price Crash", "Rising Star"], // From systemAttributes
+    user: "mockUserId123", // Mock ObjectId (replace with actual ref)
+    metaTitle: "Crazymonk Unisex Zoro Anime Printed Cotton Oversized T-shirt",
+    metaDescription: "Unisex Oversized T-shirt",
+    metaKeywords: "BESTSELLER,Rising Stars,Everyday Steal,Deal of the Day,Mega Price Drop,Price Crash,Rising Star",
+    dimensions: {
+      length: 0,
+      width: 0,
+      height: 0,
+    },
+    weight: 0,
   },
   {
-    name: "Slim-Fit Easy-Iron Shirt",
-    description:
-      "A slim-fit, easy-iron shirt in woven cotton fabric with a fitted silhouette. Features a turn-down collar, classic button placket, and a yoke at the back. Long sleeves and adjustable button cuffs with a rounded hem.",
-    price: 34.99,
-    discountPrice: 29.99,
-    countInStock: 30,
-    sku: "SLIM-EIR-005",
-    category: "Top Wear",
-    brand: "Urban Chic",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Gray"],
-    collections: "Business Wear",
-    material: "Cotton",
-    gender: "Men",
+    name: "Andamen Men Solid Polo Collar Cotton T-shirt",
+    description: "Men Solid T-shirt",
+    price: 2990, // Using mrp as original price
+    discountPrice: 2990, // Using price as discounted price (no discount)
+    countInStock: 90, // From inventoryInfo (only one size shown, using its inventory)
+    sku: "30608629", // Using productId as unique sku
+    category: "Tshirts",
+    brand: "Andamen",
+    sizes: ["S", "M", "L", "XL", "XXL"], // From sizes string, split by comma
+    colors: ["Blue"], // From primaryColour (colourVariants empty)
+    collections: "Winter 2024", // From season and year
+    material: "", // Not available in data
+    gender: "Men", // From gender
     images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/Nirvana_NavyBlue_2_CM.jpg?v=1751104606&width=360",
-        altText: "Slim-Fit Easy-Iron Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/AXwc8Pes_1b16518f89bd4489812eab8fef8b9978.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt default",
       },
       {
-        url: "https://crazymonk.in/cdn/shop/files/Nirvana_NavyBlue_1.jpg?v=1751104606&width=360",
-        altText: "Slim-Fit Easy-Iron Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/qbYeLtBD_19411334f1de405892c012ea94dc7112.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt right",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/en02ePiO_f3cca97a784e4ecbbdc671fd2c318bda.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt front",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/KEYAopUy_eb32b3d4b79e4a7fbc9afb3c6792687d.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt left",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/a3QGWSXK_465690397afc4c2eaf702478745dd889.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt bottom",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/6BAHNbUg_358efd2d02fa4693b235c9875b2c1948.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt top",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/F2pyGq4o_b1a5a6c47eca47078764aebfb85da0c6.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt back",
+      },
+      {
+        url: "http://assets.myntassets.com/assets/images/2024/AUGUST/17/AXwc8Pes_1b16518f89bd4489812eab8fef8b9978.jpg",
+        altText: "Andamen Men Solid Polo Collar Cotton T-shirt search",
       },
     ],
-    rating: 5,
-    numReviews: 14,
+    isFeatured: false, // No bestseller tag
+    isPublished: true, // Assuming published since listed
+    rating: 0,
+    numReviews: 0,
+    tags: ["Rising Star"], // From systemAttributes
+    user: "mockUserId123", // Mock ObjectId (replace with actual ref)
+    metaTitle: "Andamen Men Solid Polo Collar Cotton T-shirt",
+    metaDescription: "Men Solid T-shirt",
+    metaKeywords: "Rising Star",
+    dimensions: {
+      length: 0,
+      width: 0,
+      height: 0,
+    },
+    weight: 0,
   },
   {
-    name: "Polo T-Shirt with Ribbed Collar",
-    description:
-      "A wardrobe classic, this polo t-shirt features a ribbed collar and cuffs. Made from 100% cotton, it offers breathability and comfort throughout the day. Tailored in a slim fit with a button placket at the neckline.",
-    price: 24.99,
-    discountPrice: 19.99,
-    countInStock: 50,
-    sku: "POLO-TSH-006",
-    category: "Top Wear",
-    brand: "Polo Classics",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Navy", "Red"],
-    collections: "Casual Wear",
-    material: "Cotton",
-    gender: "Men",
+    name: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt",
+    description: "Unisex Printed T-shirt",
+    price: 2199, // Using mrp as original price
+    discountPrice: 989, // Using price as discounted price
+    countInStock: 65, // From inventoryInfo (only one size shown, using its inventory)
+    sku: "31412838", // Using productId as unique sku
+    category: "Tshirts",
+    brand: "Levis",
+    sizes: ["XS", "S", "M", "L", "XL"], // From sizes string, split by comma
+    colors: ["Black"], // From primaryColour (colourVariants empty)
+    collections: "Fall 2024", // From season and year
+    material: "", // Not available in data
+    gender: "Unisex", // From gender
     images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/WhatsAppImage2025-06-16at6.33.20PM.jpg?v=1751104640&width=360",
-        altText: "Polo T-Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/5/adcf311a-2afc-4c61-aabb-111cca83f49c1730789226144-Levis-Men-Printed-Drop-Shoulder-Sleeves-T-shirt-763173078922-1.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt default",
       },
       {
-        url: "https://crazymonk.in/cdn/shop/files/INVASIONPUFFPRINT.jpg?v=1751104640&width=360",
-        altText: "Polo T-Shirt Back View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/27/248593da-ac73-43eb-8896-5ba9688a7c131732708534803-Levis-Unisex-Printed-Drop-Shoulder-Sleeves-T-shirt-585173270-11.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt left",
       },
-    ],
-    rating: 4.3,
-    numReviews: 22,
-  },
-  {
-    name: "Oversized Graphic T-Shirt",
-    description:
-      "An oversized graphic t-shirt that combines comfort with street style. Featuring bold prints across the chest, this relaxed fit tee offers a modern vibe, perfect for pairing with jeans or joggers.",
-    price: 19.99,
-    discountPrice: 15.99,
-    countInStock: 40,
-    sku: "OVS-GRF-007",
-    category: "Top Wear",
-    brand: "Street Vibes",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Gray"],
-    collections: "Streetwear",
-    material: "Cotton",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/LegendaryAtheleticDivision_1_CM.jpg?v=1751104639&width=360",
-        altText: "Oversized Graphic T-Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/5/ea1d3002-12a6-4c5f-83c7-1896ec5e5d2b1730789226054-Levis-Men-Printed-Drop-Shoulder-Sleeves-T-shirt-763173078922-5.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt image11",
       },
-    ],
-    rating: 4.6,
-    numReviews: 30,
-  },
-  {
-    name: "Regular-Fit Henley Shirt",
-    description:
-      "A modern take on the classic Henley shirt, this regular-fit style features a buttoned placket and ribbed cuffs. Made from a soft cotton blend with a touch of elastane for stretch.",
-    price: 22.99,
-    discountPrice: 18.99,
-    countInStock: 35,
-    sku: "REG-HEN-008",
-    category: "Top Wear",
-    brand: "Heritage Wear",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Heather Gray", "Olive", "Black"],
-    collections: "Casual Wear",
-    material: "Cotton Blend",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/LegendaryAtheleticDivision_2.jpg?v=1751104639&width=360",
-        altText: "Regular-Fit Henley Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/5/adcf311a-2afc-4c61-aabb-111cca83f49c1730789226144-Levis-Men-Printed-Drop-Shoulder-Sleeves-T-shirt-763173078922-1.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt search",
       },
-    ],
-    rating: 4.5,
-    numReviews: 25,
-  },
-  {
-    name: "Long-Sleeve Thermal Tee",
-    description:
-      "Stay warm with this long-sleeve thermal tee, made from soft cotton with a waffle-knit texture. Ideal for layering in cooler months, the slim-fit design ensures a snug yet comfortable fit.",
-    price: 27.99,
-    discountPrice: 22.99,
-    countInStock: 20,
-    sku: "LST-THR-009",
-    category: "Top Wear",
-    brand: "Winter Basics",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Charcoal", "Dark Green", "Navy"],
-    collections: "Winter Essentials",
-    material: "Cotton",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/YingYang_TieDye_2_CM_2.jpg?v=1751104622&width=360",
-        altText: "Long-Sleeve Thermal Tee Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/27/55cb4f11-beef-4795-99e0-c565c083dd671732708534845-Levis-Unisex-Printed-Drop-Shoulder-Sleeves-T-shirt-585173270-6.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt back",
       },
-    ],
-    rating: 4.4,
-    numReviews: 18,
-  },
-  {
-    name: "V-Neck Classic T-Shirt",
-    description:
-      "A classic V-neck t-shirt for everyday wear. This regular-fit tee is made from breathable cotton and features a clean, simple design with a flattering V-neckline. Lightweight fabric and soft texture make it perfect for casual looks.",
-    price: 14.99,
-    discountPrice: 11.99,
-    countInStock: 60,
-    sku: "VNECK-CLS-010",
-    category: "Top Wear",
-    brand: "Everyday Comfort",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Black", "Navy"],
-    collections: "Basics",
-    material: "Cotton",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/Scuderia_Ferrari_1.jpg?v=1751104951&width=360",
-        altText: "V-Neck Classic T-Shirt Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/27/891b832e-dac8-4eca-9af7-2fdc7de18e371732708534783-Levis-Unisex-Printed-Drop-Shoulder-Sleeves-T-shirt-585173270-12.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt image12",
       },
-    ],
-    rating: 4.7,
-    numReviews: 28,
-  },
-  {
-    name: "Slim Fit Joggers",
-    description:
-      "Slim-fit joggers with an elasticated drawstring waist. Features ribbed hems and side pockets. Ideal for casual outings or workouts.",
-    price: 40,
-    discountPrice: 35,
-    countInStock: 20,
-    sku: "BW-001",
-    category: "Bottom Wear",
-    brand: "ActiveWear",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Gray", "Navy"],
-    collections: "Casual Collection",
-    material: "Cotton Blend",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/OliveGreenwithUtilityPocket_4.jpg?v=1751104584&width=535",
-        altText: "Slim Fit Joggers Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/5/e03a4ac3-7df1-4ce7-b29c-98e8f9c447591730789226100-Levis-Men-Printed-Drop-Shoulder-Sleeves-T-shirt-763173078922-3.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt right",
       },
-    ],
-    rating: 4.5,
-    numReviews: 12,
-  },
-  {
-    name: "Cargo Joggers",
-    description:
-      "Relaxed-fit cargo joggers featuring multiple pockets for functionality. Drawstring waist and cuffed hems for a modern look.",
-    price: 45,
-    discountPrice: 40,
-    countInStock: 15,
-    sku: "BW-002",
-    category: "Bottom Wear",
-    brand: "UrbanStyle",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Olive", "Black"],
-    collections: "Urban Collection",
-    material: "Cotton",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/Never_Stop_Exploring_CM.jpg?v=1751104585&width=535",
-        altText: "Cargo Joggers Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/27/a2249a8c-2432-430b-a83d-a4cabdf9759f1732708534823-Levis-Unisex-Printed-Drop-Shoulder-Sleeves-T-shirt-585173270-7.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt bottom",
       },
-    ],
-    rating: 4.7,
-    numReviews: 20,
-  },
-  {
-    name: "Tapered Sweatpants",
-    description:
-      "Tapered sweatpants designed for comfort. Elastic waistband with adjustable drawstring, perfect for lounging or athletic activities.",
-    price: 35,
-    discountPrice: 30,
-    countInStock: 25,
-    sku: "BW-003",
-    category: "Bottom Wear",
-    brand: "ChillZone",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Gray", "Charcoal", "Blue"],
-    collections: "Lounge Collection",
-    material: "Fleece",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/Never_Stop_Exploring_CM.jpg?v=1751104585&width=535",
-        altText: "Tapered Sweatpants Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/5/5aede0fd-5366-43ad-b5f4-f616357e41011730789226124-Levis-Men-Printed-Drop-Shoulder-Sleeves-T-shirt-763173078922-2.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt front",
       },
-    ],
-    rating: 4.3,
-    numReviews: 18,
-  },
-  {
-    name: "Denim Jeans",
-    description:
-      "Classic slim-fit denim jeans with a slight stretch for comfort. Features a zip fly and five-pocket styling for a timeless look.",
-    price: 60,
-    discountPrice: 50,
-    countInStock: 30,
-    sku: "BW-004",
-    category: "Bottom Wear",
-    brand: "DenimCo",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Dark Blue", "Light Blue"],
-    collections: "Denim Collection",
-    material: "Denim",
-    gender: "Men",
-    images: [
       {
-        url: "https://crazymonk.in/cdn/shop/files/Never_Stop_Exploring_CM.jpg?v=1751104585&width=535",
-        altText: "Denim Jeans Front View",
+        url: "http://assets.myntassets.com/assets/images/31412838/2024/11/5/06af04ac-ee9c-4e6a-8d48-13b85ea115be1730789226076-Levis-Men-Printed-Drop-Shoulder-Sleeves-T-shirt-763173078922-4.jpg",
+        altText: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt top",
       },
     ],
-    rating: 4.6,
-    numReviews: 22,
-  },
-  {
-    name: "Chino Pants",
-    description:
-      "Slim-fit chino pants made from stretch cotton twill. Features a button closure and front and back pockets. Ideal for both casual and semi-formal wear.",
-    price: 55,
-    discountPrice: 48,
-    countInStock: 40,
-    sku: "BW-005",
-    category: "Bottom Wear",
-    brand: "CasualLook",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Beige", "Navy", "Black"],
-    collections: "Smart Casual Collection",
-    material: "Cotton",
-    gender: "Men",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Lifeisatrip_1.jpg?v=1751104668&width=535",
-        altText: "Chino Pants Front View",
-      },
-    ],
-    rating: 4.8,
-    numReviews: 15,
-  },
-  {
-    name: "Track Pants",
-    description:
-      "Comfortable track pants with an elasticated waistband and tapered leg. Features side stripes for a sporty look. Ideal for athletic and casual wear.",
-    price: 40,
-    discountPrice: 35,
-    countInStock: 20,
-    sku: "BW-006",
-    category: "Bottom Wear",
-    brand: "SportX",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Red", "Blue"],
-    collections: "Activewear Collection",
-    material: "Polyester",
-    gender: "Men",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/NaturallyHigh_OffWhite_4.jpg?v=1751104618&width=360",
-        altText: "Track Pants Front View",
-      },
-    ],
-    rating: 4.2,
-    numReviews: 17,
-  },
-  {
-    name: "Slim Fit Trousers",
-    description:
-      "Tailored slim-fit trousers with belt loops and a hook-and-eye closure. Suitable for formal occasions or smart-casual wear.",
-    price: 65,
-    discountPrice: 55,
-    countInStock: 15,
-    sku: "BW-007",
-    category: "Bottom Wear",
-    brand: "ExecutiveStyle",
-    sizes: ["M", "L", "XL"],
-    colors: ["Gray", "Black"],
-    collections: "Office Wear",
-    material: "Polyester",
-    gender: "Men",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/NaturallyHigh_OffWhite_3_CM.jpg?v=1751104618&width=360",
-        altText: "Slim Fit Trousers Front View",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 10,
-  },
-  {
-    name: "Cargo Pants",
-    description:
-      "Loose-fit cargo pants with multiple utility pockets. Features adjustable ankle cuffs and a drawstring waist for versatility and comfort.",
-    price: 50,
-    discountPrice: 45,
-    countInStock: 25,
-    sku: "BW-008",
-    category: "Bottom Wear",
-    brand: "StreetWear",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Olive", "Brown", "Black"],
-    collections: "Street Style Collection",
-    material: "Cotton",
-    gender: "Men",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/WildSoul_1_CM.jpg?v=1751104601&width=360",
-        altText: "Cargo Pants Front View",
-      },
-    ],
-    rating: 4.5,
-    numReviews: 13,
-  },
-  {
-    name: "Relaxed Fit Sweatpants",
-    description:
-      "Relaxed-fit sweatpants made from soft fleece fabric. Features an elastic waist and adjustable drawstring for a custom fit.",
-    price: 35,
-    discountPrice: 30,
-    countInStock: 35,
-    sku: "BW-009",
-    category: "Bottom Wear",
-    brand: "LoungeWear",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Gray", "Black", "Navy"],
-    collections: "Lounge Collection",
-    material: "Fleece",
-    gender: "Men",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Fearless_Limitless_1_503125ec-d623-4ada-9d90-0abcc07562e5.jpg?v=1751104641&width=360",
-        altText: "Relaxed Fit Sweatpants Front View",
-      },
-    ],
-    rating: 4.3,
-    numReviews: 14,
-  },
-  {
-    name: "Formal Dress Pants",
-    description:
-      "Classic formal dress pants with a slim fit. Made from lightweight, wrinkle-resistant fabric for a polished look at the office or formal events.",
-    price: 70,
-    discountPrice: 60,
-    countInStock: 20,
-    sku: "BW-010",
-    category: "Bottom Wear",
-    brand: "ElegantStyle",
-    sizes: ["M", "L", "XL"],
-    colors: ["Black", "Navy"],
-    collections: "Formal Collection",
-    material: "Polyester",
-    gender: "Men",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/AgainsttheOdds_lavender_1_CM.jpg?v=1751104668&width=360",
-        altText: "Formal Dress Pants Front View",
-      },
-    ],
-    rating: 4.9,
-    numReviews: 8,
-  },
-  {
-    name: "High-Waist Skinny Jeans",
-    description:
-      "High-waist skinny jeans in stretch denim with a button and zip fly. Features a flattering fit that hugs your curves and enhances your silhouette.",
-    price: 50,
-    discountPrice: 45,
-    countInStock: 30,
-    sku: "BW-W-001",
-    category: "Bottom Wear",
-    brand: "DenimStyle",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Dark Blue", "Black", "Light Blue"],
-    collections: "Denim Collection",
-    material: "Denim",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Baby_Pink_4_0d5d88db-ad8c-4b5f-bbb2-45b17cbc010f.jpg?v=1751104955&width=535",
-        altText: "High-Waist Skinny Jeans",
-      },
-    ],
-    rating: 4.8,
-    numReviews: 20,
-  },
-  {
-    name: "Wide-Leg Trousers",
-    description:
-      "Flowy, wide-leg trousers with a high waist and side pockets. Perfect for an elegant look that combines comfort and style.",
-    price: 60,
-    discountPrice: 55,
-    countInStock: 25,
-    sku: "BW-W-002",
-    category: "Bottom Wear",
-    brand: "ElegantWear",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Beige", "Black", "White"],
-    collections: "Formal Collection",
-    material: "Polyester",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Auqa_with_Pastel_Pink_tie_and_dye_4_0052910a-b070-4393-8cb4-ca07e7146098.jpg?v=1751104954&width=535",
-        altText: "Wide-Leg Trousers Front View",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 15,
-  },
-  {
-    name: "Stretch Leggings",
-    description:
-      "Soft, stretch leggings in a high-rise style. Perfect for lounging, working out, or casual wear, with a smooth fit that flatters your body.",
-    price: 25,
-    discountPrice: 20,
-    countInStock: 40,
-    sku: "BW-W-003",
-    category: "Bottom Wear",
-    brand: "ComfyFit",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Gray", "Navy"],
-    collections: "Activewear Collection",
-    material: "Cotton Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/White_with_Apricot_4_bd7a1977-712e-47b0-8af5-59b060a6d427.jpg?v=1751104967&width=535",
-        altText: "Stretch Leggings Front View",
-      },
-    ],
-    rating: 4.5,
-    numReviews: 30,
-  },
-  {
-    name: "Pleated Midi Skirt",
-    description:
-      "Elegant pleated midi skirt with a high waistband and soft fabric that drapes beautifully. Ideal for both formal and casual occasions.",
-    price: 55,
-    discountPrice: 50,
-    countInStock: 20,
-    sku: "BW-W-004",
-    category: "Bottom Wear",
-    brand: "ChicStyle",
-    sizes: ["S", "M", "L"],
-    colors: ["Pink", "Navy", "Black"],
-    collections: "Spring Collection",
-    material: "Polyester",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Lilac_with_Pastel_Pink_3_446f14e4-d73f-44a8-87c1-54bf2835e48a.jpg?v=1751104956&width=535",
-        altText: "Pleated Midi Skirt Front View",
-      },
-    ],
-    rating: 4.6,
-    numReviews: 18,
-  },
-  {
-    name: "Flared Palazzo Pants",
-    description:
-      "High-waist palazzo pants with a loose, flowing fit. Comfortable and stylish, making them perfect for casual outings or beach days.",
-    price: 45,
-    discountPrice: 40,
-    countInStock: 35,
-    sku: "BW-W-005",
-    category: "Bottom Wear",
-    brand: "BreezyVibes",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Beige", "Light Blue"],
-    collections: "Summer Collection",
-    material: "Linen Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Lilac_with_White_3_e0d997d5-a826-46cb-8757-f09e66470bf3.jpg?v=1751104957&width=535",
-        altText: "Flared Palazzo Pants Front View",
-      },
-    ],
-    rating: 4.4,
-    numReviews: 22,
-  },
-  {
-    name: "High-Rise Joggers",
-    description:
-      "Comfortable high-rise joggers with an elastic waistband and drawstring for a perfect fit. Great for lounging or working out.",
-    price: 40,
-    discountPrice: 35,
-    countInStock: 30,
-    sku: "BW-W-006",
-    category: "Bottom Wear",
-    brand: "ActiveWear",
-    sizes: ["XS", "S", "M", "L"],
-    colors: ["Black", "Gray", "Pink"],
-    collections: "Loungewear Collection",
-    material: "Cotton Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/4_e83de715-b2ca-4dff-943a-1bc1711f62d9.jpg?v=1754672770&width=535",
-        altText: "High-Rise Joggers Front View",
-      },
-    ],
-    rating: 4.3,
-    numReviews: 25,
-  },
-  {
-    name: "Paperbag Waist Shorts",
-    description:
-      "Stylish paperbag waist shorts with a belted waist and wide legs. Perfect for summer outings and keeping cool in style.",
-    price: 35,
-    discountPrice: 30,
-    countInStock: 20,
-    sku: "BW-W-007",
-    category: "Bottom Wear",
-    brand: "SunnyStyle",
-    sizes: ["S", "M", "L"],
-    colors: ["White", "Khaki", "Blue"],
-    collections: "Summer Collection",
-    material: "Cotton",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Blessed_2_ad22f70e-6005-45a5-8d2f-979ad2e249cf.jpg?v=1754672720&width=535",
-        altText: "Paperbag Waist Shorts Front View",
-      },
-    ],
-    rating: 4.5,
-    numReviews: 19,
-  },
-  {
-    name: "Stretch Denim Shorts",
-    description:
-      "Comfortable stretch denim shorts with a high-waisted fit and raw hem. Perfect for pairing with your favorite tops during warmer months.",
-    price: 40,
-    discountPrice: 35,
-    countInStock: 25,
-    sku: "BW-W-008",
-    category: "Bottom Wear",
-    brand: "DenimStyle",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Blue", "Black", "White"],
-    collections: "Denim Collection",
-    material: "Denim",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/4_e83de715-b2ca-4dff-943a-1bc1711f62d9.jpg?v=1754672770&width=535",
-        altText: "Stretch Denim Shorts Front View",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 15,
-  },
-  {
-    name: "Culottes",
-    description:
-      "Wide-leg culottes with a flattering high waist and cropped length. The perfect blend of comfort and style for any casual occasion.",
-    price: 50,
-    discountPrice: 45,
-    countInStock: 30,
-    sku: "BW-W-009",
-    category: "Bottom Wear",
-    brand: "ChicStyle",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "White", "Olive"],
-    collections: "Casual Collection",
-    material: "Polyester",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/4_e83de715-b2ca-4dff-943a-1bc1711f62d9.jpg?v=1754672770&width=535",
-        altText: "Culottes Front View",
-      },
-    ],
-    rating: 4.6,
-    numReviews: 23,
-  },
-  {
-    name: "Classic Pleated Trousers",
-    description:
-      "Timeless pleated trousers with a tailored fit. A wardrobe essential for workwear or formal occasions.",
-    price: 70,
-    discountPrice: 65,
-    countInStock: 25,
-    sku: "BW-W-010",
-    category: "Bottom Wear",
-    brand: "ElegantWear",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Navy", "Black", "Gray"],
-    collections: "Formal Collection",
-    material: "Wool Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Boston_2_f028fb44-5d64-4dd5-95ad-f5f6bfe4ea91.jpg?v=1754672740&width=535",
-        altText: "Classic Pleated Trousers Front View",
-      },
-    ],
-    rating: 4.8,
-    numReviews: 20,
-  },
-  {
-    name: "Knitted Cropped Top",
-    description:
-      "A stylish knitted cropped top with a flattering fitted silhouette. Perfect for pairing with high-waisted jeans or skirts for a casual look.",
-    price: 40,
-    discountPrice: 35,
-    countInStock: 25,
-    sku: "TW-W-001",
-    category: "Top Wear",
-    brand: "ChicKnit",
-    sizes: ["S", "M", "L"],
-    colors: ["Beige", "White"],
-    collections: "Knits Collection",
-    material: "Cotton Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/CityOfAngels_2_91bd4aec-af12-45da-a82e-c9f65c1ec33d.jpg?v=1754672803&width=535",
-        altText: "Knitted Cropped Top",
-      },
-    ],
-    rating: 4.6,
-    numReviews: 15,
-  },
-  {
-    name: "Boho Floral Blouse",
-    description:
-      "Flowy boho blouse with floral patterns, featuring a relaxed fit and balloon sleeves. Ideal for casual summer days.",
-    price: 50,
-    discountPrice: 45,
-    countInStock: 30,
-    sku: "TW-W-002",
-    category: "Top Wear",
-    brand: "BohoVibes",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Pink"],
-    collections: "Summer Collection",
-    material: "Viscose",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/2_df20e901-ffcc-4dcb-a564-a0530dbbee22.jpg?v=1754673181&width=535",
-        altText: "Boho Floral Blouse",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 20,
-  },
-  {
-    name: "Casual T-Shirt",
-    description:
-      "A soft, breathable casual t-shirt with a classic fit. Features a round neckline and short sleeves, perfect for everyday wear.",
-    price: 25,
-    discountPrice: 20,
-    countInStock: 50,
-    sku: "TW-W-003",
-    category: "Top Wear",
-    brand: "ComfyTees",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "White", "Gray"],
-    collections: "Essentials",
-    material: "Cotton",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/RageoftheTiger_4.jpg?v=1754673321&width=535",
-        altText: "Casual T-Shirt",
-      },
-    ],
-    rating: 4.5,
-    numReviews: 25,
-  },
-  {
-    name: "Off-Shoulder Top",
-    description:
-      "An elegant off-shoulder top with ruffled sleeves and a flattering fit. Ideal for adding a touch of femininity to your outfit.",
-    price: 45,
-    discountPrice: 40,
-    countInStock: 35,
-    sku: "TW-W-004",
-    category: "Top Wear",
-    brand: "Elegance",
-    sizes: ["S", "M", "L"],
-    colors: ["Red", "White", "Blue"],
-    collections: "Evening Collection",
-    material: "Polyester",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/SpaceOut_3.jpg?v=1754673419&width=535",
-        altText: "Off-Shoulder Top",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 18,
-  },
-  {
-    name: "Lace-Trimmed Cami Top",
-    description:
-      "A delicate cami top with lace trim and adjustable straps. The lightweight fabric makes it perfect for layering or wearing alone during warmer weather.",
-    price: 35,
-    discountPrice: 30,
-    countInStock: 40,
-    sku: "TW-W-005",
-    category: "Top Wear",
-    brand: "DelicateWear",
-    sizes: ["S", "M", "L"],
-    colors: ["Black", "White"],
-    collections: "Lingerie-Inspired",
-    material: "Silk Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/WildandFree_2.jpg?v=1754673486&width=535",
-        altText: "Lace-Trimmed Cami Top",
-      },
-    ],
-    rating: 4.8,
-    numReviews: 22,
-  },
-  {
-    name: "Graphic Print Tee",
-    description:
-      "A trendy graphic print tee with a relaxed fit. Pair it with jeans or skirts for a cool and casual look.",
-    price: 30,
-    discountPrice: 25,
-    countInStock: 45,
-    sku: "TW-W-006",
-    category: "Top Wear",
-    brand: "StreetStyle",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Black"],
-    collections: "Urban Collection",
-    material: "Cotton",
-    gender: "Women",
-    images: [
-      {
-        url: "https://picsum.photos/500/500?random=34https://crazymonk.in/cdn/shop/files/LightuptheNight_2.jpg?v=1754673515&width=535",
-        altText: "Graphic Print Tee",
-      },
-    ],
-    rating: 4.6,
-    numReviews: 30,
-  },
-  {
-    name: "Ribbed Long-Sleeve Top",
-    description:
-      "A cozy ribbed long-sleeve top that offers comfort and style. Perfect for layering during cooler months.",
-    price: 55,
-    discountPrice: 50,
-    countInStock: 30,
-    sku: "TW-W-007",
-    category: "Top Wear",
-    brand: "ComfortFit",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Gray", "Pink", "Brown"],
-    collections: "Fall Collection",
-    material: "Cotton Blend",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/I20Hate20People_2.jpg?v=1751105177&width=535",
-        altText: "Ribbed Long-Sleeve Top",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 26,
-  },
-  {
-    name: "Ruffle-Sleeve Blouse",
-    description:
-      "A lightweight ruffle-sleeve blouse with a flattering fit. Perfect for a feminine touch to any outfit.",
-    price: 45,
-    discountPrice: 40,
-    countInStock: 20,
-    sku: "TW-W-008",
-    category: "Top Wear",
-    brand: "FeminineWear",
-    sizes: ["S", "M", "L"],
-    colors: ["White", "Navy", "Lavender"],
-    collections: "Summer Collection",
-    material: "Viscose",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Ohana_2.jpg?v=1751105148&width=535",
-        altText: "Ruffle-Sleeve Blouse",
-      },
-    ],
-    rating: 4.5,
-    numReviews: 19,
-  },
-  {
-    name: "Classic Button-Up Shirt",
-    description:
-      "A versatile button-up shirt that can be dressed up or down. Made from soft fabric with a tailored fit, it's perfect for both casual and formal occasions.",
-    price: 60,
-    discountPrice: 55,
-    countInStock: 25,
-    sku: "TW-W-009",
-    category: "Top Wear",
-    brand: "ClassicStyle",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Light Blue", "Black"],
-    collections: "Office Collection",
-    material: "Cotton",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/9027s20Girls_2.jpg?v=1751105161&width=535",
-        altText: "Classic Button-Up Shirt",
-      },
-    ],
-    rating: 4.8,
-    numReviews: 25,
-  },
-  {
-    name: "V-Neck Wrap Top",
-    description:
-      "A chic v-neck wrap top with a tie waist. Its elegant style makes it perfect for both casual and semi-formal occasions.",
-    price: 50,
-    discountPrice: 45,
-    countInStock: 30,
-    sku: "TW-W-010",
-    category: "Top Wear",
-    brand: "ChicWrap",
-    sizes: ["S", "M", "L"],
-    colors: ["Red", "Black", "White"],
-    collections: "Evening Collection",
-    material: "Polyester",
-    gender: "Women",
-    images: [
-      {
-        url: "https://crazymonk.in/cdn/shop/files/Dont20kill20my20Vibe_1.jpg?v=1751105156&width=360",
-        altText: "V-Neck Wrap Top",
-      },
-    ],
-    rating: 4.7,
-    numReviews: 22,
+    isFeatured: false, // No bestseller tag
+    isPublished: true, // Assuming published since listed
+    rating: 4.365900039672852,
+    numReviews: 205,
+    tags: ["Deal of the Day", "Price Crash"], // From systemAttributes
+    user: "mockUserId123", // Mock ObjectId (replace with actual ref)
+    metaTitle: "Levis Unisex Graphic Printed Round Neck Cotton Oversized T-shirt",
+    metaDescription: "Unisex Printed T-shirt",
+    metaKeywords: "Deal of the Day,Price Crash",
+    dimensions: {
+      length: 0,
+      width: 0,
+      height: 0,
+    },
+    weight: 0,
   },
 ];
 
