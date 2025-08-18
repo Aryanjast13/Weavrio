@@ -101,7 +101,7 @@ const MyOrdersPage: React.FC = () => {
                     </span>
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4 font-semibold">
-                    ${order.totalPrice.toFixed(2)}
+                    ₹{order.totalPrice.toFixed(2)}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     {getStatusBadge(order.isPaid)}

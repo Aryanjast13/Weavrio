@@ -18,7 +18,7 @@ const NewArrivals = () => {
 
 
   return (
-    <section className="py-16 px-4 lg:px-0">
+    <section className="py-10 px-4 lg:px-0">
       <div className="container mx-auto text-center mb-16 relative">
         <h2 className="text-3xl mb-4 font-bold">Explore New Arrivals</h2>
         <p className="text-lg text-gray-600 mb-10">
@@ -75,7 +75,7 @@ const NewArrivals = () => {
               className="w-full h-[31rem] object-cover rounded-md  "
               draggable="false"
             />
-            <div className="absolute bottom-0 left-0 right-0   backdrop-blur-md text-white p-4 rounded-b-lg">
+            <div className=" text-gray-950 p-4 rounded-b-lg">
               <Link to={`/product/${product._id}`} className="block text-start">
                 <h4 className="font-medium">{product.name}</h4>
                 <p className="mt-1">{product.price}</p>

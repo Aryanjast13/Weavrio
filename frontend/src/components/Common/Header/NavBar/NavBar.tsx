@@ -27,7 +27,7 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="container mx-auto flex-between  py-4 px-6 ">
+      <nav className="container mx-auto flex-between  py-4  ">
         {/* Left Logo */}
         <div>
           <Link className="text-2xl font-medium" to="/">

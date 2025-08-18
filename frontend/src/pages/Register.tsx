@@ -31,7 +31,8 @@ const Register: React.FC = () => {
             navigate("/");
           
           }
-  
+          
+          
         },[user])
 
   const handleSubmit = async (
@@ -58,6 +59,7 @@ const Register: React.FC = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex min-h-screen">

@@ -9,7 +9,12 @@ interface ProductImage{
 
 
 const EditProduct: React.FC = () => {
-  const {handleChange,handleImageRemove,handleImageUpload,handleSelect,handleSubmit,loading,error,productData,uploading,setProductData } = useEditProduct();
+  const { handleChange, handleImageRemove, handleImageUpload, handleSelect, handleSubmit, loading, error, productData, uploading, setProductData
+    
+
+
+    
+   } = useEditProduct();
 
   // Loading state
   if (loading) {

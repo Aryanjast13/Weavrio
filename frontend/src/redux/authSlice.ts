@@ -102,7 +102,8 @@ export const registerUser = createAsyncThunk<
 // Thunks
 export const logoutUser = createAsyncThunk<User,void,{ rejectValue: string }>
   ("auth/logoutUser", async ( _ ,{ rejectWithValue }) => {
-  try {
+    try {
+    
     const res = await api.post(`/api/users/logout`,
     );
     return res.data;
@@ -127,6 +128,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState, // fixed: use initialState here (not inside reducers)
   reducers: {
+   
    
   },
   extraReducers: (builder) => {
@@ -184,5 +186,6 @@ const authSlice = createSlice({
       });
   },
 });
+
 
 export default authSlice.reducer;

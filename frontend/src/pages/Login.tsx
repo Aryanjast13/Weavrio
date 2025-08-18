@@ -51,9 +51,7 @@ const Login: React.FC = () => {
     }
   };
 
-  if (error) {
-    return <p>Error comes</p>;
-  }
+ 
 
   return (
     <div className="flex min-h-screen">
@@ -70,6 +68,12 @@ const Login: React.FC = () => {
           <p className="text-center mb-6">
             Enter your email and password to login
           </p>
+          {/* Display error message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
 
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-semibold mb-2">

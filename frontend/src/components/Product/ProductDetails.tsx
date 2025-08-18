@@ -118,13 +118,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
             <h1 className="text-2xl md:text-3xl font-medium mb-2">
               {selectedProduct.name}
             </h1>
-            {selectedProduct.dicountPrice && (
-              <p className="text-lg text-gray-600 mb-1 line-through">
-                ${selectedProduct.dicountPrice}
-              </p>
-            )}
+            
             <p className="text-xl text-gray-500 mb-2">
-              ${selectedProduct.price}
+              ₹{selectedProduct.price}
             </p>
             <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
 
@@ -229,7 +225,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
           <h2 className="text-2xl text-center font-medium mb-4">
             You May Also Like
           </h2>
-          <ProductGrid products={similarProducts} loading={loading} error={error} />
+          <ProductGrid
+            products={similarProducts}
+            loading={loading}
+            error={error}
+          />
         </div>
       </div>
     </div>

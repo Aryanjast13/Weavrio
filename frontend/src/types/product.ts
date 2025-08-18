@@ -4,7 +4,7 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
-  dicountPrice: number;
+  discountPrice: number;
   description: string;
   brand: string;
   countInStock: number;

@@ -1,11 +1,8 @@
 import NavBar from "./NavBar/NavBar"
-import TopBar from "./TopBar"
 
 const Header = () => {
   return (
-    <header className="border-b border-gray-200">
-      {/* Topbar */}
-      <TopBar />
+    <header className="py-2" >
       {/* Navbar */}
       <NavBar/>
       </header>

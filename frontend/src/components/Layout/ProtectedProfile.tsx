@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation, Outlet } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { useAppSelector } from "../../redux/store";
 
 const ProtectedProfile = ()=> {
@@ -10,7 +10,7 @@ const ProtectedProfile = ()=> {
   const userInfo = localStorage.getItem("userInfo");
 
   useEffect(() => {
-    // Only redirect if we're sure there's no authentication
+
     if (!loading && !user && !userInfo) {
       navigate("/login", { state: { from: location }, replace: true });
     }
