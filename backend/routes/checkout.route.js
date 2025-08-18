@@ -1,8 +1,8 @@
 import express from "express";
-import Checkout from "../models/Checkout.js"; 
-import Cart from "../models/Cart.js"
-import Product from "../models/Product.js"; 
-import protectRoute from "../middleware/protectRoute.js"; 
+import Checkout from "../models/checkout.model.js"; 
+import Cart from "../models/Cart.model.js"
+import Product from "../models/Product.model.js"; 
+import { protectRoute } from "../middleware/auth.middleware.js"; 
 
 const router = express.Router();
 
@@ -174,3 +174,6 @@ router.delete("/:id", protectRoute, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+export default router;
