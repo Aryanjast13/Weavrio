@@ -1,39 +1,6 @@
 import mongoose from "mongoose";
 
-const variantSchema = new mongoose.Schema({
-  size: {
-    type: String,
-    required: true,
-  },
-  color: {
-    type: String,
-    required: true, 
-  },
-  countInStock: {
-    type: Number,
-    required: true,
-    default: 0,
-    min: 0, 
-  },
-  sku: {
-    type: String,
-    unique: true, 
-    required: true,
-  },
-  price: {
-    type: Number,
-  },
-  discountPrice: {
-    type: Number,
-  },
-  images: [
-    {
-      url: { type: String, required: true },
-      altText: { type: String },
-    },
-  ],
-  
-});
+
 
 const productSchema = new mongoose.Schema(
   {
@@ -53,11 +20,15 @@ const productSchema = new mongoose.Schema(
     discountPrice: {
       type: Number,
     },
-    variants: {
-      type: [variantSchema],
+    size: {
+      type: [String],
       required: true,
-      validate: [arrayLimit, "At least one variant is required"],
+      validate: {
+        validator: arr => Array.isArray(arr) && arr.length > 0,  
+        message: "At least one size is required"
+      }
     },
+   color:String,
     category: {
       type: String,
       required: true,
@@ -82,6 +53,11 @@ const productSchema = new mongoose.Schema(
         altText: { type: String },
       },
     ],
+    coutInStock: {
+      type: Number,
+      default:0,
+      required:true
+    },
     isFeatured: {
       type: Boolean,
       default: false,
@@ -98,7 +74,6 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    tags: [String],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -109,17 +84,6 @@ const productSchema = new mongoose.Schema(
     },
     metaDescription: {
       type: String,
-    },
-    metaKeywords: {
-      type: String,
-    },
-    dimensions: {
-      length: Number,
-      width: Number,
-      height: Number,
-    },
-    weight: {
-      type: Number,
     },
   },
   {
@@ -133,18 +97,7 @@ function arrayLimit(val) {
 }
 
 
-productSchema.virtual("availableSizes").get(function () {
-  if (!this.variants || !Array.isArray(this.variants)) return [];
-  return [...new Set(this.variants.map((v) => v.size))];
-});
-
-productSchema.virtual("availableColors").get(function () {
-  if (!this.variants || !Array.isArray(this.variants)) return [];
-  return [...new Set(this.variants.map((v) => v.color))];
-});
-
-productSchema.set("toObject", { virtuals: true });
-productSchema.set("toJSON", { virtuals: true });
+3
 
 const Product = mongoose.model("Product", productSchema);
 
