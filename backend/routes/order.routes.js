@@ -14,7 +14,7 @@ router.get("/my-orders", protectRoute, async (req, res) => {
       .sort({ createdAt: -1 })
       .populate({
         path: "orderItems.productId", 
-        select: "name images price",
+        select: "images",
       })
       .populate("user", "name email"); 
 
@@ -37,7 +37,7 @@ router.get("/:id", protectRoute, async (req, res) => {
     })
       .populate({
         path: "orderItems.productId",
-        select: "name images price", 
+        select: "images", 
       })
       .populate("user", "name email"); 
 

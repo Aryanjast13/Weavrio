@@ -13,46 +13,53 @@ router.post("/", protectRoute, admin, async (req, res) => {
     const {
       name,
       description,
-      price, // Base price
-      discountPrice, // Base discount price
-      variants, // Expect an array of variant objects, e.g., [{ size: "Small", color: "Red", countInStock: 10, sku: "ABC123", price: 29.99, discountPrice: 24.99 }, ...]
+      price, 
+      discountPrice, 
       category,
       brand,
+      size,
+      color,
+      countInStock,
       collections,
       material,
       gender,
       images,
       isFeatured,
       isPublished,
-      tags,
-      dimensions,
-      weight,
+      metaTitle,
+     metaDescription
+      
     } = req.body;
 
-    // Basic validation: Ensure variants is an array with at least one item
-    if (!Array.isArray(variants) || variants.length === 0) {
+  
+    if (!Array.isArray(size) || size.length === 0) {
       return res
         .status(400)
-        .json({ message: "At least one variant is required" });
+        .json({ message: "At least one size is required" });
     }
+
+    if (!Array.isArray(images) || images.length === 0) {
+      return res.status(400).json({ message: "At least one image is required" });
+    }
+
 
     const product = new Product({
       name,
       description,
       price,
       discountPrice,
-      variants, // Directly assign the variants array
       category,
       brand,
+      size, color,
+      countInStock,
       collections,
       material,
       gender,
       images,
       isFeatured,
       isPublished,
-      tags,
-      dimensions,
-      weight,
+      metaTitle,
+     metaDescription,
       user: req.user._id,
     });
 
@@ -74,7 +81,7 @@ router.put("/:id", protectRoute, admin, async (req, res) => {
       description,
       price, 
       discountPrice, 
-      variants, 
+      countInStock,
       category,
       brand,
       collections,
@@ -83,9 +90,7 @@ router.put("/:id", protectRoute, admin, async (req, res) => {
       images,
       isFeatured,
       isPublished,
-      tags,
-      dimensions,
-      weight,
+
     } = req.body;
 
       
@@ -211,36 +216,20 @@ router.get("/", async (req, res) => {
             query.gender = gender;
         }
 
-        if (size || color || minPrice || maxPrice) {
-          query.variants = { $elemMatch: {} }; 
-          if (size) {
-            query.variants.$elemMatch.size = { $in: size.split(",") };
-          }
-          if (color) {
-            query.variants.$elemMatch.color = { $in: color.split(",") };
-          }
-          if (minPrice || maxPrice) {
-            query.variants.$elemMatch.$or = [
-              { price: { $exists: true } }, 
-              { price: { $exists: false } }, 
-            ];
-            if (minPrice) {
-              query.variants.$elemMatch["price"] = {
-                ...(query.variants.$elemMatch["price"] || {}),
-                $gte: Number(minPrice),
-              };
-            }
-            if (maxPrice) {
-              query.variants.$elemMatch["price"] = {
-                ...(query.variants.$elemMatch["price"] || {}),
-                $lte: Number(maxPrice),
-              };
-            }
-           
-              if (minPrice) query.$or[1].price.$gte = Number(minPrice);
-              if (maxPrice) query.$or[1].price.$lte = Number(maxPrice);
-            }
-          }
+        if (size) {
+          query.sizes = { $in: size.split(",") };
+        }
+        if (color) {
+          query.colors = color;
+        }
+        if (gender) {
+          query.gender = gender;
+        }
+        if (minPrice || maxPrice) {
+          query.price = {};
+          if (minPrice) query.price.$gte = Number(minPrice);
+          if (maxPrice) query.price.$lte = Number(maxPrice);
+        }
         
 
 
@@ -289,8 +278,6 @@ router.get("/new-arrivals", async (req, res) => {
   try {
     const newArrivals = await Product.find({
       isPublished: true, 
-      "variants.0": { $exists: true }, 
-      variants: { $elemMatch: { countInStock: { $gt: 0 } } }, 
     })
       .sort({ createdAt: -1 }) 
       .limit(8);
@@ -308,9 +295,7 @@ router.get("/new-arrivals", async (req, res) => {
 router.get("/best-seller", async (req, res) => {
   try {
     const bestSeller = await Product.findOne({
-      isPublished: true, 
-      "variants.0": { $exists: true }, 
-      variants: { $elemMatch: { countInStock: { $gt: 0 } } }, 
+      isPublished: true,  
     }).sort({ rating: -1 }); 
 
     if (bestSeller) {
@@ -333,8 +318,7 @@ router.get("/:id", async (req, res) => {
     
     const product = await Product.findOne({
       _id: req.params.id,
-      isPublished: true, 
-      variants: { $elemMatch: { countInStock: { $gt: 0 } } }, 
+      isPublished: true,  
     });
 
     if (product) {

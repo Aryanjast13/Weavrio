@@ -17,33 +17,18 @@ router.post("/", protectRoute, async (req, res) => {
   try {
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: "Product not found" });
-
-  
-    const variant = product.variants.find(
-      (v) => v.size === size && v.color === color
-    );
-    if (!variant)
-      return res
-        .status(400)
-        .json({ message: "Selected size and color variant not found" });
-
-    // Check stock availability
-    if (variant.countInStock < quantity)
-      return res
-        .status(400)
-        .json({ message: "Insufficient stock for this variant" });
-
-    
-    const productPrice = variant.price || product.price;
-
     
     let cart = await Cart.findOne({ user: userId });
 
     if (cart) {
       
-      const productIndex = cart.products.findIndex((item) =>
-        item.variantId.equals(variant._id)
-      );
+       const productIndex = cart.products.findIndex(
+         (p) =>
+           p.productId.toString() === productId &&
+           p.size === size &&
+           p.color === color
+       );
+       console.log(productIndex);
 
       if (productIndex > -1) {
       
@@ -52,35 +37,44 @@ router.post("/", protectRoute, async (req, res) => {
         // Add new item
         cart.products.push({
           productId,
-          variantId: variant._id,
+          size,color,
           quantity,
-          price: productPrice,
+          price:product.price,
         });
       }
 
       
 
-      await cart.save(); // This triggers the pre-save hook to recalculate totalPrice
-      return res.status(200).json(cart);
+        const populateCart = await cart.save();
+        const FinalCart = await populateCart.populate({
+          path: "products.productId",
+          select: "images",
+        });
+        return res.status(200).json(FinalCart);
     } else {
       // Create a new cart
       const newCart = new Cart({
-        user: userId || undefined, // Optional for guests
+        user: userId ,
         products: [
           {
             productId,
-            variantId: variant._id,
+            size,
+            color,
             quantity,
-            price: productPrice,
+            price: product.price,
           },
         ],
-        totalPrice: productPrice * quantity, 
+        totalPrice: product.price * quantity, 
       });
 
      
 
-      await newCart.save();
-      return res.status(201).json(newCart);
+       const populateCart = await newCart.save();
+       const FinalCart = await populateCart.populate({
+         path: "products.productId",
+         select: "images",
+       });
+       return res.status(200).json(FinalCart);
     }
   } catch (error) {
     console.log("Error in create cart controller", error.message);
@@ -93,57 +87,41 @@ router.post("/", protectRoute, async (req, res) => {
 //@desc Update product quantity in the cart for a  logged-in user
 //@access Private
 router.put("/", protectRoute, async (req, res) => {
-  const { productId, quantity, size, color } = req.body; // Note: userId removed; use req.user from protectRoute
-  const userId = req.user._id; // Assume protectRoute sets req.user for authenticated users
+  const { productId, quantity, size, color } = req.body; 
+  const userId = req.user._id; 
 
   try {
-    // Find the user's cart
+   
     let cart = await Cart.findOne({ user: userId });
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
-    // Fetch the product to get variant details
+  
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    // Find the matching variant by size and color
-    const variant = product.variants.find(
-      (v) => v.size === size && v.color === color
-    );
-    if (!variant)
-      return res
-        .status(400)
-        .json({ message: "Selected size and color variant not found" });
-
-    
-    const itemIndex = cart.products.findIndex(
-      (p) => p.productId.equals(productId) && p.variantId.equals(variant._id)
+    const productIndex = cart.products.findIndex(
+      (p) => p.productId.toString() === productId &&
+         p.size === size &&
+         p.color === color
     );
 
-    if (itemIndex > -1) {
-      
-      
+    if (productIndex > -1) {
       if (quantity <= 0) {
-        cart.products.splice(itemIndex, 1);
+        cart.products.splice(productIndex, 1);
       } else {
-        
-        if (quantity > 0 && variant.countInStock < quantity) {
-          return res
-            .status(400)
-            .json({ message: "Insufficient stock for this variant" });
-        }
-       
-        cart.products[itemIndex].quantity = quantity;
+        cart.products[productIndex].quantity = quantity;
       }
 
-    
-     
-
-      await cart.save();
-      return res.status(200).json(cart);
+      const populateCart = await cart.save();
+      const FinalCart = await populateCart.populate({
+        path: "products.productId",
+        select: "images",
+      });
+      return res.status(200).json(FinalCart);
     } else {
       return res
         .status(404)
-        .json({ message: "Product variant not found in cart" });
+        .json({ message: "Product  not found in cart" });
     }
   } catch (error) {
     console.log("Error in cart update controller", error.message);
@@ -170,33 +148,28 @@ router.delete("/", protectRoute, async (req, res) => {
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
+     const productIndex = cart.products.findIndex(
+       (p) =>
+         p.productId.toString() === productId &&
+         p.size === size &&
+         p.color === color
+     );
+
     
-    const variant = product.variants.find(
-      (v) => v.size === size && v.color === color
-    );
-    if (!variant)
-      return res
-        .status(400)
-        .json({ message: "Selected size and color variant not found" });
 
-  
-    const itemIndex = cart.products.findIndex(
-      (p) => p.productId.equals(productId) && p.variantId.equals(variant._id)
-    );
+    if (productIndex > -1) {
+      const removedQuantity = cart.products[productIndex].quantity;
 
-    if (itemIndex > -1) {
-      const removedQuantity = cart.products[itemIndex].quantity; 
+      cart.products.splice(productIndex, 1);
 
-  
-      cart.products.splice(itemIndex, 1);
-
-      
-      
-
-      await cart.save();
-      return res.status(200).json(cart);
+      const populateCart = await cart.save();
+      const FinalCart = await populateCart.populate({
+        path: "products.productId",
+        select: "images",
+      });
+      return res.status(200).json(FinalCart);
     } else {
-      return res
+      return res``
         .status(404)
         .json({ message: "Product variant not found in cart" });
     }
@@ -217,8 +190,8 @@ router.get("/", protectRoute, async (req, res) => {
     const userId = req.user._id; 
 
     const cart = await Cart.findOne({ user: userId }).populate({
-      path: "products.productId",
-      select: "name images price", 
+      path:"products.productId",
+      select: "price", 
     });
 
     if (cart) {
