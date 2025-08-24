@@ -75,7 +75,7 @@ const MyOrdersPage: React.FC = () => {
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     <img
                       src={
-                        order.orderItems[0]?.image || "/placeholder-image.jpg"
+                        order.orderItems[0].productId.images[0].url || "/placeholder-image.jpg"
                       }
                       alt={order.orderItems[0]?.name || "Product"}
                       className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg"

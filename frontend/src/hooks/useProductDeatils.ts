@@ -50,8 +50,8 @@ export function useProductDetails(productId?:string) {
   };
 
   const handleAddToCart = async (): Promise<void> => {
-    if (!selectedSize || !selectedColor) {
-      toast.error("Please select a size and color before adding to cart.", {
+    if (!selectedSize) {
+      toast.error("Please select a size  before adding to cart.", {
         duration: 1000,
       });
       return;
@@ -72,7 +72,7 @@ export function useProductDetails(productId?:string) {
           productId: productFetchId,
           quantity,
           size: selectedSize,
-          color: selectedColor,
+          color: selectedProduct?.color,
           userId: user?._id,
         })
       ).unwrap(); // unwrap to handle rejections

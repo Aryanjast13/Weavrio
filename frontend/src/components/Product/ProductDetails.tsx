@@ -21,8 +21,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
    setMainImage,
    selectedSize,
    setSelectedSize,
-   selectedColor,
-   setSelectedColor,
    quantity,
    handleQuantityChange,
    isButtonDisabled,
@@ -126,32 +124,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
 
             {/* Color Selection */}
             <div className="mb-4">
-              <p className="text-gray-700">Color:</p>
-              <div className="flex gap-2 mt-2">
-                {selectedProduct.colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-7 h-7 rounded-full border ${
-                      selectedColor === color
-                        ? "border-4 border-black"
-                        : "border-gray-300"
-                    }`}
-                    style={{
-                      backgroundColor: color.toLowerCase(),
-                      filter: "brightness(0.5)",
-                    }}
-                    aria-label={`Select ${color} color`}
-                  />
-                ))}
-              </div>
+              <p className="text-gray-700">Color: {selectedProduct.color }</p>
             </div>
 
             {/* Size Selection */}
             <div className="mb-4">
               <p className="text-gray-700">Size:</p>
               <div className="flex gap-2 mt-2">
-                {selectedProduct.sizes.map((size) => (
+                {selectedProduct.size.map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}

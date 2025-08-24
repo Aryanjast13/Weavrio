@@ -2,15 +2,15 @@ import { Link } from "react-router";
 import hero from "../../assets/hero1.jpg";
 const Hero = () => {
   return (
-    <section className="relative container mx-auto rounded-lg overflow-hidden">
+    <section className="relative container mx-auto px-5 rounded-lg overflow-hidden">
       <img
         src={hero}
         alt="hero"
         className="w-full h-[400px] md:h-[600px] lg:h-[750px] object-cover"
       />
-      <div className=" absolute inset-0 bg-black/20  flex items-center  ">
+      <div className=" absolute inset-0 bg-black/20  px-5 flex items-center">
         <div className="text-left w-2xl p-6 pl-14 ">
-          <h1 className="flex flex-col mb-6  ">
+          <h1 className="flex flex-col mb-6">
             <span className="text-7xl font-light text-white/80">
               Timeless Fashion
             </span>
