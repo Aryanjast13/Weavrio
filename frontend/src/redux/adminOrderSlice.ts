@@ -2,9 +2,9 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import axios from "axios";
 
 // ✅ Import all types from unified file
+import api from "../api/api";
 import type { Order } from "../types/order";
 
 // Admin-specific state interface (extends base with additional fields)
@@ -33,9 +33,8 @@ export const fetchAllOrders = createAsyncThunk<
   { rejectValue: string }
 >("adminOrders/fetchAllOrders", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get<OrdersApiResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
-      { withCredentials: true }
+    const response = await api.get<OrdersApiResponse>(
+      `/api/admin/orders`,
     );
 
     // Better type-safe handling
@@ -62,10 +61,9 @@ export const updateOrderStatus = createAsyncThunk<
   "adminOrders/updateOrderStatus",
   async ({ id, status }, { rejectWithValue }) => {
     try {
-      const response = await axios.put<Order>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
+      const response = await api.put<Order>(
+        `/api/admin/orders/${id}`,
         { status },
-        { withCredentials: true }
       );
       return response.data;
     } catch (err) {
@@ -85,9 +83,8 @@ export const deleteOrder = createAsyncThunk<
   { rejectValue: string }
 >("adminOrders/deleteOrder", async (id, { rejectWithValue }) => {
   try {
-    await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-      { withCredentials: true }
+    await api.delete(
+      `/api/admin/orders/${id}`,
     );
     return id;
   } catch (err) {

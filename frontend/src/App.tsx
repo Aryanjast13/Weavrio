@@ -1,72 +1,100 @@
+import { Suspense, lazy } from "react";
+import { Provider } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import { Toaster } from "sonner";
-import EditProduct from "./components/Admin/EditProduct";
-import OrderManagment from "./components/Admin/OrderManagment";
-import ProductManagment from "./components/Admin/ProductManagment";
-import UserManagment from "./components/Admin/UserManagment";
-import AdminLayout from "./components/Layout/AdminLayout";
-import UserLayout from "./components/Layout/UserLayout";
-import Checkout from "./components/Product/Checkout";
-import ProductDetails from "./components/Product/ProductDetails";
-import AdminHomePage from "./pages/AdminHomePage";
-import { CollectionPage } from "./pages/CollectionPage";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import MyOrdersPage from "./pages/MyOrdersPage";
-import OrderConfirmation from "./pages/OrderConfirmation";
-import OrderDetailPage from "./pages/OrderDetailPage";
-import Profile from "./pages/Profile";
-import Register from "./pages/Register";
-
-import { Provider } from "react-redux";
-import ProtectedProfile from "./components/Layout/ProtectedProfile";
-import ProtectedRoute from "./components/Layout/ProtectedRoute";
 import store from "./redux/store";
-import NotFound from "./components/Layout/NotFound";
-import ErrorBoundary from "./components/Layout/ErrorBoundary";
+
+// Layouts
+const UserLayout = lazy(() => import("./components/Layout/UserLayout"));
+const AdminLayout = lazy(() => import("./components/Layout/AdminLayout"));
+const ProtectedProfile = lazy(
+  () => import("./components/Layout/ProtectedProfile")
+);
+const ProtectedRoute = lazy(() => import("./components/Layout/ProtectedRoute"));
+const NotFound = lazy(() => import("./components/Layout/NotFound"));
+const ErrorBoundary = lazy(() => import("./components/Layout/ErrorBoundary"));
+
+// Products
+const Checkout = lazy(() => import("./components/Product/Checkout"));
+const ProductDetails = lazy(
+  () => import("./components/Product/ProductDetails")
+);
+
+// Pages (User)
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const CollectionPage = lazy(() => import("./pages/CollectionPage"));
+const Profile = lazy(() => import("./pages/Profile"));
+const MyOrdersPage = lazy(() => import("./pages/MyOrdersPage"));
+const OrderConfirmation = lazy(() => import("./pages/OrderConfirmation"));
+const OrderDetailPage = lazy(() => import("./pages/OrderDetailPage"));
+
+// Pages (Admin)
+const AdminHomePage = lazy(() => import("./pages/AdminHomePage"));
+const UserManagment = lazy(() => import("./components/Admin/UserManagment"));
+const ProductManagment = lazy(
+  () => import("./components/Admin/ProductManagment")
+);
+const EditProduct = lazy(() => import("./components/Admin/EditProduct"));
+const OrderManagment = lazy(() => import("./components/Admin/OrderManagment"));
+
+// A simple reusable loader
+const Loader = () => (
+  <div className="flex items-center justify-center h-screen">
+    <span className="text-lg font-medium">Loading...</span>
+  </div>
+);
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Toaster position="top-right" />
-        <Routes>
-          {/* User layout */}
-          
-            <Route path="/" element={<UserLayout />} errorElement={<ErrorBoundary/>}>
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route
-                path="collections/:collection"
-                element={<CollectionPage />}
-              />
-              <Route path="product/:id" element={<ProductDetails />} />
 
-              <Route element={<ProtectedProfile />}>
-                <Route path="profile" element={<Profile />} />
-                <Route path="checkout" element={<Checkout />} />
+        <ErrorBoundary>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              {/* User layout */}
+              <Route path="/" element={<UserLayout />}>
+                <Route index element={<Home />} />
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
                 <Route
-                  path="order-confirmation"
-                  element={<OrderConfirmation />}
+                  path="collections/:collection"
+                  element={<CollectionPage />}
                 />
-                <Route path="order/:id" element={<OrderDetailPage />} />
-                <Route path="my-orders" element={<MyOrdersPage />} />
-              </Route>
-            </Route>
+                <Route path="product/:id" element={<ProductDetails />} />
 
-            {/* Admin layout */}
-            <Route path="/admin" element={<ProtectedRoute role="admin" />} errorElement={<ErrorBoundary/>}>
-              <Route element={<AdminLayout />}>
-                <Route index element={<AdminHomePage />} />
-                <Route path="users" element={<UserManagment />} />
-                <Route path="products" element={<ProductManagment />} />
-                <Route path="products/:id/edit" element={<EditProduct />} />
-                <Route path="orders" element={<OrderManagment />} />
+                {/* Protected Profile routes */}
+                <Route element={<ProtectedProfile />}>
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="checkout" element={<Checkout />} />
+                  <Route
+                    path="order-confirmation"
+                    element={<OrderConfirmation />}
+                  />
+                  <Route path="order/:id" element={<OrderDetailPage />} />
+                  <Route path="my-orders" element={<MyOrdersPage />} />
+                </Route>
               </Route>
-            </Route>
-            <Route path="*" element={<NotFound/>}/>
-        </Routes>
+
+              {/* Admin layout */}
+              <Route path="/admin" element={<ProtectedRoute role="admin" />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<AdminHomePage />} />
+                  <Route path="users" element={<UserManagment />} />
+                  <Route path="products" element={<ProductManagment />} />
+                  <Route path="products/:id/edit" element={<EditProduct />} />
+                  <Route path="orders" element={<OrderManagment />} />
+                </Route>
+              </Route>
+
+              {/* Fallback */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </Router>
     </Provider>
   );

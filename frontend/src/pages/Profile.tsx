@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store";
 import MyOrdersPage from "./MyOrdersPage";
 
 const Profile = () => {
-  const { user ,loading,error } = useAppSelector(state => state.auth);
+  const { user ,loading } = useAppSelector(state => state.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -20,9 +20,7 @@ const Profile = () => {
   if (loading) {
     return <p>Loading...</p>
   }
-  if (error) {
-    <p>error</p>
-  }
+
 
   return (
       <div className="min-h-screen flex flex-col">

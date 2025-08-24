@@ -4,6 +4,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../api/api";
 
 // Types
 export interface User {
@@ -50,8 +51,8 @@ const initialState: AuthState = {
 export const loginUser = createAsyncThunk<User, { email: string; password: string }, { rejectValue: string }>
   ("auth/loginUser", async (userData, { rejectWithValue }) => {
   try {
-    const res = await axios.post<User>(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`,userData,
-      { withCredentials: true }
+    const res = await api.post<User>(`/api/users/login`,userData,
+   
     );
     return res.data;
   } catch (err) {
@@ -76,8 +77,8 @@ export const registerUser = createAsyncThunk<
   { rejectValue: string }
 >("auth/registerUser", async (userData, { rejectWithValue }) => {
   try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
+    const res = await api.post(
+      `/api/users/register`,
         userData,
       {withCredentials:true}
     );
@@ -101,9 +102,9 @@ export const registerUser = createAsyncThunk<
 // Thunks
 export const logoutUser = createAsyncThunk<User,void,{ rejectValue: string }>
   ("auth/logoutUser", async ( _ ,{ rejectWithValue }) => {
-  try {
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/logout`,{},
-      { withCredentials: true }
+    try {
+    
+    const res = await api.post(`/api/users/logout`,
     );
     return res.data;
   } catch (err) {
@@ -127,6 +128,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState, // fixed: use initialState here (not inside reducers)
   reducers: {
+   
    
   },
   extraReducers: (builder) => {
@@ -184,5 +186,6 @@ const authSlice = createSlice({
       });
   },
 });
+
 
 export default authSlice.reducer;

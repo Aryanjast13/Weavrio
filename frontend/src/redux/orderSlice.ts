@@ -2,9 +2,9 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import axios from "axios";
 
 // ✅ Import all types from unified file
+import api from "../api/api";
 import type { Order, OrderDetails, OrderState } from "../types/order";
 
 // Thunks
@@ -14,9 +14,9 @@ export const fetchUserOrders = createAsyncThunk<
   { rejectValue: string }
 >("order/fetchUserOrders", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get<Order[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`,
-      { withCredentials: true }
+    const response = await api.get<Order[]>(
+      `/api/orders/my-orders`,
+      
     );
     return response.data;
   } catch (err) {
@@ -35,9 +35,9 @@ export const fetchOrderDetails = createAsyncThunk<
   { rejectValue: string }
 >("order/fetchOrderDetails", async (orderId, { rejectWithValue }) => {
   try {
-    const response = await axios.get<OrderDetails>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,
-      { withCredentials: true }
+    const response = await api.get<OrderDetails>(
+      `/api/orders/${orderId}`,
+      
     );
     return response.data;
   } catch (err) {

@@ -2,16 +2,16 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import axios from "axios";
 
 // ✅ Import all types from unified file
+import api from "../api/api";
 import type {
+  AddUserResponse,
+  AdminState,
+  DeleteUserResponse,
+  UpdateUserData,
   User,
   UserData,
-  UpdateUserData,
-  AdminState,
-  AddUserResponse,
-  DeleteUserResponse,
 } from "../types/user";
 
 // Thunks
@@ -22,9 +22,9 @@ export const fetchUsers = createAsyncThunk<
   { rejectValue: string }
 >("admin/fetchUsers", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get<User[]>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
-      { withCredentials: true }
+    const response = await api.get<User[]>(
+      `/api/admin/users`,
+      
     );
     return response.data;
   } catch (err) {
@@ -42,10 +42,10 @@ export const addUser = createAsyncThunk<
   { rejectValue: string }
 >("admin/addUser", async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post<AddUserResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
+    const response = await api.post<AddUserResponse>(
+      `/api/admin/users`,
       userData,
-      { withCredentials: true }
+     
     );
     // Handle both possible response formats
     return response.data.user || (response.data as any);
@@ -69,10 +69,10 @@ export const updateUser = createAsyncThunk<
     if (name) updateData.name = name;
     if (role) updateData.role = role;
 
-    const response = await axios.put<User>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+    const response = await api.put<User>(
+      `$/api/admin/users/${id}`,
       updateData,
-      { withCredentials: true }
+      
     );
     return response.data;
   } catch (err) {
@@ -90,8 +90,8 @@ export const deleteUser = createAsyncThunk<
   { rejectValue: string }
 >("admin/deleteUser", async (id, { rejectWithValue }) => {
   try {
-    await axios.delete<DeleteUserResponse>(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+    await api.delete<DeleteUserResponse>(
+      `/api/admin/users/${id}`,
       { withCredentials: true }
     );
     return id;

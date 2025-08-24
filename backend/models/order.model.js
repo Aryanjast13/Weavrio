@@ -1,83 +1,91 @@
 import mongoose from "mongoose";
 
-const orderItemSchema = new mongoose.Schema({
+const orderItemSchema = new mongoose.Schema(
+  {
     productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        required: true,
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true, 
     },
-    size: String,
-    color: String,
-    quantity: {
-        type: Number,
-        required: true,
-    },
+    
+    size: { type: String },
+    color: { type: String },
+  },
+  {
+    _id: false, 
+  }
+);
 
-}, {
-    _id: false
-});
-
-const orderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema(
+  {
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     orderItems: [orderItemSchema],
     shippingAddress: {
-        address: { type: String, required: true },
-        city: { type: String, required: true },
-        postalCode: { type: String, required: true },
-        country: { type: String, required: true },
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
     },
     paymentMethod: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     totalPrice: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
+      default: 0,
     },
     isPaid: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     paidAt: {
-        type: Date,
+      type: Date,
     },
     isDelivered: {
-        type: Boolean,
-        dfault: false
+      type: Boolean,
+      default: false,
     },
     deliveredAt: {
-        type: Date,
+      type: Date,
     },
     paymentStatus: {
-        type: String,
-        default: "pending"
+      type: String,
+      default: "pending",
     },
     status: {
-        type: String,
-        enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
-        default: "Processing",
+      type: String,
+      enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
+      default: "Processing",
     },
-}
-    ,
-    { timestamps: true }
+  },
+  {
+    timestamps: true,
+  }
 );
 
-const Order = new mongoose.model("order", orderSchema);
+// Pre-save hook to calculate totalPrice automatically
+orderSchema.pre("save", function (next) {
+  this.totalPrice = this.orderItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  next();
+});
+
+const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

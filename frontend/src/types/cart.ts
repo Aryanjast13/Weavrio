@@ -5,8 +5,8 @@ export interface CartProduct {
   image: string;
   price: number; 
   quantity: number;
-  size?: string;
-  color?: string;
+  size: string;
+  color: string;
 }
 
 // Cart interface (matches your MongoDB cartSchema)
@@ -37,7 +37,7 @@ export interface FetchCartParams {
 export interface AddToCartParams {
   productId: string;
   quantity: number;
-  size?: string;
+  size: string;
   color?: string;
   userId?: string;
 }
@@ -47,7 +47,7 @@ export interface UpdateCartItemParams {
   productId: string;
   quantity: number;
   userId?: string;
-  size?: string;
+  size: string;
   color?: string;
 }
 
@@ -105,12 +105,12 @@ export type CartItemHandler = (
   productId: string,
   delta: number,
   quantity: number,
-  size?: string,
-  color?: string
+  size: string,
+  color: string
 ) => void;
 
 export type RemoveItemHandler = (
   productId: string,
-  size?: string,
-  color?: string
+  size: string,
+  color: string
 ) => void;

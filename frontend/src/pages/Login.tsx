@@ -17,20 +17,14 @@ const Login: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
 
-  const { user, loading, error } = useAppSelector(
-    (state) => state.auth
-  );
-  
-      useEffect(()=>{
-        if (user) {
-          navigate("/");
-          console.log("Sfdsfdsfsf")
-        }
+  const { user, loading, error } = useAppSelector((state) => state.auth);
 
-      },[user])
-  
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -57,9 +51,7 @@ const Login: React.FC = () => {
     }
   };
 
-  if (error) {
-    return <p>Error comes</p>
-  }
+ 
 
   return (
     <div className="flex min-h-screen">
@@ -76,8 +68,12 @@ const Login: React.FC = () => {
           <p className="text-center mb-6">
             Enter your email and password to login
           </p>
-
-         
+          {/* Display error message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
 
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-semibold mb-2">
@@ -132,10 +128,7 @@ const Login: React.FC = () => {
 
           <p className="mt-6 text-center text-sm">
             Don't have an account?{" "}
-            <Link
-              to={`/register`}
-              className="text-blue-500 hover:underline"
-            >
+            <Link to={`/register`} className="text-blue-500 hover:underline">
               Register
             </Link>
           </p>

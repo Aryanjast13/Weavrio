@@ -1,24 +1,28 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const cartItemSchema = new mongoose.Schema({
+const cartItemSchema = new mongoose.Schema(
+  {
     productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    name: String,
-    image: String,
-    price: String,
     size: String,
-    color: String,
-    quantity: {
-        type: Number,
-        default: 1,
+    color:String,
+    price: {
+      type: Number,
+      required: true,
     },
-
-}, {
-    _id: false
-});
+    quantity: {
+      type: Number,
+      default: 1,
+      min: 1,
+    },
+  },
+  {
+    _id: false,
+  }
+);
 
 const cartSchema = new mongoose.Schema({
     user: {
@@ -32,6 +36,14 @@ const cartSchema = new mongoose.Schema({
         default: 0,
     }
 }, { timestamps: true });
+
+cartSchema.pre("save", function (next) {
+  this.totalPrice = this.products.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0
+  );
+  next();
+});
 
 const Cart = new mongoose.model("Cart", cartSchema);
 

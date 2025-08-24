@@ -10,8 +10,7 @@ import { fetchProductsByFilters } from "../redux/productsSlice";
 
 
 
-
-export const CollectionPage = () => {
+ const CollectionPage = () => {
   const { collections} = useParams();
   const[SearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
@@ -78,3 +77,6 @@ export const CollectionPage = () => {
     </div>
   ); 
 }
+
+
+export default CollectionPage;

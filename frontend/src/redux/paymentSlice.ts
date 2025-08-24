@@ -1,6 +1,6 @@
 // redux/paymentSlice.ts
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../api/api";
 
 interface PaymentState {
   loading: boolean;
@@ -16,10 +16,10 @@ export const createRazorpayOrder = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/payment/create-order`,
+      const response = await api.post(
+        `/api/payment/create-order`,
         orderData,
-        { withCredentials: true }
+        
       );
       return response.data;
     } catch (error: any) {
@@ -35,10 +35,10 @@ export const verifyRazorpayPayment = createAsyncThunk(
   "payment/verifyPayment",
   async (paymentData: any, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/payment/verify-payment`,
+      const response = await api.post(
+        `/api/payment/verify-payment`,
         paymentData,
-        { withCredentials: true }
+        
       );
       return response.data;
     } catch (error: any) {
