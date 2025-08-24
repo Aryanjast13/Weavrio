@@ -6,12 +6,14 @@ export interface Product {
   price: number;
   discountPrice: number;
   description: string;
+  availableColors: string[],
+  availableSizes:string[],
   brand: string;
   countInStock: number;
   sku: string;
   material: string;
-  sizes: string[];
-  colors: string[];
+  size: string[];
+  color: string;
   images: Array<{
     url: string;
     altText?: string;

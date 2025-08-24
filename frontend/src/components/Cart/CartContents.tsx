@@ -118,7 +118,7 @@ const CartContents: React.FC<CartContentsProps> = ({ cart, userId }) => {
           >
             <div className="flex items-start">
               <img
-                src={product.image}
+                src={product?.productId?.images?.[0]?.url ?? null}
                 alt={product.name}
                 className="w-20 h-24 object-cover mr-4 rounded"
               />
@@ -132,7 +132,7 @@ const CartContents: React.FC<CartContentsProps> = ({ cart, userId }) => {
                     className="border border-gray-200 rounded px-2 py-1 text-xl font-medium"
                     onClick={() =>
                       handleAddToCart(
-                        product.productId,
+                        product.productId._id,
                         -1,
                         product.quantity, // Pass current Redux quantity as fallback
                         product.size,
@@ -147,7 +147,7 @@ const CartContents: React.FC<CartContentsProps> = ({ cart, userId }) => {
                     className="border border-gray-200 rounded px-2 py-1 text-xl font-medium"
                     onClick={() =>
                       handleAddToCart(
-                        product.productId,
+                        product.productId._id,
                         1,
                         product.quantity, // Pass current Redux quantity as fallback
                         product.size,
@@ -167,7 +167,7 @@ const CartContents: React.FC<CartContentsProps> = ({ cart, userId }) => {
               <button
                 onClick={() =>
                   handleRemoveFromCart(
-                    product.productId,
+                    product.productId._id,
                     product.size,
                     product.color
                   )

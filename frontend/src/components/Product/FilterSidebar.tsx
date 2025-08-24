@@ -46,7 +46,7 @@ const FilterSidebar = () => {
     <div className="p-4">
       <h3 className="text-xl font-medium text-gray-800 mb-4">Filter</h3>
 
-      {/* Category Filter */}
+      {/* Category Filter
       <div className="mb-6">
         <label className="block text-gray-600 font-medium mb-2">Category</label>
         {categories.map((category) => (
@@ -62,9 +62,9 @@ const FilterSidebar = () => {
             <span className="text-gray-700">{category}</span>
           </div>
         ))}
-      </div>
-
-      {/* Gender Filter */}
+      </div> */}
+{/* 
+      {/* Gender Filter 
       <div className="mb-6">
         <label className="block text-gray-600 font-medium mb-2">Gender</label>
         {genders.map((gender) => (
@@ -80,7 +80,7 @@ const FilterSidebar = () => {
             <span className="text-gray-700">{gender}</span>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Color Filter */}
       <div className="mb-6">
@@ -121,44 +121,9 @@ const FilterSidebar = () => {
         ))}
       </div>
 
-      {/* Material Filter */}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2 ">
-          Material
-        </label>
-        {materials.map((material) => (
-          <div key={material} className="flex items-center mb-1">
-            <input
-              type="checkbox"
-              name="material"
-              value={material}
-              onChange={handleFilterChange}
-              checked={filters.material.includes(material)}
-              className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
-            />
-            <span className="text-gray-700">{material}</span>
-          </div>
-        ))}
-      </div>
+      
 
-      {/* brands Filter */}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2 ">Brand</label>
-        {brands.map((brand) => (
-          <div key={brand} className="flex items-center mb-1">
-            <input
-              type="checkbox"
-              name="brand"
-              value={brand}
-              onChange={handleFilterChange}
-              checked={filters.brand.includes(brand)}
-              className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
-            />
-            <span className="text-gray-700">{brand}</span>
-          </div>
-        ))}
-      </div>
-
+    
       {/* Price Range Filter */}
       <div className="mb-6">
         <label className="block text-gray-600 font-medium mb-2">

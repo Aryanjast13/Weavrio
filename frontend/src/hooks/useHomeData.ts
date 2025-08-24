@@ -1,23 +1,21 @@
+import type { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import api from "../api/api";
+import { fetchProductsByFilters } from "../redux/productsSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import type { Product } from "../types/product";
-import { fetchCart } from "../redux/cartSlice";
-import { fetchProductsByFilters } from "../redux/productsSlice";
-import type { AxiosError } from "axios";
-import api from "../api/api";
 
 export function useHomeData() {
   const dispatch = useAppDispatch();
   const { products, loading, error } = useAppSelector(
     (state) => state.products
   );
-  const { user } = useAppSelector((state) => state.auth);
+ 
   const [bestSellerProduct, setBestSellerProduct] = useState<Product | null>(
     null
   );
   const [bestSellerLoading, setBestSellerLoading] = useState<boolean>(true);
   const [bestSellerError, setBestSellerError] = useState<string | null>(null);
-  const userId = user ? user?._id : undefined;
 
   // Fetch best seller product
   const fetchBestSeller = async (): Promise<void> => {
@@ -44,9 +42,7 @@ export function useHomeData() {
     
     
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchCart({ userId }));
-    }
+    
 
     // Fetch products for a specific collection
     dispatch(
@@ -58,7 +54,7 @@ export function useHomeData() {
     );
 
     fetchBestSeller();
-  }, [dispatch, userId]);
+  }, [dispatch, ]);
     
     
     return {

@@ -13,6 +13,7 @@ import type {
   ShippingAddress,
   UpdatePaymentRequest
 } from "../../types/checkout";
+import api from "../../api/api";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -230,10 +231,8 @@ const Checkout: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/checkout/${checkoutId}/finalize`,
+      const response = await api.post(
+        `/api/checkout/${checkoutId}/finalize`,
         {},
         { withCredentials: true }
       );

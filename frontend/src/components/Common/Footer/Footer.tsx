@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-gray-200 py-12">
+    <footer className="border-t border-gray-200 py-12 px-4">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4 lg:px-0 ">
         <div>
           <h3 className="text-lg text-gray-800 mb-4">Newsletter</h3>

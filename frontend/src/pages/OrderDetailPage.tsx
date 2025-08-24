@@ -1,8 +1,8 @@
 
 
 import { Link } from "react-router";
-import type { OrderItem,  } from "../types/order";
 import { useOrderDetail } from "../hooks/useOrderDetail";
+import type { OrderItem, } from "../types/order";
 
 const OrderDetailPage = () => {
   const {orderDetails,loading,error,formatCurrency,formatDate } = useOrderDetail();
@@ -163,8 +163,7 @@ const OrderDetailPage = () => {
                       <td className="py-2 px-4 flex items-center">
                         <img
                           src={
-                            item.image ||
-                            ""
+                            item.productId.images[0].url ??    null
                           }
                           alt={item.name}
                           className="w-12 h-12 object-cover rounded-lg mr-4"
