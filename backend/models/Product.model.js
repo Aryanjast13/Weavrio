@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema(
         message: "At least one size is required"
       }
     },
-   color:String,
+    color:String,
     category: {
       type: String,
       required: true,
@@ -53,7 +53,7 @@ const productSchema = new mongoose.Schema(
         altText: { type: String },
       },
     ],
-    coutInStock: {
+    countInStock: {
       type: Number,
       default:0,
       required:true
