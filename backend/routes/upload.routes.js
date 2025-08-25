@@ -27,7 +27,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         //function to handle the stream upload to cloudinary 
         const streamUpload = (fileBuffer) => {
             return new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream((error, result) => {
+                const stream = cloudinary.uploader.upload_stream({folder:"weavrio"},(error, result) => {
                     if (result) {
                         resolve(result);
                     } else {
@@ -37,7 +37,7 @@ router.post("/", upload.single("image"), async (req, res) => {
                 //User stremifier to convert file buffer to a stream
                 streamifier.createReadStream(fileBuffer).pipe(stream);
             
-            });
+            });1
         }
          //Call the streamUpload function
             const result = await streamUpload(req.file.buffer);
