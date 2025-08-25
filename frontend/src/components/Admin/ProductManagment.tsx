@@ -29,14 +29,21 @@ const ProductManagment = () => {
     
     return (
       <div className="max-w-7xl  mx-auto p-6">
-        <h2 className="text-2xl font-bold mb-6">Product Managment</h2>
+        <div className="flex justify-between mb-6">
+          <h2 className="text-2xl font-bold ">Product Managment</h2>
+          <Link to="/admin/products/new-product">
+        
+            <button className="text-lg bg-green-500 px-6 py-2  rounded-lg h-full text-white">
+              Add a Product
+            </button>
+          </Link>
+        </div>
         <div className="overflow-x-auto shadow-ms sm:rounded-lg">
           <table className="min-w-full text-left text-gray-500">
             <thead className="bg-gray-100 text-xs uppercase text-gray-700">
               <tr>
                 <th className="py-3 px-4">Name</th>
                 <th className="py-3 px-4">Price</th>
-                <th className="py-3 px-4">SKU</th>
                 <th className="py-3 px-4">Actions</th>
               </tr>
             </thead>
@@ -51,7 +58,6 @@ const ProductManagment = () => {
                       {product.name}
                     </td>
                     <td className="p-4">₹{product.price}</td>
-                    <td className="p-4">{product.sku}</td>
                     <td className="p-4">
                       <Link
                         to={`/admin/products/${product._id}/edit`}

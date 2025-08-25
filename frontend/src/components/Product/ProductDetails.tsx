@@ -116,15 +116,18 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
             <h1 className="text-2xl md:text-3xl font-medium mb-2">
               {selectedProduct.name}
             </h1>
-            
-            <p className="text-xl text-gray-500 mb-2">
+
+            <p className="text-xl text-gray-500 mb-2 relative">
               ₹{selectedProduct.price}
+              <span className="absolute -top-1 left-15 line-through">
+                ₹{selectedProduct.originalPrice}
+              </span>
             </p>
             <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
 
             {/* Color Selection */}
             <div className="mb-4">
-              <p className="text-gray-700">Color: {selectedProduct.color }</p>
+              <p className="text-gray-700">Color: {selectedProduct.color}</p>
             </div>
 
             {/* Size Selection */}

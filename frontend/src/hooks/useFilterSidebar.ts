@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
 type Filter = {
-  category: string;
+ 
   gender: string;
   color: string;
   size: string[];
-  material: string[];
-  brand: string[];
   minPrice: number;
   maxPrice: number;
   [key: string]: string | string[] | number;
@@ -17,33 +15,27 @@ export function useFilterSidebar() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<Filter>({
-    category: "",
     gender: "",
     color: "",
     size: [],
-    material: [],
-    brand: [],
     minPrice: 0,
-    maxPrice: 100,
+    maxPrice: 3000,
   });
 
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 3000]);
 
   useEffect(() => {
     const params = Object.fromEntries([...searchParams]);
 
     setFilters({
-      category: params.category || "",
-      gender: params.gender || "",
+      gender:params.gender||"",
       color: params.color || "",
       size: params.size ? params.size.split(",") : [],
-      material: params.material ? params.material.split(",") : [],
-      brand: params.brand ? params.brand.split(",") : [],
       minPrice: parseInt(params.minPrice) || 0,
-      maxPrice: parseInt(params.maxPrice) || 100,
+      maxPrice: parseInt(params.maxPrice) || 3000,
     });
 
-    setPriceRange([0, parseInt(params.maxPrice) || 100]);
+    setPriceRange([0, parseInt(params.maxPrice) || 3000]);
   }, [searchParams]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {

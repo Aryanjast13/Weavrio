@@ -5,6 +5,7 @@ import { createCheckout } from "../../redux/checkoutSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { type CartState } from "../../types/cart";
 // ✅ Import all types from single file
+import api from "../../api/api";
 import type {
   AddressChangeHandler,
   CreateCheckoutRequest,
@@ -13,7 +14,6 @@ import type {
   ShippingAddress,
   UpdatePaymentRequest
 } from "../../types/checkout";
-import api from "../../api/api";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -491,7 +491,7 @@ const Checkout: React.FC = () => {
             >
               <div className="flex items-start">
                 <img
-                  src={product.image}
+                  src={product.productId.images[0].url}
                   alt={product.name}
                   className="w-16 h-20 object-cover mr-4 rounded"
                 />

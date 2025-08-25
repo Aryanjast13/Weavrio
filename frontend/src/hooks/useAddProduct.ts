@@ -1,37 +1,30 @@
 import { type AxiosResponse } from "axios";
-import  {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type FormEvent,
-} from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 
-import { useNavigate, useParams } from "react-router";
-import { updateProduct } from "../redux/adminProductSlice";
-import { fetchProductDetails } from "../redux/productsSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useNavigate, } from "react-router";
+import { createProduct } from "../redux/adminProductSlice";
+
 import api from "../api/api";
-import type { ProductEditData} from "../types/product";
-
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import type { ProductAddData } from "../types/product";
 
 interface ImageUploadResponse {
   imageUrl: string;
   message?: string;
 }
 
-
-export function useEditProduct() {
+export function useAddProduct() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+
 
   // Properly typed Redux selector
-  const { selectedProduct, loading, error } = useAppSelector(
-    (state) => state.products
+  const { loading, error } = useAppSelector(
+    (state) => state.adminProducts
   );
 
   // Typed state for product data
-  const [productData, setProductData] = useState<ProductEditData>({
+  const [productData, setProductData] = useState<ProductAddData>({
     name: "",
     description: "",
     price: 0,
@@ -39,26 +32,18 @@ export function useEditProduct() {
     category: "",
     brand: "",
     size: [],
-    color:"",
+    color: "",
     collections: "",
     material: "",
+    metaTitle: "",
+    metaDescription: "",
     gender: "",
-    images: [{ url: "" }, { url: "" }],
+    images: [],
   });
 
-  const [uploading, setUploading] = useState<boolean>(false);
+    const [uploading, setUploading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchProductDetails(id));
-    }
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    if (selectedProduct) {
-      setProductData(selectedProduct);
-    }
-  }, [selectedProduct]);
+ 
 
   // Handle input changes
   const handleChange = (
@@ -105,7 +90,7 @@ export function useEditProduct() {
         ...prevData,
         images: [
           ...prevData.images,
-          { url: response.data.imageUrl, altText: "" },
+          { url: response.data.imageUrl, altText: productData.name },
         ],
       }));
     } catch (error) {
@@ -116,16 +101,9 @@ export function useEditProduct() {
     }
   };
 
-  // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
-    if (!id) {
-      console.error("Product ID is missing");
-      return;
-    }
-
-    // Basic validation
+      e.preventDefault();
+   
     if (
       !productData.name ||
       !productData.description ||
@@ -135,8 +113,24 @@ export function useEditProduct() {
       return;
     }
 
-    dispatch(updateProduct({ id, productData }));
-    navigate("/admin/products");
+      dispatch(createProduct(productData));
+       setProductData({
+         name: "",
+         description: "",
+         price: 0,
+         countInStock: 0,
+         category: "",
+         brand: "",
+         size: [],
+         color: "",
+         collections: "",
+         material: "",
+         metaTitle: "",
+         metaDescription: "",
+         gender: "",
+         images: [],
+       });
+    
   };
 
   // Handle image removal
@@ -146,8 +140,17 @@ export function useEditProduct() {
       images: prevData.images.filter((_, index) => index !== indexToRemove),
     }));
   };
-    
-    return {
-        handleChange,handleImageRemove,handleImageUpload,handleSelect,handleSubmit,loading,error,productData,uploading,setProductData
-    }
+
+  return {
+    handleChange,
+    handleImageRemove,
+    handleImageUpload,
+    handleSelect,
+    handleSubmit,
+    loading,
+    error,
+    productData,
+    uploading,
+    setProductData,
+  };
 }
