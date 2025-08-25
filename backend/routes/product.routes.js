@@ -79,10 +79,12 @@ router.put("/:id", protectRoute, admin, async (req, res) => {
     const {
       name,
       description,
-      price, 
-      discountPrice, 
+      price,
+      discountPrice,
       countInStock,
       category,
+      size,
+      color,
       brand,
       collections,
       material,
@@ -106,56 +108,20 @@ router.put("/:id", protectRoute, admin, async (req, res) => {
     product.discountPrice = discountPrice || product.discountPrice;
     product.category = category || product.category;
     product.brand = brand || product.brand;
+    product.size = size || product.size;
+    product.color = color || product.color;
     product.collections = collections || product.collections;
     product.material = material || product.material;
     product.gender = gender || product.gender;
+    product.countInStock = countInStock || product.countInStock;
     product.images = images || product.images;
     product.isFeatured =
       isFeatured !== undefined ? isFeatured : product.isFeatured;
     product.isPublished =
       isPublished !== undefined ? isPublished : product.isPublished;
-    product.tags = tags || product.tags;
-    product.dimensions = dimensions || product.dimensions;
-    product.weight = weight || product.weight;
+   
 
    
-    if (variants) {
-      if (!Array.isArray(variants) || variants.length === 0) {
-        return res
-          .status(400)
-          .json({ message: "Variants must be a non-empty array" });
-      }
-
-      for (const newVariant of variants) {
-        if (newVariant._id) {
-        
-          const existingVariant = product.variants.id(newVariant._id);  
-          if (existingVariant) {
-            existingVariant.size = newVariant.size || existingVariant.size;
-            existingVariant.color = newVariant.color || existingVariant.color;
-            existingVariant.countInStock = newVariant.countInStock !== undefined ? newVariant.countInStock : existingVariant.countInStock;
-            existingVariant.sku = newVariant.sku || existingVariant.sku;
-            existingVariant.price = newVariant.price !== undefined ? newVariant.price : existingVariant.price;
-            existingVariant.discountPrice = newVariant.discountPrice !== undefined ? newVariant.discountPrice : existingVariant.discountPrice;
-            existingVariant.images = newVariant.images || existingVariant.images;
-          } else {
-           
-            product.variants.push(newVariant);
-          }
-        } else {
-      
-          product.variants.push(newVariant);
-        }
-      }
-
-   
-      if (product.variants.length === 0) {
-        return res
-          .status(400)
-          .json({ message: "At least one variant is required after update" });
-      }
-        product.markModified("variants");
-    }
 
     
     const updatedProduct = await product.save();
@@ -202,25 +168,16 @@ router.get("/", async (req, res) => {
         if (collection && collection.toLocaleLowerCase() !== "all") {
             query.collections = collection;
         }
-     
-        if (category && category.toLocaleLowerCase() !== "all") {
-            query.category = category;
-        }
-        if (material) {
-        query.material = { $in: material.split(",") };
-        }
-        if (brand) {
-            query.brand = { $in: brand.split(",") };
-        }
+       
         if (gender) {
             query.gender = gender;
         }
 
         if (size) {
-          query.sizes = { $in: size.split(",") };
+          query.size = { $in: size.split(",") };
         }
         if (color) {
-          query.colors = color;
+          query.color = color;
         }
         if (gender) {
           query.gender = gender;

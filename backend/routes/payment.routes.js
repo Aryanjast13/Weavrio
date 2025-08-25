@@ -72,7 +72,6 @@ router.post("/create-order",protectRoute, async (req, res) => {
 router.post("/verify-payment", protectRoute,async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-   console.log(req.body)
     const crypto = require('crypto');
     const body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto

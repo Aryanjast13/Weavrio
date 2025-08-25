@@ -191,7 +191,7 @@ router.get("/", protectRoute, async (req, res) => {
 
     const cart = await Cart.findOne({ user: userId }).populate({
       path:"products.productId",
-      select: "price", 
+      select: "images", 
     });
 
     if (cart) {
