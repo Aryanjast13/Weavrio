@@ -1,15 +1,23 @@
-import React, {  type ChangeEvent, } from "react";
-import { useEditProduct } from "../../hooks/useEditProduct";
-
-interface ProductImage{
-  url: string;
-  altText?: string;
+import type { ChangeEvent } from "react";
+import { useAddProduct } from "../../hooks/useAddProduct";
+interface ProductImage {
+    url: string;
+    altText?: string;
 }
 
-
-
-const EditProduct: React.FC = () => {
-  const { handleChange, handleImageRemove, handleImageUpload, handleSelect, handleSubmit, loading, error, productData, uploading, setProductData } = useEditProduct();
+const AddProduct = () => {
+  const {
+    handleChange,
+    handleImageRemove,
+    handleImageUpload,
+    handleSelect,
+    handleSubmit,
+    loading,
+    error,
+    productData,
+    uploading,
+    setProductData,
+  } = useAddProduct();
 
   // Loading state
   if (loading) {
@@ -37,7 +45,7 @@ const EditProduct: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
-      <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
+      <h2 className="text-3xl font-bold mb-6">Add Product</h2>
       <form onSubmit={handleSubmit}>
         {/* Name */}
         <div className="mb-6">
@@ -98,8 +106,6 @@ const EditProduct: React.FC = () => {
             className="w-full border border-gray-300 rounded-md p-2 focus:border-blue-500 focus:outline-none"
           />
         </div>
-
-       
 
         {/* Category */}
         <div className="mb-6">
@@ -187,6 +193,30 @@ const EditProduct: React.FC = () => {
           />
         </div>
 
+        {/* Meta Title */}
+        <div className="mb-6">
+          <label className="block font-semibold mb-2">Meta Title</label>
+          <input
+            type="text"
+            name="metaTitle"
+            value={productData.metaTitle}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md p-2 focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+
+        {/* Meta Description */}
+        <div className="mb-6">
+          <label className="block font-semibold mb-2">Meta Description</label>
+          <input
+            type="text"
+            name="metaDescription"
+            value={productData.metaDescription}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md p-2 focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+
         {/* Gender */}
         <div className="mb-6">
           <label className="block font-semibold mb-2">Gender</label>
@@ -216,21 +246,25 @@ const EditProduct: React.FC = () => {
           {uploading && (
             <p className="text-blue-500 mb-4">Uploading image...</p>
           )}
-          <div className="grid grid-cols-4 gap-4">
+          <div className="flex">
             {productData.images.map((image: ProductImage, index: number) => (
               <div key={index} className="relative">
-                <img
-                  src={image.url}
-                  alt={image.altText || `Product Image ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded-md shadow-md"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleImageRemove(index)}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
-                >
-                  ×
-                </button>
+                {image.url && (
+                  <>
+                    <img
+                      src={image.url}
+                      alt={image.altText || `Product Image ${index + 1}`}
+                      className="w-20 h-20 object-cover rounded-md shadow-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleImageRemove(index)}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                    >
+                      ×
+                    </button>
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -241,11 +275,11 @@ const EditProduct: React.FC = () => {
           disabled={loading}
           className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          {loading ? "Updating..." : "Update Product"}
+          {loading ? "Adding..." : "Add Product"}
         </button>
       </form>
     </div>
   );
-};
+}
 
-export default EditProduct;
+export default AddProduct

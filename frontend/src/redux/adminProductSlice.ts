@@ -5,7 +5,7 @@ import type { AxiosError } from "axios";
 
 // ✅ Use the unified Product interface
 import api from "../api/api.ts";
-import type { Product, ProductUpdateData } from "../types/product";
+import type { Product, ProductEditData } from "../types/product";
 
 
 // Admin Product State using unified Product interface
@@ -20,18 +20,22 @@ export interface CreateProductData {
   name: string;
   price: number;
   description: string;
+  images: Array<{
+    url: string;
+    altText?: string;
+  }>;
   category: string;
   brand: string;
   material: string;
-  sizes: string[];
-  colors: string[];
+  size: string[];
+  color: string;
   countInStock: number;
-  sku: string;
   gender: string;
   collections: string;
+  metaTitle: string;
+  metaDescription: string;
   isFeatured?: boolean;
   isPublished?: boolean;
-  tags?: string[];
 }
 
 // Thunks remain the same, but now properly typed
@@ -63,7 +67,7 @@ export const createProduct = createAsyncThunk<
 >("adminProducts/createProducts", async (productData, { rejectWithValue }) => {
   try {
     const response = await api.post<Product>(
-      `/api/admin/products`,
+      `/api/products`,
       productData,
     );
     return response.data;
@@ -79,7 +83,7 @@ export const createProduct = createAsyncThunk<
 
 export const updateProduct = createAsyncThunk<
   Product,
-  { id: string; productData: Partial<ProductUpdateData> },
+  { id: string; productData: Partial<ProductEditData> },
   { rejectValue: string }
 >(
   "adminProducts/updateProduct",

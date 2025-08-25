@@ -63,7 +63,7 @@ export interface FilterState {
   collections: string; // ✅ Updated to match API
 }
 
-export interface ProductUpdateData {
+export interface ProductEditData {
   name: string;
   price: number;
   images: Array<{
@@ -71,18 +71,38 @@ export interface ProductUpdateData {
     altText?: string;
   }>;
   description: string;
-  sku: string;
   category: string;
   brand: string;
   material: string;
-  sizes: string[];
-  colors: string[];
+  size: string[];
+  color: string;
   countInStock: number;
   isFeatured?: boolean;
   isPublished?: boolean;
   gender: string;
   collections: string;
-  tags?: string[];
+}
+
+export interface ProductAddData {
+  name: string;
+  price: number;
+  images: Array<{
+    url: string;
+    altText?: string;
+  }>;
+  description: string;
+  category: string;
+  brand: string;
+  material: string;
+  size: string[];
+  color: string;
+  countInStock: number;
+  isFeatured?: boolean;
+  isPublished?: boolean;
+  gender: string;
+  metaTitle: string;
+  metaDescription: string;
+  collections: string;
 }
 
 export interface ProductsState {
